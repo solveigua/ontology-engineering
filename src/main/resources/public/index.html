@@ -3,11 +3,24 @@
         <title> Verbalization </title>
         <style>
             body {background-color: aliceblue; margin: 20px;}
-            h1 {color:black; font-style: oblique;}
+            h1 {color:black;}
+            h3 {font-weight: lighter;}
+            #OWLinput { height:200px; width: 600px; font-size:12pt;}
         </style>
     </head>
     <body>
-        <h1>Welcome to our verbalization</h1>
+        <h1>Welcome to our verbalizer</h1>
+        <h3> Input: </h3>
+        <form action="translation.html">
+            <textarea id="OWLinput" name="OWLinput"> </textarea> <br> <br>
+            <p> Please select your language: </p>
+            <input type="radio" id="SE" name="language" value="SE">
+            <label for="SE">SeSotho</label><br>
+            <input type="radio" id="NO" name="language" value="NO">
+            <label for="NO">Norwegian</label><br> <br>
+            <input type="submit" value="Submit"> <br>
+        </form> 
+        <p>Click the "Submit" button and translate the OWL syntax to real language.</p>
     </body>
 
 </html>
