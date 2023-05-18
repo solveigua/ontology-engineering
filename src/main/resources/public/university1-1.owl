@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns="http://owl.man.ac.uk/2005/07/sssw/university#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xml:base="http://owl.man.ac.uk/2005/07/sssw/university">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="Module">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >2</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="hasAssistant"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom>
+          <owl:Class rdf:ID="AcademicStaff"/>
+        </owl:allValuesFrom>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="isTaughtBy"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#isTaughtBy"/>
+        </owl:onProperty>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Staff">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Person"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="UndergraduateStudent">
+    <owl:disjointWith>
+      <owl:Class rdf:ID="GraduateStudent"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="takes"/>
+        </owl:onProperty>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >2</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Student"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="EconomicsModule">
+    <owl:disjointWith>
+      <owl:Class rdf:ID="MathsModule"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="ComputerScienceModule"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf rdf:resource="#Module"/>
+  </owl:Class>
+  <owl:Class rdf:about="#AcademicStaff">
+    <rdfs:subClassOf rdf:resource="#Staff"/>
+  </owl:Class>
+  <owl:Class rdf:about="#ComputerScienceModule">
+    <rdfs:subClassOf rdf:resource="#Module"/>
+    <owl:disjointWith rdf:resource="#EconomicsModule"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#MathsModule"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#MathsModule">
+    <rdfs:subClassOf rdf:resource="#Module"/>
+    <owl:disjointWith rdf:resource="#ComputerScienceModule"/>
+    <owl:disjointWith rdf:resource="#EconomicsModule"/>
+  </owl:Class>
+  <owl:Class rdf:about="#GraduateStudent">
+    <owl:disjointWith rdf:resource="#UndergraduateStudent"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Student"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Student">
+    <rdfs:subClassOf rdf:resource="#Person"/>
+  </owl:Class>
+  <owl:Class rdf:ID="NonAcademicStaff">
+    <rdfs:subClassOf rdf:resource="#Staff"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:ID="assistsWith">
+    <rdfs:range rdf:resource="#Module"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="#hasAssistant"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#takes">
+    <rdfs:domain rdf:resource="#UndergraduateStudent"/>
+    <rdfs:range rdf:resource="#Module"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="teaches">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="#isTaughtBy"/>
+    </owl:inverseOf>
+    <rdfs:range rdf:resource="#Module"/>
+    <rdfs:domain rdf:resource="#AcademicStaff"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#isTaughtBy">
+    <owl:inverseOf rdf:resource="#teaches"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasAssistant">
+    <owl:inverseOf rdf:resource="#assistsWith"/>
+  </owl:ObjectProperty>
+  <EconomicsModule rdf:ID="EC102">
+    <isTaughtBy>
+      <AcademicStaff rdf:ID="Prof8">
+        <teaches rdf:resource="#EC102"/>
+      </AcademicStaff>
+    </isTaughtBy>
+  </EconomicsModule>
+  <UndergraduateStudent rdf:ID="Student2">
+    <takes>
+      <MathsModule rdf:ID="MT101">
+        <isTaughtBy>
+          <AcademicStaff rdf:ID="Prof4">
+            <teaches rdf:resource="#MT101"/>
+          </AcademicStaff>
+        </isTaughtBy>
+      </MathsModule>
+    </takes>
+    <takes>
+      <ComputerScienceModule rdf:ID="CS101">
+        <isTaughtBy>
+          <AcademicStaff rdf:ID="Prof1">
+            <teaches>
+              <ComputerScienceModule rdf:ID="CS104">
+                <isTaughtBy rdf:resource="#Prof1"/>
+              </ComputerScienceModule>
+            </teaches>
+            <teaches rdf:resource="#CS101"/>
+          </AcademicStaff>
+        </isTaughtBy>
+      </ComputerScienceModule>
+    </takes>
+  </UndergraduateStudent>
+  <UndergraduateStudent rdf:ID="Student3">
+    <takes>
+      <MathsModule rdf:ID="MT103">
+        <isTaughtBy>
+          <AcademicStaff rdf:ID="Prof6">
+            <teaches rdf:resource="#MT103"/>
+          </AcademicStaff>
+        </isTaughtBy>
+      </MathsModule>
+    </takes>
+    <takes rdf:resource="#MT101"/>
+  </UndergraduateStudent>
+  <EconomicsModule rdf:ID="EC103">
+    <isTaughtBy>
+      <AcademicStaff rdf:ID="Prof9">
+        <teaches rdf:resource="#EC103"/>
+      </AcademicStaff>
+    </isTaughtBy>
+  </EconomicsModule>
+  <rdf:Description rdf:ID="Student8">
+    <takes>
+      <ComputerScienceModule rdf:ID="CS102">
+        <isTaughtBy>
+          <AcademicStaff rdf:ID="Prof2">
+            <teaches rdf:resource="#CS102"/>
+          </AcademicStaff>
+        </isTaughtBy>
+      </ComputerScienceModule>
+    </takes>
+    <rdf:type>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="#EconomicsModule"/>
+        <owl:onProperty rdf:resource="#takes"/>
+      </owl:Restriction>
+    </rdf:type>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </rdf:Description>
+  <MathsModule rdf:ID="MT102">
+    <isTaughtBy>
+      <AcademicStaff rdf:ID="Prof5">
+        <teaches rdf:resource="#MT102"/>
+      </AcademicStaff>
+    </isTaughtBy>
+  </MathsModule>
+  <ComputerScienceModule rdf:ID="CS103">
+    <isTaughtBy>
+      <AcademicStaff rdf:ID="Prof3">
+        <teaches>
+          <ComputerScienceModule rdf:ID="CS105">
+            <isTaughtBy rdf:resource="#Prof3"/>
+          </ComputerScienceModule>
+        </teaches>
+        <teaches rdf:resource="#CS103"/>
+      </AcademicStaff>
+    </isTaughtBy>
+  </ComputerScienceModule>
+  <owl:Thing rdf:ID="Student7">
+    <takes rdf:resource="#CS101"/>
+    <rdf:type>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#takes"/>
+        <owl:someValuesFrom rdf:resource="#MathsModule"/>
+      </owl:Restriction>
+    </rdf:type>
+  </owl:Thing>
+  <AcademicStaff rdf:ID="Prof7">
+    <teaches>
+      <EconomicsModule rdf:ID="EC101">
+        <isTaughtBy rdf:resource="#Prof7"/>
+      </EconomicsModule>
+    </teaches>
+  </AcademicStaff>
+  <owl:Thing rdf:ID="Student9">
+    <takes rdf:resource="#CS102"/>
+    <takes rdf:resource="#MT101"/>
+    <takes rdf:resource="#CS101"/>
+  </owl:Thing>
+  <UndergraduateStudent rdf:ID="Student5">
+    <takes rdf:resource="#MT102"/>
+    <takes rdf:resource="#MT103"/>
+  </UndergraduateStudent>
+  <UndergraduateStudent rdf:ID="Student6">
+    <takes rdf:resource="#MT101"/>
+    <rdf:type>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="#Module"/>
+        <owl:onProperty rdf:resource="#takes"/>
+      </owl:Restriction>
+    </rdf:type>
+  </UndergraduateStudent>
+  <UndergraduateStudent rdf:ID="Student1">
+    <takes rdf:resource="#CS102"/>
+    <takes rdf:resource="#CS101"/>
+  </UndergraduateStudent>
+  <UndergraduateStudent rdf:ID="Student4">
+    <takes rdf:resource="#MT101"/>
+    <takes rdf:resource="#CS101"/>
+  </UndergraduateStudent>
+  <owl:Restriction>
+    <owl:onProperty rdf:resource="#takes"/>
+    <owl:someValuesFrom rdf:resource="#ComputerScienceModule"/>
+  </owl:Restriction>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 2.1 beta, Build 271)  http://protege.stanford.edu -->
