@@ -14,8 +14,6 @@ package com.ontology.verbalizer.service;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.ontology.verbalizer.utils.OntologyExtractorUtil;
 
 @Service
@@ -25,7 +23,7 @@ public class SesothoVerbalizerServiceImpl implements SesothoVerbalizerService
     OntologyExtractorUtil _ontologyExtractor;
    
     @Override
-    public String getSesothoVerbalization(MultipartFile owlFile) {
+    public String getSesothoVerbalization(String owlFile) {
         OWLOntology ontology = _ontologyExtractor.extractOntologyFromOwl(owlFile);
         
         return "not done yet"; //TODO: return verbalization of ontology

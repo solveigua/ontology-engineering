@@ -13,7 +13,6 @@ package com.ontology.verbalizer.service;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ontology.verbalizer.utils.OntologyExtractorUtil;
 
@@ -24,7 +23,7 @@ public class NorwegianVerbalizerServiceImpl implements NorwegianVerbalizerServic
     OntologyExtractorUtil _ontologyExtractor;
     
     @Override
-    public String getNorwegianVerbalization(MultipartFile owlFile) {
+    public String getNorwegianVerbalization(String owlFile) {
         OWLOntology ontology = _ontologyExtractor.extractOntologyFromOwl(owlFile);
         
         return "dumme svar"; //TODO: use above ontology to call your verbalization code
