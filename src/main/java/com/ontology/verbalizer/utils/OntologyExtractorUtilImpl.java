@@ -11,8 +11,10 @@ package com.ontology.verbalizer.utils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,19 +25,16 @@ public class OntologyExtractorUtilImpl implements OntologyExtractorUtil
 {
     private static final Logger logger = LogManager.getLogger(OntologyExtractorUtil.class);
     @Override
-    public OWLOntology extractOntologyFromOwl(MultipartFile owlMultipart)
+    public OWLOntology extractOntologyFromOwl(String owlString)
     {   
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = null;
 
         try{
-        ontology = manager.loadOntologyFromOntologyDocument(owlMultipart.getInputStream());
+        ontology = manager.loadOntologyFromOntologyDocument(new ByteArrayInputStream(owlString.getBytes()));
         }catch(OWLOntologyCreationException e)
         {
-            logger.error("Could not create OWLOntology from file ");
-        }catch(IOException e)
-        {
-            logger.error("Could not load owl file");
+            logger.error("Could not create OWLOntology from string ");
         }
 
         return ontology;
