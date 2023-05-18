@@ -3,8 +3,6 @@ package com.ontology.verbalizer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.ontology.verbalizer.service.NorwegianVerbalizerService;
 import com.ontology.verbalizer.service.SesothoVerbalizerService;
 
@@ -26,25 +24,24 @@ public class VerbalizerController {
         response.sendRedirect(request.getContextPath() + "/index.html");
     }
 
-    @PostMapping("/upload")
+    @GetMapping("/upload")
     @ResponseBody
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
-        if (!file.isEmpty()) {
-            String language = ""; // TODO: obtain language from request
+    public String uploadFile(@RequestParam String fileContent, @RequestParam("language") String language) {
+        if (fileContent != null && !fileContent.isEmpty()) {
             String verbalization = "";
 
             // If language choice is Norwegian, redirect to Norwegian engine
             // If language choice is Sesotho, redirect to Sesotho engine
             if (language.equals("Norwegian")) {
-                verbalization = norwegianVerbalizationService.getNorwegianVerbalization(file);
+                verbalization = norwegianVerbalizationService.getNorwegianVerbalization(fileContent);
             } else if (language.equals("SeSotho")) {
-                verbalization = sesothoVerbalizationService.getSesothoVerbalization(file);
+                verbalization = sesothoVerbalizationService.getSesothoVerbalization(fileContent);
             } else {
                 return "Invalid language.";
             }
             return verbalization;
         } else {
-            return "Please select a file to upload.";
+            return "Please provide the file content.";
         }
     }
 }
