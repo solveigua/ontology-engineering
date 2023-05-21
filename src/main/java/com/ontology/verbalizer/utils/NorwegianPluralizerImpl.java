@@ -1,6 +1,7 @@
 /**
  * The purpose of this class is to pluralize nouns for the 
- * Norwegian verbalization.
+ * Norwegian verbalization. It uses a list of common irregular
+ * nouns in pluralized form located in resources/public/irregular_nouns_nb.json.
  * 
  * @Author: karenhompland
  * @Date: 21 May, 2023
@@ -20,7 +21,7 @@ public class NorwegianPluralizerImpl implements NorwegianPluralizer {
 
     static JSONObject irrNouns;
 
-    public static String getNorwegianPluralizedNoun(String noun) {
+    public String getNorwegianPluralizedNoun(String noun) {
         readIrrNouns();
         if (irrNouns.containsKey(noun)){
             return irrNouns.get(noun).toString();
