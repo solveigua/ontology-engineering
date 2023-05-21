@@ -1,0 +1,901 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.meteck.org/teaching/OEbook/ontologies/AfricanWildlifeOntology1.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.meteck.org/teaching/OEbook/ontologies/AfricanWildlifeOntology1.owl">
+    <Prefix name="" IRI="http://www.meteck.org/teaching/OEbook/ontologies/AfricanWildlifeOntology1.owl#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal>African Wildlide Ontology, Semantic Web Primer, 4.3.1 pages 119-133</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal>AfricanWildlifeOntology0.owl was then modified by Maria Keet (classes and object properties added, more comments added, updated the uri etc) and renamed into AfricanWildlifeOntology1.owl. 
+This is still an ontology just for tutorial purposes, so take it with a grain of salt</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal>MK downloaded this file from http://www.iro.umontreal.ca/~lapalme/ift6281/OWL/AfricanWildlifeOntology.xml, changed the extension to .owl and appended the name with Web. That ontology give a load error in protege due to the use of Collection in the definition of Herbivore, so the AfricanWildlifeOntology0.owl has that piece removed.</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#Apple"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Berry"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CarnivorousPlant"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Distribution"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Elephant"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FruitingBody"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Grass"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Habitat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Impala"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Omnivore"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Palmtree"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Parsnip"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Phloem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PlantParts"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RockDassie"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Root"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Stem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Twig"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Warthog"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Xylem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#animal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#branch"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#carnivore"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#giraffe"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#herbivore"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#leaf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#lion"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#plant"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#tasty-plant"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#tree"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#eaten-by"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#eats"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#has-part"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#is-part-of"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#is-proper-part-of"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#Omnivore"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <Class IRI="#animal"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <Class IRI="#plant"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <ObjectUnionOf>
+                    <ObjectSomeValuesFrom>
+                        <ObjectProperty IRI="#is-part-of"/>
+                        <Class IRI="#animal"/>
+                    </ObjectSomeValuesFrom>
+                    <ObjectSomeValuesFrom>
+                        <ObjectProperty IRI="#is-part-of"/>
+                        <Class IRI="#plant"/>
+                    </ObjectSomeValuesFrom>
+                </ObjectUnionOf>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#carnivore"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <Class IRI="#animal"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#is-part-of"/>
+                    <Class IRI="#animal"/>
+                </ObjectSomeValuesFrom>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#herbivore"/>
+        <ObjectUnionOf>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <Class IRI="#plant"/>
+            </ObjectAllValuesFrom>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#is-part-of"/>
+                    <Class IRI="#plant"/>
+                </ObjectSomeValuesFrom>
+            </ObjectAllValuesFrom>
+        </ObjectUnionOf>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#Apple"/>
+        <Class IRI="#FruitingBody"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Berry"/>
+        <Class IRI="#FruitingBody"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CarnivorousPlant"/>
+        <Class IRI="#plant"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CarnivorousPlant"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#eats"/>
+            <Class IRI="#animal"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Elephant"/>
+        <Class IRI="#herbivore"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FruitingBody"/>
+        <Class IRI="#PlantParts"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Grass"/>
+        <Class IRI="#plant"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Impala"/>
+        <Class IRI="#herbivore"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Omnivore"/>
+        <Class IRI="#animal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Palmtree"/>
+        <Class IRI="#plant"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Palmtree"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#has-part"/>
+            <ObjectComplementOf>
+                <Class IRI="#branch"/>
+            </ObjectComplementOf>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Parsnip"/>
+        <Class IRI="#Root"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Phloem"/>
+        <Class IRI="#PlantParts"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Phloem"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#is-proper-part-of"/>
+            <Class IRI="#Stem"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PlantParts"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PlantParts"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#is-proper-part-of"/>
+            <Class IRI="#plant"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RockDassie"/>
+        <Class IRI="#Omnivore"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Root"/>
+        <Class IRI="#PlantParts"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Stem"/>
+        <Class IRI="#PlantParts"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Twig"/>
+        <Class IRI="#PlantParts"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Warthog"/>
+        <Class IRI="#Omnivore"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Warthog"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <Class IRI="#FruitingBody"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <Class IRI="#Grass"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <Class IRI="#Root"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#eats"/>
+                <Class IRI="#animal"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Xylem"/>
+        <Class IRI="#PlantParts"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Xylem"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#is-proper-part-of"/>
+            <Class IRI="#Stem"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#branch"/>
+        <Class IRI="#PlantParts"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#branch"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#is-part-of"/>
+            <Class IRI="#tree"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#carnivore"/>
+        <Class IRI="#animal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#giraffe"/>
+        <Class IRI="#herbivore"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#giraffe"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#eats"/>
+            <ObjectUnionOf>
+                <Class IRI="#Twig"/>
+                <Class IRI="#leaf"/>
+            </ObjectUnionOf>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#herbivore"/>
+        <Class IRI="#animal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#leaf"/>
+        <Class IRI="#PlantParts"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#leaf"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#is-part-of"/>
+            <ObjectUnionOf>
+                <Class IRI="#Twig"/>
+                <Class IRI="#branch"/>
+            </ObjectUnionOf>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#lion"/>
+        <Class IRI="#carnivore"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#lion"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#eats"/>
+            <Class IRI="#Impala"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#lion"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#eats"/>
+            <Class IRI="#herbivore"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#tasty-plant"/>
+        <Class IRI="#plant"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#tasty-plant"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#eaten-by"/>
+                <Class IRI="#carnivore"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#eaten-by"/>
+                <Class IRI="#herbivore"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#tree"/>
+        <Class IRI="#plant"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Omnivore"/>
+        <Class IRI="#carnivore"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Omnivore"/>
+        <Class IRI="#herbivore"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Palmtree"/>
+        <Class IRI="#tree"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Twig"/>
+        <Class IRI="#branch"/>
+        <Class IRI="#leaf"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#animal"/>
+        <Class IRI="#plant"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#carnivore"/>
+        <Class IRI="#herbivore"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#giraffe"/>
+        <Class IRI="#lion"/>
+    </DisjointClasses>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#is-proper-part-of"/>
+        <ObjectProperty IRI="#is-part-of"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#eaten-by"/>
+        <ObjectProperty IRI="#eats"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#has-part"/>
+        <ObjectProperty IRI="#is-part-of"/>
+    </InverseObjectProperties>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#has-part"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#is-part-of"/>
+    </TransitiveObjectProperty>
+    <ReflexiveObjectProperty>
+        <ObjectProperty IRI="#is-part-of"/>
+    </ReflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#is-proper-part-of"/>
+    </IrreflexiveObjectProperty>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#eats"/>
+        <ObjectUnionOf>
+            <Class IRI="#animal"/>
+            <Class IRI="#plant"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#is-part-of"/>
+                <Class IRI="#animal"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#is-part-of"/>
+                <Class IRI="#plant"/>
+            </ObjectSomeValuesFrom>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Apple</IRI>
+        <Literal xml:lang="en">Apple</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Apple</IRI>
+        <Literal xml:lang="nb">Eple</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Berry</IRI>
+        <Literal xml:lang="en">Berry</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Berry</IRI>
+        <Literal xml:lang="nb">Bær</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#CarnivorousPlant</IRI>
+        <Literal xml:lang="en">CarnivorousPlant</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#CarnivorousPlant</IRI>
+        <Literal xml:lang="nb">KjøttetendePlante</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Distribution</IRI>
+        <Literal xml:lang="nb">Distribusjon</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Distribution</IRI>
+        <Literal xml:lang="en">Distribution</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Elephant</IRI>
+        <Literal xml:lang="nb">Elefant</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Elephant</IRI>
+        <Literal xml:lang="en">Elephant</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#FruitingBody</IRI>
+        <Literal xml:lang="en">FruitingBody</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#FruitingBody</IRI>
+        <Literal xml:lang="nb">Fruktlegeme</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Grass</IRI>
+        <Literal xml:lang="en">Grass</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Grass</IRI>
+        <Literal xml:lang="nb">Gress</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Habitat</IRI>
+        <Literal xml:lang="en">Habitat</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Habitat</IRI>
+        <Literal xml:lang="nb">Habitat</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Impala</IRI>
+        <Literal>An african antelope http://en.wikipedia.org/wiki/Impala</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Impala</IRI>
+        <Literal xml:lang="en">Impala</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Impala</IRI>
+        <Literal xml:lang="nb">Impala</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Omnivore</IRI>
+        <Literal xml:lang="nb">Altetende</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Omnivore</IRI>
+        <Literal xml:lang="en">Omnivore</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Palmtree</IRI>
+        <Literal xml:lang="nb">Palmetre</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Palmtree</IRI>
+        <Literal xml:lang="en">Palmtree</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Parsnip</IRI>
+        <Literal xml:lang="en">Parsnip</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Parsnip</IRI>
+        <Literal xml:lang="nb">Pastinakk</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Phloem</IRI>
+        <Literal xml:lang="en">Phloem</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Phloem</IRI>
+        <Literal xml:lang="nb">Silvev</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#PlantParts</IRI>
+        <Literal xml:lang="nb">DelAvPlante</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#PlantParts</IRI>
+        <Literal xml:lang="en">PlantParts</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#RockDassie</IRI>
+        <Literal>They eat grasses and broad-leafed plants</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#RockDassie</IRI>
+        <Literal>http://en.wikipedia.org/wiki/Rock_Hyrax</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#RockDassie</IRI>
+        <Literal xml:lang="nb">Kappklippegrevling</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#RockDassie</IRI>
+        <Literal xml:lang="en">RockDassie</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Root</IRI>
+        <Literal xml:lang="en">Root</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Root</IRI>
+        <Literal xml:lang="nb">Rot</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Stem</IRI>
+        <Literal xml:lang="nb">Stamme</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Stem</IRI>
+        <Literal xml:lang="en">Stem</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Twig</IRI>
+        <Literal xml:lang="nb">Kvist</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Twig</IRI>
+        <Literal xml:lang="en">Twig</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Warthog</IRI>
+        <Literal>Warthogs are Omnivorous http://en.wikipedia.org/wiki/Warthog</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Warthog</IRI>
+        <Literal xml:lang="nb">Vortesvin</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Warthog</IRI>
+        <Literal xml:lang="en">Warthog</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Xylem</IRI>
+        <Literal xml:lang="en">Xylem</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Xylem</IRI>
+        <Literal xml:lang="nb">Xylem</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#animal</IRI>
+        <Literal xml:lang="en">Animal</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#animal</IRI>
+        <Literal xml:lang="nb">Dyr</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#branch</IRI>
+        <Literal>Branches are parts of trees.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#branch</IRI>
+        <Literal xml:lang="en">Branch</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#branch</IRI>
+        <Literal xml:lang="nb">Gren</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#carnivore</IRI>
+        <Literal>Carnivores are exactly those animals that eat only animals.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#carnivore</IRI>
+        <Literal xml:lang="en">Carnivore</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#carnivore</IRI>
+        <Literal xml:lang="nb">Kjøtteter</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#eaten-by</IRI>
+        <Literal xml:lang="en">eaten-by</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#eaten-by</IRI>
+        <Literal xml:lang="nb">spist-av</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#eats</IRI>
+        <Literal xml:lang="en">eats</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#eats</IRI>
+        <Literal xml:lang="nb">spiser</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#giraffe</IRI>
+        <Literal>Giraffes are herbivores, and they eat only leaves.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#giraffe</IRI>
+        <Literal>they also eat twigs</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#giraffe</IRI>
+        <Literal xml:lang="en">Giraffe</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#giraffe</IRI>
+        <Literal xml:lang="nb">Sjiraff</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#has-part</IRI>
+        <Literal xml:lang="nb">har-del</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#has-part</IRI>
+        <Literal xml:lang="en">has-part</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#herbivore</IRI>
+        <Literal>Herbivores are exactly those animals that eat only plants or parts of plants </Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#herbivore</IRI>
+        <Literal xml:lang="en">Herbivore</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#herbivore</IRI>
+        <Literal xml:lang="nb">Planteeter</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#is-part-of</IRI>
+        <Literal xml:lang="nb">er-del-av</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#is-part-of</IRI>
+        <Literal xml:lang="en">is-part-of</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#leaf</IRI>
+        <Literal>Leaves are parts of branches.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#leaf</IRI>
+        <Literal xml:lang="nb">Blad</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#leaf</IRI>
+        <Literal xml:lang="en">Leaf</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#lion</IRI>
+        <Literal>Lions are animals that eat only herbivores.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#lion</IRI>
+        <Literal xml:lang="en">Lion</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#lion</IRI>
+        <Literal xml:lang="nb">Løve</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#plant</IRI>
+        <Literal>Plants are disjoint from animals.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#plant</IRI>
+        <Literal xml:lang="en">Plant</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#plant</IRI>
+        <Literal xml:lang="nb">Plante</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#tasty-plant</IRI>
+        <Literal>Plants eaten both by herbivores and carnivores</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#tasty-plant</IRI>
+        <Literal xml:lang="en">TastyPlant</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#tasty-plant</IRI>
+        <Literal xml:lang="nb">VelsmakendePlante</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#tree</IRI>
+        <Literal>&apos;plant&apos; is here a shorthand for plant kingdom</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#tree</IRI>
+        <Literal>Trees are a type of plant.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#tree</IRI>
+        <Literal xml:lang="nb">Tre</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#tree</IRI>
+        <Literal xml:lang="en">Tree</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi -->
+
