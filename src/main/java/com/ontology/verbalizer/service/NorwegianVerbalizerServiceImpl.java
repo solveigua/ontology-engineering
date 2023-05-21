@@ -58,7 +58,7 @@ public class NorwegianVerbalizerServiceImpl implements NorwegianVerbalizerServic
             String verbalisation = "";
 
             if (type == "SubClassOf") {
-                verbalisation = "En/Et" + axiomClasses.get(0) + "er en/et " + axiomClasses.get(1);
+                verbalisation = "En/Et " + axiomClasses.get(0) + " er en/et " + axiomClasses.get(1);
                 System.out.println(verbalisation);
             }
 
@@ -87,8 +87,8 @@ public class NorwegianVerbalizerServiceImpl implements NorwegianVerbalizerServic
             System.out.println();
             System.out.println("Axiom: " + owlLogicalAxiom);
             System.out.println("GetIndividualsInSignature: " + owlLogicalAxiom.getIndividualsInSignature());
-            System.out.println("GetDataPropertiesInSignature: " + owlLogicalAxiom.getDataPropertiesInSignature());
-            System.out.println("GetObjectPropertiesInSignature: " + owlLogicalAxiom.getObjectPropertiesInSignature());
+            //System.out.println("GetDataPropertiesInSignature: " + owlLogicalAxiom.getDataPropertiesInSignature());
+            //System.out.println("GetObjectPropertiesInSignature: " + owlLogicalAxiom.getObjectPropertiesInSignature());
             System.out.println("GetClasses: " + owlLogicalAxiom.getClassesInSignature());
             System.out.println("GetType: " + owlLogicalAxiom.getAxiomType());
             System.out.println();
