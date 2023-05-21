@@ -15,17 +15,20 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ontology.verbalizer.utils.OntologyExtractorUtil;
+import com.ontology.verbalizer.utils.SesothoGrammarEngine;
 
 @Service
 public class SesothoVerbalizerServiceImpl implements SesothoVerbalizerService
 {
     @Autowired
     OntologyExtractorUtil _ontologyExtractor;
-   
+   @Autowired
+    SesothoGrammarEngine _sesothoGrammarEngine;
+
     @Override
     public String getSesothoVerbalization(String owlFile) {
         OWLOntology ontology = _ontologyExtractor.extractOntologyFromOwl(owlFile);
         
-        return "not done yet"; //TODO: return verbalization of ontology
+        return _sesothoGrammarEngine.getSesothoVerbalization(ontology);
     }
 }
