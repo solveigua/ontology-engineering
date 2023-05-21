@@ -8,26 +8,45 @@
 
 package com.ontology.verbalizer.utils;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class NorwegianPluralizerImpl implements NorwegianPluralizer {
 
-    String result;
-    Object a = JSONParser.parse();
-    
-    public String getNorwegianPluralizedNoun(String noun) {
-        if ()
-        if(noun.endsWith("e")){
-            return result = noun+"r";
+    static JSONObject irrNouns;
+
+    public static String getNorwegianPluralizedNoun(String noun) {
+        readIrrNouns();
+        if (irrNouns.containsKey(noun)){
+            return irrNouns.get(noun).toString();
         }
-        if(noun.endsWith("el")){
-            return result = noun.substring(0,-2)+"ler";
+        if (noun.endsWith("e")) {
+            return noun + "r";
         }
-        else  {
-            return result = noun+"er";
+        if (noun.endsWith("el")) {
+            return noun.substring(0, noun.length()-2) + "ler";
+        } else {
+            return noun + "er";
+        }
+    }
+
+    private static void readIrrNouns() {
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(new FileReader("src/main/resources/public/irregular_nouns_nb.json"));
+            irrNouns = (JSONObject) obj;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
