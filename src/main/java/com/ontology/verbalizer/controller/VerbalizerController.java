@@ -55,7 +55,7 @@ public class VerbalizerController {
 
             // If language choice is Norwegian, redirect to Norwegian engine
             // If language choice is Sesotho, redirect to Sesotho engine
-            if (language.equals("NO")) {
+            if (language.equals("NB")) {
                 verbalization = norwegianVerbalizationService.getNorwegianVerbalization(content);
             } else if (language.equals("ST")) {
                 verbalization = sesothoVerbalizationService.getSesothoVerbalization(content);
