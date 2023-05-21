@@ -26,9 +26,9 @@ public class SesothoVerbalizerServiceImpl implements SesothoVerbalizerService
     SesothoGrammarEngine _sesothoGrammarEngine;
 
     @Override
-    public String getSesothoVerbalization(String owlFile) {
+    public String getSesothoVerbalization(String owlFile, String language) {
         OWLOntology ontology = _ontologyExtractor.extractOntologyFromOwl(owlFile);
         
-        return _sesothoGrammarEngine.getSesothoVerbalization(ontology);
+        return _sesothoGrammarEngine.getSesothoVerbalization(ontology, language);
     }
 }

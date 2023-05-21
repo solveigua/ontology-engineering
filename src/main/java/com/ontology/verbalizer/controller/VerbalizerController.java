@@ -33,12 +33,13 @@ public class VerbalizerController {
             // If language choice is Norwegian, redirect to Norwegian engine
             // If language choice is Sesotho, redirect to Sesotho engine
             if (language.equals("NO")) {
-                verbalization = norwegianVerbalizationService.getNorwegianVerbalization(OWLinput);
-            } else if (language.equals("SE")) {
-                verbalization = sesothoVerbalizationService.getSesothoVerbalization(OWLinput);
+                //verbalization = norwegianVerbalizationService.getNorwegianVerbalization(OWLinput);
+                verbalization = sesothoVerbalizationService.getSesothoVerbalization(OWLinput, language);
+            } else if (language.equals("ST")) {
+                verbalization = sesothoVerbalizationService.getSesothoVerbalization(OWLinput, language);
             } else {
                 return "Invalid language.";
-            }
+            } 
             return verbalization;
         } else {
             return "Please provide the file content.";

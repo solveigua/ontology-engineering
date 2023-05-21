@@ -39,61 +39,10 @@ public class NorwegianVerbalizerServiceImpl implements NorwegianVerbalizerServic
 
     @Override
     public String getNorwegianVerbalization(String owlFile) {
-        OWLOntology ontology = _ontologyExtractor.extractOntologyFromOwl(owlFile);
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        OWLDataFactory factory = manager.getOWLDataFactory();
+        
+        
 
-        ArrayList<String> results = new ArrayList<String>();
-
-        Set<OWLLogicalAxiom> axioms = ontology.getLogicalAxioms();
-
-        for (OWLLogicalAxiom owlLogicalAxiom : axioms) {
-            String type = owlLogicalAxiom.getAxiomType().toString();
-            ArrayList<String> axiomClasses = new ArrayList<String>();
-
-            for (OWLClass owlClass : owlLogicalAxiom.getClassesInSignature()) {
-                axiomClasses.add(owlClass.getIRI().getFragment());
-            }
-
-            String verbalisation = "";
-
-            if (type == "SubClassOf") {
-                verbalisation = "En/Et " + axiomClasses.get(0) + " er en/et " + axiomClasses.get(1);
-                System.out.println(verbalisation);
-            }
-
-            else if (type == "ObjectPropertyDomain") {
-
-            }
-
-            else if (type == "ClassAssertion") {
-
-            }
-
-            else if (type == "EquivalentClasses") {
-
-            }
-
-            else if (type == "InverseFunctionalObjectProperty") {
-
-            }
-
-            else if (type == "InverseObjectProperties") {
-
-            }
-
-            results.add(verbalisation);
-
-            System.out.println();
-            System.out.println("Axiom: " + owlLogicalAxiom);
-            System.out.println("GetIndividualsInSignature: " + owlLogicalAxiom.getIndividualsInSignature());
-            //System.out.println("GetDataPropertiesInSignature: " + owlLogicalAxiom.getDataPropertiesInSignature());
-            //System.out.println("GetObjectPropertiesInSignature: " + owlLogicalAxiom.getObjectPropertiesInSignature());
-            System.out.println("GetClasses: " + owlLogicalAxiom.getClassesInSignature());
-            System.out.println("GetType: " + owlLogicalAxiom.getAxiomType());
-            System.out.println();
-
-        }
+        
         return owlFile; // TODO: use above ontology to call your verbalization code
     }
 
