@@ -1,0 +1,12 @@
+# maven
+target/
+
+# pckg files
+*.war
+*.jar
+*.lst
+
+# eclipse
+.classpath
+.project
+.settings/

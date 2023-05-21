@@ -26,16 +26,16 @@ public class VerbalizerController {
 
     @GetMapping("/upload")
     @ResponseBody
-    public String uploadFile(@RequestParam String fileContent, @RequestParam("language") String language) {
-        if (fileContent != null && !fileContent.isEmpty()) {
+    public String uploadFile(@RequestParam String OWLinput, @RequestParam("language") String language) {
+        if (OWLinput != null && !OWLinput.isEmpty()) {
             String verbalization = "";
 
             // If language choice is Norwegian, redirect to Norwegian engine
             // If language choice is Sesotho, redirect to Sesotho engine
-            if (language.equals("Norwegian")) {
-                verbalization = norwegianVerbalizationService.getNorwegianVerbalization(fileContent);
-            } else if (language.equals("SeSotho")) {
-                verbalization = sesothoVerbalizationService.getSesothoVerbalization(fileContent);
+            if (language.equals("NO")) {
+                verbalization = norwegianVerbalizationService.getNorwegianVerbalization(OWLinput);
+            } else if (language.equals("SE")) {
+                verbalization = sesothoVerbalizationService.getSesothoVerbalization(OWLinput);
             } else {
                 return "Invalid language.";
             }
