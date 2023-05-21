@@ -481,6 +481,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Apple</IRI>
+        <Literal xml:lang="st">Apole</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Apple</IRI>
         <Literal xml:lang="en">Apple</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
@@ -492,6 +497,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Berry</IRI>
         <Literal xml:lang="en">Berry</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Berry</IRI>
+        <Literal xml:lang="st">Berry</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -510,6 +520,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#CarnivorousPlant</IRI>
+        <Literal xml:lang="st">Semela sejang nama</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Distribution</IRI>
         <Literal xml:lang="nb">Distribusjon</Literal>
     </AnnotationAssertion>
@@ -517,6 +532,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Distribution</IRI>
         <Literal xml:lang="en">Distribution</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Distribution</IRI>
+        <Literal xml:lang="st">Kabo</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -530,6 +550,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Elephant</IRI>
+        <Literal xml:lang="st">Tlou</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#FruitingBody</IRI>
         <Literal xml:lang="en">FruitingBody</Literal>
     </AnnotationAssertion>
@@ -537,6 +562,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#FruitingBody</IRI>
         <Literal xml:lang="nb">Fruktlegeme</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#FruitingBody</IRI>
+        <Literal xml:lang="st">Tholoana</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -550,6 +580,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Grass</IRI>
+        <Literal xml:lang="st">Jwang</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Habitat</IRI>
         <Literal xml:lang="en">Habitat</Literal>
     </AnnotationAssertion>
@@ -557,6 +592,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Habitat</IRI>
         <Literal xml:lang="nb">Habitat</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Habitat</IRI>
+        <Literal xml:lang="st">Sebaka</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -575,6 +615,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Impala</IRI>
+        <Literal xml:lang="st">Impala</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Omnivore</IRI>
         <Literal xml:lang="nb">Altetende</Literal>
     </AnnotationAssertion>
@@ -582,6 +627,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Omnivore</IRI>
         <Literal xml:lang="en">Omnivore</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Omnivore</IRI>
+        <Literal xml:lang="st">Phoohofolo ejang nama le semela</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -595,13 +645,28 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Palmtree</IRI>
+        <Literal xml:lang="st">Sefate sa palema</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Parsnip</IRI>
         <Literal xml:lang="en">Parsnip</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Parsnip</IRI>
+        <Literal xml:lang="st">Parsnip</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Parsnip</IRI>
         <Literal xml:lang="nb">Pastinakk</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Phloem</IRI>
+        <Literal xml:lang="st">Hlabane</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -617,6 +682,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#PlantParts</IRI>
         <Literal xml:lang="nb">DelAvPlante</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#PlantParts</IRI>
+        <Literal xml:lang="st">KaroloYaSemela</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -641,7 +711,17 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#RockDassie</IRI>
+        <Literal xml:lang="st">Rock hore</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#RockDassie</IRI>
         <Literal xml:lang="en">RockDassie</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Root</IRI>
+        <Literal xml:lang="st">Motso</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -652,6 +732,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Root</IRI>
         <Literal xml:lang="nb">Rot</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Stem</IRI>
+        <Literal xml:lang="st">Kutu</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -671,12 +756,22 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Twig</IRI>
+        <Literal xml:lang="st">Lekalana</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Twig</IRI>
         <Literal xml:lang="en">Twig</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#Warthog</IRI>
         <Literal>Warthogs are Omnivorous http://en.wikipedia.org/wiki/Warthog</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Warthog</IRI>
+        <Literal xml:lang="st">Kolobe ya naheng</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -700,6 +795,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Xylem</IRI>
+        <Literal xml:lang="st">Xylem</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#animal</IRI>
         <Literal xml:lang="en">Animal</Literal>
     </AnnotationAssertion>
@@ -707,6 +807,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#animal</IRI>
         <Literal xml:lang="nb">Dyr</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#animal</IRI>
+        <Literal xml:lang="st">Phoohofolo</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -722,6 +827,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#branch</IRI>
         <Literal xml:lang="nb">Gren</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#branch</IRI>
+        <Literal xml:lang="st">Lekala</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -740,6 +850,16 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#carnivore</IRI>
+        <Literal xml:lang="st">Phoohofolo ejang nama fela</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#eaten-by</IRI>
+        <Literal xml:lang="st">e jewa-ke</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#eaten-by</IRI>
         <Literal xml:lang="en">eaten-by</Literal>
     </AnnotationAssertion>
@@ -747,6 +867,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#eaten-by</IRI>
         <Literal xml:lang="nb">spist-av</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#eats</IRI>
+        <Literal xml:lang="st">e ja</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -780,6 +905,16 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#giraffe</IRI>
+        <Literal xml:lang="st">Thuhlo</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#has-part</IRI>
+        <Literal xml:lang="st">e na le</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#has-part</IRI>
         <Literal xml:lang="nb">har-del</Literal>
     </AnnotationAssertion>
@@ -801,7 +936,17 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#herbivore</IRI>
+        <Literal xml:lang="st">Phoohofolo ejang semela fela</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#herbivore</IRI>
         <Literal xml:lang="nb">Planteeter</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#is-part-of</IRI>
+        <Literal xml:lang="st">ke-karolo-ya</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -812,6 +957,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#is-part-of</IRI>
         <Literal xml:lang="en">is-part-of</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#is-proper-part-of</IRI>
+        <Literal xml:lang="st">ke karolo ya</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -829,6 +979,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <Literal xml:lang="en">Leaf</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#leaf</IRI>
+        <Literal xml:lang="st">Lehlaku</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#lion</IRI>
         <Literal>Lions are animals that eat only herbivores.</Literal>
@@ -842,6 +997,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#lion</IRI>
         <Literal xml:lang="nb">Løve</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#lion</IRI>
+        <Literal xml:lang="st">Tau</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -859,9 +1019,19 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <Literal xml:lang="nb">Plante</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#plant</IRI>
+        <Literal xml:lang="st">Semela</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#tasty-plant</IRI>
         <Literal>Plants eaten both by herbivores and carnivores</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#tasty-plant</IRI>
+        <Literal xml:lang="st">Semela se monate</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -886,6 +1056,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#tree</IRI>
+        <Literal xml:lang="st">Sefate</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#tree</IRI>
         <Literal xml:lang="nb">Tre</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
@@ -893,9 +1068,13 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <IRI>#tree</IRI>
         <Literal xml:lang="en">Tree</Literal>
     </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>owl:Thing</AbbreviatedIRI>
+        <Literal xml:lang="st">Ntho</Literal>
+    </AnnotationAssertion>
 </Ontology>
 
 
 
 <!-- Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi -->
-
