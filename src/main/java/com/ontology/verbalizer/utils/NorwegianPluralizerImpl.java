@@ -21,6 +21,7 @@ public class NorwegianPluralizerImpl implements NorwegianPluralizer {
 
     static JSONObject irrNouns;
 
+    @Override
     public String getNorwegianPluralizedNoun(String noun) {
         readIrrNouns();
         if (irrNouns.containsKey(noun)){
