@@ -11,11 +11,16 @@ package com.ontology.verbalizer.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
@@ -24,7 +29,10 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -43,7 +51,8 @@ public class SesothoGrammarEngineImpl implements SesothoGrammarEngine {
         List<String> verbalizations = new ArrayList<>();
 
         for (OWLAxiom axiom : ontology.getAxioms()) {
-            verbalizeAxiom(axiom, verbalizations);
+            verbalizeAxiom(axiom, verbalizations, ontology);
+            
         }
 
         // Create the concatenated verbalizations as a multi-line string
@@ -54,9 +63,22 @@ public class SesothoGrammarEngineImpl implements SesothoGrammarEngine {
         return concatenatedVerbalizations.toString();
     }
 
+
     //Changed to not static to gain access of local language parameter.
-    private void verbalizeAxiom(OWLAxiom axiom, List<String> verbalizations) {
+    private void verbalizeAxiom(OWLAxiom axiom, List<String> verbalizations, OWLOntology ontology) {
         
+       
+        // System.out.println("Beginning loop");
+        // for (OWLAnnotation annotation : ontology.getAnnotations()) {
+        //     if (annotation.getValue() instanceof OWLLiteral) {
+        //         OWLLiteral val = (OWLLiteral) annotation.getValue();
+        //         // if (val.hasLang("en")) {
+        //         System.out.println(val + " -> " + val.getLiteral());
+        //         // }
+        //     }
+        // }
+        //System.out.println("Finished loop");
+
         if (axiom instanceof OWLSubClassOfAxiom) {
             OWLSubClassOfAxiom subclassAxiom = (OWLSubClassOfAxiom) axiom;
             verbalizeSubclassAxiom(subclassAxiom, verbalizations);
@@ -78,9 +100,6 @@ public class SesothoGrammarEngineImpl implements SesothoGrammarEngine {
         // Verbalize subclass axiom
         String subclassVerbalization = verbalizeClassExpression(axiom.getSubClass());
         String superclassVerbalization = verbalizeClassExpression(axiom.getSuperClass());
-        //getOWLLiteral(subclassVerbalization, "ST");
-       
-
         String sentence;
         if(this.language.equals("ST")){
             sentence = subclassVerbalization + " ke " + superclassVerbalization;
