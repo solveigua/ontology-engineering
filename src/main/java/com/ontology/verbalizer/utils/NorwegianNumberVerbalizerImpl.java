@@ -1,6 +1,7 @@
 /**
  * The purpose of this class is write out
- * numbers in the verbalization.
+ * numbers in the verbalization. After the number
+ * 10 the number will be written as numerals. 
  * 
  * @Author: karenhompland
  * @Date: 21 May, 2023
