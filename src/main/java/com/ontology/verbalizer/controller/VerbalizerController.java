@@ -24,7 +24,8 @@ public class VerbalizerController {
     @PostMapping("/upload")
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String uploadFile(@RequestPart("inputFile") MultipartFile inputFile,
-            @RequestParam("language") String language) {
+            @RequestParam("language") String language, HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         String content = "";
         System.out.println("File name: " + inputFile.getName());
         if (!inputFile.isEmpty()) {
@@ -35,6 +36,7 @@ public class VerbalizerController {
                 return "Error occurred while processing the file.";
             }
         }
+        response.sendRedirect(request.getContextPath() + "/upload.html");
 
         if (content != null && !content.isEmpty()) {
             String verbalization = verbalizationService.getVerbalization(content, language);
