@@ -11,37 +11,28 @@ package com.ontology.verbalizer.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SesothoGrammarEngineImpl implements SesothoGrammarEngine {
+public class GrammarEngineImpl implements GrammarEngine {
 
     String language;
 
     @Override
-    public String getSesothoVerbalization(OWLOntology ontology, String language) {
+    public String getVerbalization(OWLOntology ontology, String language) {
         this.language = language;
         return getAllVerbals(ontology);
     }
@@ -66,18 +57,6 @@ public class SesothoGrammarEngineImpl implements SesothoGrammarEngine {
 
     //Changed to not static to gain access of local language parameter.
     private void verbalizeAxiom(OWLAxiom axiom, List<String> verbalizations, OWLOntology ontology) {
-        
-       
-        // System.out.println("Beginning loop");
-        // for (OWLAnnotation annotation : ontology.getAnnotations()) {
-        //     if (annotation.getValue() instanceof OWLLiteral) {
-        //         OWLLiteral val = (OWLLiteral) annotation.getValue();
-        //         // if (val.hasLang("en")) {
-        //         System.out.println(val + " -> " + val.getLiteral());
-        //         // }
-        //     }
-        // }
-        //System.out.println("Finished loop");
 
         if (axiom instanceof OWLSubClassOfAxiom) {
             OWLSubClassOfAxiom subclassAxiom = (OWLSubClassOfAxiom) axiom;
@@ -148,6 +127,7 @@ public class SesothoGrammarEngineImpl implements SesothoGrammarEngine {
         verbalizations.add(sentence);
         
     }
+
 
     private static String verbalizeClassExpression(OWLClassExpression classExpression) {
         if (classExpression.isAnonymous()) {
