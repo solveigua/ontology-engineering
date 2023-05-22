@@ -1,3 +1,11 @@
+/**
+ * The purpose of this class is write out
+ * numbers in the verbalization.
+ * 
+ * @Author: karenhompland
+ * @Date: 21 May, 2023
+ */
+
 package com.ontology.verbalizer.utils;
 
 public class NorwegianNumberVerbalizerImpl implements NorwegianNumberVerbalizer {
