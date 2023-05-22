@@ -27,31 +27,37 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SesothoGrammarEngineImpl implements SesothoGrammarEngine
-    {
+public class GrammarEngineImpl implements GrammarEngine {
+
+    String language;
 
     @Override
-    public String getSesothoVerbalization(OWLOntology ontology) {
+    public String getVerbalization(OWLOntology ontology, String language) {
+        this.language = language;
         return getAllVerbals(ontology);
     }
 
-    private String getAllVerbals(OWLOntology ontology)
-    {
+    private String getAllVerbals(OWLOntology ontology) {
         // Verbalize all axioms
         List<String> verbalizations = new ArrayList<>();
 
         for (OWLAxiom axiom : ontology.getAxioms()) {
-            verbalizeAxiom(axiom, verbalizations);
+            verbalizeAxiom(axiom, verbalizations, ontology);
+            
         }
 
         // Create the concatenated verbalizations as a multi-line string
-StringBuilder concatenatedVerbalizations = new StringBuilder();
-for (String verbalization : verbalizations) {
-    concatenatedVerbalizations.append(verbalization).append("\n");
-}
-return concatenatedVerbalizations.toString();
+        StringBuilder concatenatedVerbalizations = new StringBuilder();
+        for (String verbalization : verbalizations) {
+            concatenatedVerbalizations.append(verbalization).append("\n");
+        }
+        return concatenatedVerbalizations.toString();
     }
-    private static void verbalizeAxiom(OWLAxiom axiom, List<String> verbalizations) {
+
+
+    //Changed to not static to gain access of local language parameter.
+    private void verbalizeAxiom(OWLAxiom axiom, List<String> verbalizations, OWLOntology ontology) {
+
         if (axiom instanceof OWLSubClassOfAxiom) {
             OWLSubClassOfAxiom subclassAxiom = (OWLSubClassOfAxiom) axiom;
             verbalizeSubclassAxiom(subclassAxiom, verbalizations);
@@ -69,12 +75,18 @@ return concatenatedVerbalizations.toString();
         }
     }
 
-    private static void verbalizeSubclassAxiom(OWLSubClassOfAxiom axiom, List<String> verbalizations) {
+    private void verbalizeSubclassAxiom(OWLSubClassOfAxiom axiom, List<String> verbalizations) {
         // Verbalize subclass axiom
         String subclassVerbalization = verbalizeClassExpression(axiom.getSubClass());
         String superclassVerbalization = verbalizeClassExpression(axiom.getSuperClass());
-        String verbalization = subclassVerbalization + " ke " + superclassVerbalization;
-        verbalizations.add(verbalization);
+        String sentence;
+        if(this.language.equals("ST")){
+            sentence = subclassVerbalization + " ke " + superclassVerbalization;
+        }
+        else {
+            sentence = subclassVerbalization + " er en/et " + superclassVerbalization;
+        }
+        verbalizations.add(sentence);
     }
 
     private static void verbalizeUnionAxiom(OWLDisjointUnionAxiom axiom, List<String> verbalizations) {
@@ -98,15 +110,24 @@ return concatenatedVerbalizations.toString();
         verbalizations.add(verbalization);
     }
 
-    private static void verbalizeDisjointClassesAxiom(OWLDisjointClassesAxiom axiom, List<String> verbalizations) {
+    private void verbalizeDisjointClassesAxiom(OWLDisjointClassesAxiom axiom, List<String> verbalizations) {
         // Verbalize disjoint classes axiom
         List<String> classExpressions = axiom.getClassExpressions()
                 .stream()
                 .map(classExpression -> verbalizeClassExpression(classExpression))
                 .collect(Collectors.toList());
-        String verbalization = String.join(" ha he tswhane tu le ", classExpressions);
-        verbalizations.add(verbalization);
+        
+                String sentence;
+        if(this.language.equals("ST")){
+            sentence = String.join(" ha he tswhane tu le ", classExpressions);
+        }
+        else {
+            sentence = String.join(" er ikke det samme som en/et  ", classExpressions);
+        }
+        verbalizations.add(sentence);
+        
     }
+
 
     private static String verbalizeClassExpression(OWLClassExpression classExpression) {
         if (classExpression.isAnonymous()) {
@@ -115,15 +136,15 @@ return concatenatedVerbalizations.toString();
                 OWLObjectSomeValuesFrom someValuesFrom = (OWLObjectSomeValuesFrom) classExpression;
                 OWLObjectPropertyExpression property = someValuesFrom.getProperty();
                 OWLClassExpression filler = someValuesFrom.getFiller();
-    
+
                 if (property instanceof OWLObjectProperty && filler instanceof OWLClass) {
                     String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
                     String fillerName = getClassExpressionVerbalization(filler);
-    
+
                     return fillerName + " e na le " + propertyName;
                 }
             }
-    
+
             // Handle other types of anonymous class expressions if necessary
             return "AnonymousClass";
         } else if (classExpression instanceof OWLClass) {
@@ -133,24 +154,27 @@ return concatenatedVerbalizations.toString();
             if (fragmentName != null) {
                 return fragmentName;
             } else {
-                // If the fragment name is null, you can return the full IRI or handle it as needed
+                // If the fragment name is null, you can return the full IRI or handle it as
+                // needed
                 return owlClass.getIRI().toString();
             }
         }
-    
+
         return "";
     }
-    
+
     private static String getPropertyVerbalization(OWLObjectProperty property) {
         // Verbalize the object property based on your grammar rules
-        // You can update this method to handle different verbalizations for different properties
+        // You can update this method to handle different verbalizations for different
+        // properties
         return property.getIRI().getFragment();
     }
-    
+
     private static String getClassExpressionVerbalization(OWLClassExpression classExpression) {
         // Verbalize the class expression based on your grammar rules
-        // You can recursively call the verbalizeClassExpression method to handle nested expressions
+        // You can recursively call the verbalizeClassExpression method to handle nested
+        // expressions
         return verbalizeClassExpression(classExpression);
     }
 
-}    
+}

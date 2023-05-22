@@ -4,32 +4,31 @@
  * processes the ontology for verbalization and returns the
  * verbalization back.
  * 
- * @Author: khompland, ihagen, saune
+ * @Author: pmakhupane
  * @Date: May 17, 2023
  * 
  */
+
 package com.ontology.verbalizer.service;
 
-import java.util.Set;
-
-import org.semanticweb.owlapi.model.OWLLogicalAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.ontology.verbalizer.utils.OntologyExtractorUtil;
+import com.ontology.verbalizer.utils.GrammarEngine;
 
 @Service
-public class NorwegianVerbalizerServiceImpl implements NorwegianVerbalizerService {
+public class VerbalizerServiceImpl implements VerbalizerService
+{
     @Autowired
     OntologyExtractorUtil _ontologyExtractor;
+   @Autowired
+    GrammarEngine GrammarEngine;
 
     @Override
-    public String getNorwegianVerbalization(String owlFile) {
+    public String getVerbalization(String owlFile, String language) {
         OWLOntology ontology = _ontologyExtractor.extractOntologyFromOwl(owlFile);
-        System.out.println(ontology);
-
-        return owlFile; // TODO: use above ontology to call your verbalization code
+        
+        return GrammarEngine.getVerbalization(ontology, language);
     }
-
 }
