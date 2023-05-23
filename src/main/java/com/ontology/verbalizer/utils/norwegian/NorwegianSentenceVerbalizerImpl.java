@@ -1,4 +1,4 @@
-package com.ontology.verbalizer.utils;
+package com.ontology.verbalizer.utils.norwegian;
 
 import java.util.List;
 

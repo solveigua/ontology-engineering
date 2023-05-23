@@ -19,7 +19,7 @@
  * @Date: 22 May, 2023
  */
 
-package com.ontology.verbalizer.utils;
+package com.ontology.verbalizer.utils.norwegian;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

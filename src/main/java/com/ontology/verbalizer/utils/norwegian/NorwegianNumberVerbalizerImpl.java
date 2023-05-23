@@ -7,7 +7,7 @@
  * @Date: 21 May, 2023
  */
 
-package com.ontology.verbalizer.utils;
+package com.ontology.verbalizer.utils.norwegian;
 
 public class NorwegianNumberVerbalizerImpl implements NorwegianNumberVerbalizer {
 
