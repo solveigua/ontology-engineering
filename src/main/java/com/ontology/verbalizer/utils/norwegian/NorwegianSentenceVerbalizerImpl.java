@@ -34,13 +34,11 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
         }
         if (superclassVerbalization.contains(" ")) {
             return WordAndSentenceCleaner.cleanUpSentence(subclass + " " + superclassVerbalization);
-        } 
-        else {
+        } else {
             String superclass = WordAndSentenceCleaner.splitClass(superclassVerbalization);
             if (NorwegianNounClassifier.getIsNounNeutral(superclassVerbalization)) {
                 superclass = "et " + superclass;
-            } 
-            else {
+            } else {
                 superclass = "en " + superclass;
             }
             return WordAndSentenceCleaner.cleanUpSentence(subclass + " er " + superclass);
@@ -65,15 +63,13 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
 
     @Override
     public String verbalizeNorwegianDisjointClassesAxiom(List<String> classExpressions) {
-        
         String sentence = classExpressions.stream()
-            .map(n -> String.valueOf(n))
-            .limit(classExpressions.size()-1)
-            .collect(Collectors.joining(", "));
-        sentence = sentence + " og " + classExpressions.get(classExpressions.size()-1) + " er ikke det samme";
+                .map(n -> String.valueOf(n))
+                .limit(classExpressions.size() - 1)
+                .collect(Collectors.joining(", "));
+        sentence = sentence + " og " + classExpressions.get(classExpressions.size() - 1) + " er ikke det samme";
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
-        
 
     @Override
     public String verbalizeNorwegianClassExpression(String fillerName, String propertyName) {

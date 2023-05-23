@@ -3,7 +3,7 @@
  * and verbalize all the axioms specified in the owl. These will be 
  * returned as a concatenated string back to the client for display.
  * 
- * @Author: pmakhupane
+ * @Author: pmakhupane and hageningrid
  * @Date: 21 May, 2023
  */
 
