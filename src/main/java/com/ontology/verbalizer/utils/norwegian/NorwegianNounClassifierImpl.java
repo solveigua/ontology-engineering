@@ -27,13 +27,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class NorwegianNounClassifierImpl implements NorwegianNounClassifier {
 
     private static ArrayList<String> neuEndings = new ArrayList<>(Arrays.asList("bud", "bær", "eri", "fall", "hold", "grep",
             "legg", "løp", "ment", "mål", "slag", "tak", "tek", "um"));
 
-    // @Override
-    public boolean getIsNounNeutral(String noun) {
+    @Override
+    public boolean getIsNounNeutral(String nounn) {
+        String noun = nounn.toLowerCase();
         ArrayList<String> nounEndings = new ArrayList<>();
         int length = noun.length();
         int lengthCount = 2;
@@ -48,6 +52,7 @@ public class NorwegianNounClassifierImpl implements NorwegianNounClassifier {
             return true;
         }
         return false;
+
     }
 
     private static boolean checkWordList(String noun) {
