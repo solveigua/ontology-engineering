@@ -1,14 +1,40 @@
-<html>
+<!DOCTYPE html>
+<html>  
     <head>
         <title> OWL Verbalization</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Make a POST request to the server
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(), 
+                    success: function(response) {
+                        console.log(response.message)
+                        $('#message').text(response.message);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        </script>
         <style>
             body {background-color: aliceblue; margin: 20px;}
             h1 {color:black;}
-            #OWLinput { height:200px; width: 600px; font-size:14pt;}
+            input {background-color: transparent; border-color: transparent; width: 800px; height: 800px;} 
         </style>
     </head>
     <body>
     <h1> OWL Verbalization </h1>
     <p> Translation coming here ... </p>
+        <input type="text"  id="message" name="message" disabled /> <br>
+    </body>
+   
+
     </body>
 </html>
+
