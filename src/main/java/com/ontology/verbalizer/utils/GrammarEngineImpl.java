@@ -13,17 +13,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.search.EntitySearcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +45,9 @@ public class GrammarEngineImpl implements GrammarEngine {
     NorwegianSentenceVerbalizer _norwegianSentenceVerbalizer;
 
     String language;
+    OWLOntology ontology;
+    OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+    OWLDataFactory factory = manager.getOWLDataFactory();
 
     @Override
     public String getVerbalization(OWLOntology ontology, String language) {
@@ -48,9 +58,10 @@ public class GrammarEngineImpl implements GrammarEngine {
     private String getAllVerbals(OWLOntology ontology) {
         // Verbalize all axioms
         List<String> verbalizations = new ArrayList<>();
+        this.ontology = ontology;
 
         for (OWLAxiom axiom : ontology.getAxioms()) {
-            verbalizeAxiom(axiom, verbalizations, ontology);
+            verbalizeAxiom(axiom, verbalizations);
             
         }
 
@@ -64,7 +75,7 @@ public class GrammarEngineImpl implements GrammarEngine {
 
 
     //Changed to not static to gain access of local language parameter.
-    private void verbalizeAxiom(OWLAxiom axiom, List<String> verbalizations, OWLOntology ontology) {
+    private void verbalizeAxiom(OWLAxiom axiom, List<String> verbalizations) {
 
         if (axiom instanceof OWLSubClassOfAxiom) {
             OWLSubClassOfAxiom subclassAxiom = (OWLSubClassOfAxiom) axiom;
@@ -137,7 +148,7 @@ public class GrammarEngineImpl implements GrammarEngine {
                 .collect(Collectors.toList());
         
                 String verbalization;
-                if(this.language.equals("ST")){
+                if(this.language.equals("st")){
                     verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoDisjointClassesAxiom(classExpressions);
                 }
                 else {
@@ -160,7 +171,7 @@ public class GrammarEngineImpl implements GrammarEngine {
                     String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
                     String fillerName = getClassExpressionVerbalization(filler);
                     String verbalization;
-                    if(this.language.equals("ST")){
+                    if(this.language.equals("st")){
                         verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoClassExpression(fillerName, propertyName);
                     }
                     else {
@@ -173,26 +184,47 @@ public class GrammarEngineImpl implements GrammarEngine {
             // Handle other types of anonymous class expressions if necessary
             return "AnonymousClass";
         } else if (classExpression instanceof OWLClass) {
+            // Get the class in correct language
             OWLClass owlClass = (OWLClass) classExpression;
-            // Get the IRI of the class and extract the fragment name
-            String fragmentName = owlClass.getIRI().getFragment();
-            if (fragmentName != null) {
-                return fragmentName;
+            String languageTag = this.language;
+
+            OWLAnnotationProperty labelAnnotationProperty = factory.getRDFSLabel();
+            OWLAnnotation labelAnnotation = EntitySearcher.getAnnotations(owlClass, this.ontology, labelAnnotationProperty)
+                    .filter(annotation -> annotation.getValue() instanceof OWLLiteral)
+                    .filter(annotation -> ((OWLLiteral) annotation.getValue()).hasLang(languageTag))
+                    .findFirst()
+                    .orElse(null);
+            
+            if (labelAnnotation != null) {
+                OWLLiteral labelLiteral = (OWLLiteral) labelAnnotation.getValue();
+                String classNameInLanguage = labelLiteral.getLiteral();
+                //System.out.println("Class name in " + languageTag + ": " + classNameInLanguage);
+                return classNameInLanguage;
             } else {
-                // If the fragment name is null, you can return the full IRI or handle it as
-                // needed
-                return owlClass.getIRI().toString();
+                System.out.println("Class name not found in " + languageTag);
             }
         }
-
         return "";
     }
 
     private String getPropertyVerbalization(OWLObjectProperty property) {
-        // Verbalize the object property based on your grammar rules
-        // You can update this method to handle different verbalizations for different
-        // properties
-        return property.getIRI().getFragment();
+        // Get the property in the correct language
+        OWLAnnotationProperty labelAnnotationProperty = factory.getRDFSLabel();
+        OWLAnnotation labelAnnotation = EntitySearcher.getAnnotations(property, ontology, labelAnnotationProperty)
+                .filter(annotation -> annotation.getValue() instanceof OWLLiteral)
+                .filter(annotation -> ((OWLLiteral) annotation.getValue()).hasLang(this.language))
+                .findFirst()
+                .orElse(null);
+        
+        if (labelAnnotation != null) {
+            OWLLiteral labelLiteral = (OWLLiteral) labelAnnotation.getValue();
+            String propertyNameInLanguage = labelLiteral.getLiteral();
+            // System.out.println("Property name in " + language + ": " + propertyNameInLanguage);
+            return propertyNameInLanguage;
+        } else {
+            //System.out.println("Property name not found in " + language);
+        }
+        return "";
     }
 
     private String getClassExpressionVerbalization(OWLClassExpression classExpression) {
