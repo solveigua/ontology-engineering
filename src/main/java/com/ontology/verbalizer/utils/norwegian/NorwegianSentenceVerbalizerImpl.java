@@ -55,9 +55,10 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
             .map(n -> String.valueOf(n))
             .limit(classExpressions.size()-1)
             .collect(Collectors.joining(", "));
-
-        return sentence + " og " + classExpressions.get(classExpressions.size()-1) + " er ikke det samme.";
+        sentence = sentence + " og " + classExpressions.get(classExpressions.size()-1) + " er ikke det samme";
+        return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
+        
 
     @Override
     public String verbalizeNorwegianClassExpression(String fillerName, String propertyName) {
