@@ -14,7 +14,6 @@ bord
 brev
 brød
 bygg
-bær
 dyr
 egg
 eksempel
@@ -31,7 +30,6 @@ fotografi
 frimerke
 glass
 gulv
-habitat
 hjem
 hjerte
 hode
@@ -68,8 +66,6 @@ nivå
 nummer
 ord
 papir
-palmetre
-plantelegeme
 problem
 program
 regn
@@ -107,7 +103,6 @@ vann
 verksted
 vikariat
 vindu
-vortesvin
 vær
 ønske
 øre
