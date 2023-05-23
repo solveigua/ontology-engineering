@@ -53,6 +53,7 @@ kryss
 kurs
 kyss
 land
+legeme
 liv
 loft
 lys
@@ -69,7 +70,6 @@ nummer
 ord
 papir
 palmetre
-plantelegeme
 problem
 program
 regn

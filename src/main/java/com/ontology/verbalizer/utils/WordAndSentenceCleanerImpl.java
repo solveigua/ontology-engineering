@@ -9,25 +9,27 @@
  * @Date: 23 May, 2023
  */
 
- package com.ontology.verbalizer.utils;
+package com.ontology.verbalizer.utils;
 
- import org.apache.commons.lang3.StringUtils;
- 
- public class WordAndSentenceCleanerImpl implements WordAndSentenceCleaner {
- 
-     @Override
-     public String splitClass(String name) {
-         return StringUtils.join(StringUtils. splitByCharacterTypeCamelCase(name),' ');
-     }
- 
-     @Override
-     public String splitObjProp(String name) {
-         return name.replace('-', ' ');
-     }
- 
-     @Override
-     public String cleanUpSentence(String sentence) {
-         return sentence.substring(0, 1).toUpperCase()+sentence.substring(1).toLowerCase()+".";
-     }
- 
- }
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
+
+@Component
+public class WordAndSentenceCleanerImpl implements WordAndSentenceCleaner {
+
+    @Override
+    public String splitClass(String name) {
+        return StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(name), ' ');
+    }
+
+    @Override
+    public String splitObjProp(String name) {
+        return name.replace('-', ' ');
+    }
+
+    @Override
+    public String cleanUpSentence(String sentence) {
+        return sentence.substring(0, 1).toUpperCase() + sentence.substring(1).toLowerCase() + ". \n";
+    }
+
+}
