@@ -34,6 +34,7 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ontology.verbalizer.utils.norwegian.NorwegianSentenceVerbalizer;
 import com.ontology.verbalizer.utils.sesotho.SesothoSentenceVerbalizer;
 
 @Component
@@ -41,8 +42,7 @@ public class GrammarEngineImpl implements GrammarEngine {
 
     @Autowired
     SesothoSentenceVerbalizer _sesothoSentenceVerbalizer;
-    @Autowired 
-    NorwegianSentenceVerbalizer _norwegianSentenceVerbalizer;
+    @Autowired NorwegianSentenceVerbalizer _norwegianSentenceVerbalizer;
 
     String language;
     OWLOntology ontology;
