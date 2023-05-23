@@ -1,3 +1,11 @@
+/**
+ * Building Norwegian sentences with the other 
+ * tools provided in the repo.
+ * 
+ * @Author: hageningrid and karenhompland
+ * @Date: 23 May, 2023
+ */
+
 package com.ontology.verbalizer.utils.norwegian;
 
 import java.util.List;
@@ -18,32 +26,39 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     @Override
     public String verbalizeNorwegianSubclassAxiom(String subclassVerbalization, String superclassVerbalization) {
         String subclass = WordAndSentenceCleaner.splitClass(subclassVerbalization);
-        String superclass = WordAndSentenceCleaner.splitClass(superclassVerbalization);
-        if (NorwegianNounClassifier.getIsNounNeutral(superclassVerbalization)){
-            superclass = "et " + superclass;
-        }
-        else {
-            superclass = "en " + superclass;
-        }
-        if (NorwegianNounClassifier.getIsNounNeutral(subclassVerbalization)){
+        if (NorwegianNounClassifier.getIsNounNeutral(subclassVerbalization)) {
             subclass = "et " + subclass;
-        }
-        else {
+        } else {
             subclass = "en " + subclass;
         }
-        return WordAndSentenceCleaner.cleanUpSentence(subclass+" er "+superclass);
+        if (superclassVerbalization.contains(" ")) {
+            return WordAndSentenceCleaner.cleanUpSentence(subclass + " " + superclassVerbalization);
+        } 
+        else {
+            String superclass = WordAndSentenceCleaner.splitClass(superclassVerbalization);
+            if (NorwegianNounClassifier.getIsNounNeutral(superclassVerbalization)) {
+                superclass = "et " + superclass;
+            } 
+            else {
+                superclass = "en " + superclass;
+            }
+            return WordAndSentenceCleaner.cleanUpSentence(subclass + " er " + superclass);
+        }
     }
 
     @Override
     public String verbalizeNorwegianUnionAxiom(String unionClassVerbalization,
             List<String> disjointClassesVerbalization) {
-                String sentence = String.join("unionClassVerbalization: "+unionClassVerbalization+" disjointClassesVerbalization: ", disjointClassesVerbalization);;
-                return sentence;
+        String sentence = String.join(
+                "unionClassVerbalization: " + unionClassVerbalization + " disjointClassesVerbalization: ",
+                disjointClassesVerbalization);
+        ;
+        return sentence;
     }
 
     @Override
     public String verbalizeNorwegianEquivalentClassesAxiom(List<String> classExpressions) {
-        String sentence = String.join("classexpressions: "+classExpressions);
+        String sentence = String.join("classexpressions: " + classExpressions);
         return sentence;
     }
 
@@ -55,7 +70,8 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
 
     @Override
     public String verbalizeNorwegianClassExpression(String fillerName, String propertyName) {
-        String sentence = "fillername: "+fillerName+"propertyname: "+propertyName;
-        return sentence;
+        String property = WordAndSentenceCleaner.splitObjProp(propertyName).toLowerCase();
+        String className = WordAndSentenceCleaner.splitClass(fillerName);
+        return property + " " + className;
     }
 }
