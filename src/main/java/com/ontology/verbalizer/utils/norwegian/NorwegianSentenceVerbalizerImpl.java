@@ -1,6 +1,7 @@
 package com.ontology.verbalizer.utils.norwegian;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,9 +50,15 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
 
     @Override
     public String verbalizeNorwegianDisjointClassesAxiom(List<String> classExpressions) {
-        String sentence = String.join(" er ikke det samme som en/et  ", classExpressions);
-        return sentence;
+        
+        String sentence = classExpressions.stream()
+            .map(n -> String.valueOf(n))
+            .limit(classExpressions.size()-1)
+            .collect(Collectors.joining(", "));
+        sentence = sentence + " og " + classExpressions.get(classExpressions.size()-1) + " er ikke det samme";
+        return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
+        
 
     @Override
     public String verbalizeNorwegianClassExpression(String fillerName, String propertyName) {
