@@ -29,7 +29,7 @@ import java.util.Arrays;
 
 public class NorwegianNounClassifierImpl implements NorwegianNounClassifier {
 
-    private static ArrayList<String> neuEndings = new ArrayList<>(Arrays.asList("bud", "eri", "fall", "hold", "grep",
+    private static ArrayList<String> neuEndings = new ArrayList<>(Arrays.asList("bud", "bær", "eri", "fall", "hold", "grep",
             "legg", "løp", "ment", "mål", "slag", "tak", "tek", "um"));
 
     // @Override
