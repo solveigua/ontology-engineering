@@ -2,10 +2,16 @@ package com.ontology.verbalizer.utils.sesotho;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.ontology.verbalizer.utils.WordAndSentenceCleaner;
 
 @Component
 public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer {
+
+    @Autowired
+    WordAndSentenceCleaner WordAndSentenceCleaner;
 
     @Override
     public String verbalizeSesothoSubclassAxiom(String subclassVerbalization, String superclassVerbalization) {
@@ -36,5 +42,40 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
     public String verbalizeSesothoClassExpression(String fillerName, String propertyName) {
         String sentence = fillerName + " e na le " + propertyName;
         return sentence;
+    }
+
+    @Override
+    public String verbalizeSesothoIrrefObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" is a xx object property (in SeSotho :))");
+    }
+
+    @Override
+    public String verbalizeSesothoAsymObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" is a xx object property (in SeSotho :))");
+    }
+
+    @Override
+    public String verbalizeSesothoSymObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" is a xx object property (in SeSotho :))");
+    }
+
+    @Override
+    public String verbalizeSesothoTransObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" is a xx object property (in SeSotho :))");
+    }
+
+    @Override
+    public String verbalizeSesothoInverseObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" is a xx object property (in SeSotho :))");
+    }
+
+    @Override
+    public String verbalizeSesothoFuncObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" is a xx object property (in SeSotho :))");
+    }
+
+    @Override
+    public String verbalizeSesothoRefObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" is a xx object property (in SeSotho :))");
     }
 }

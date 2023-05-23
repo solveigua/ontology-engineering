@@ -77,4 +77,39 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
         String className = WordAndSentenceCleaner.splitClass(fillerName);
         return property + " " + className;
     }
+
+    @Override
+    public String verbalizeNorwegianIrrefObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" er en irrefleksiv objektrelasjon");
+    }
+
+    @Override
+    public String verbalizeNorwegiaAsymObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" er en asymmterisk objektrelasjon");
+    }
+
+    @Override
+    public String verbalizeNorwegianSymObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" er en symmetrisk objektrelasjon");
+    }
+
+    @Override
+    public String verbalizeNorwegianTransObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" er en transitiv objektrelasjon");
+    }
+
+    @Override
+    public String verbalizeNorwegianInverseObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+" er en invers funksjonell objektrelasjon");
+    }
+
+    @Override
+    public String verbalizeNorwegianFunObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" er en funksjonell objektrelasjon");
+    }
+
+    @Override
+    public String verbalizeNorwegianRefObjProp(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" er en refleksiv objektrelasjon");
+    }
 }
