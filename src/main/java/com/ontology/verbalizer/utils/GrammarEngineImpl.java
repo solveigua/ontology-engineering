@@ -24,10 +24,18 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.ontology.verbalizer.utils.sesotho.SesothoSentenceVerbalizer;
 
 @Component
 public class GrammarEngineImpl implements GrammarEngine {
+
+    @Autowired
+    SesothoSentenceVerbalizer _sesothoSentenceVerbalizer;
+    @Autowired 
+    NorwegianSentenceVerbalizer _norwegianSentenceVerbalizer;
 
     String language;
 
@@ -81,33 +89,44 @@ public class GrammarEngineImpl implements GrammarEngine {
         String superclassVerbalization = verbalizeClassExpression(axiom.getSuperClass());
         String sentence;
         if(this.language.equals("ST")){
-            sentence = subclassVerbalization + " ke " + superclassVerbalization;
+            sentence = _sesothoSentenceVerbalizer.verbalizeSesothoSubclassAxiom(subclassVerbalization, superclassVerbalization);
         }
         else {
-            sentence = subclassVerbalization + " er en/et " + superclassVerbalization;
+            sentence = _norwegianSentenceVerbalizer.verbalizeNorwegianSubclassAxiom(subclassVerbalization, superclassVerbalization);
         }
         verbalizations.add(sentence);
     }
 
-    private static void verbalizeUnionAxiom(OWLDisjointUnionAxiom axiom, List<String> verbalizations) {
+    private void verbalizeUnionAxiom(OWLDisjointUnionAxiom axiom, List<String> verbalizations) {
         // Verbalize union axiom
         String unionClassVerbalization = verbalizeClassExpression(axiom.getOWLClass());
         List<String> disjointClassesVerbalization = axiom.getClassExpressions()
                 .stream()
                 .map(classExpression -> verbalizeClassExpression(classExpression))
                 .collect(Collectors.toList());
-        String verbalization = unionClassVerbalization + " ke " + String.join(" le ", disjointClassesVerbalization);
+        String verbalization;
+        if(this.language.equals("ST")){
+            verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoUnionAxiom(unionClassVerbalization, disjointClassesVerbalization);
+        }
+        else {
+            verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianUnionAxiom(unionClassVerbalization, disjointClassesVerbalization);
+        }
         verbalizations.add(verbalization);
     }
 
-    private static void verbalizeEquivalentClassesAxiom(OWLEquivalentClassesAxiom axiom, List<String> verbalizations) {
+    private void verbalizeEquivalentClassesAxiom(OWLEquivalentClassesAxiom axiom, List<String> verbalizations) {
         // Verbalize equivalent classes axiom
         List<String> classExpressions = axiom.getClassExpressions()
                 .stream()
                 .map(classExpression -> verbalizeClassExpression(classExpression))
                 .collect(Collectors.toList());
-        String verbalization = String.join(" e tshwana le ", classExpressions);
-        verbalizations.add(verbalization);
+                String verbalization;
+        if(this.language.equals("ST")){
+            verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoEquivalentClassesAxiom(classExpressions);
+        }
+        else {
+            verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianEquivalentClassesAxiom(classExpressions);
+        }        verbalizations.add(verbalization);
     }
 
     private void verbalizeDisjointClassesAxiom(OWLDisjointClassesAxiom axiom, List<String> verbalizations) {
@@ -117,19 +136,19 @@ public class GrammarEngineImpl implements GrammarEngine {
                 .map(classExpression -> verbalizeClassExpression(classExpression))
                 .collect(Collectors.toList());
         
-                String sentence;
-        if(this.language.equals("ST")){
-            sentence = String.join(" ha he tswhane tu le ", classExpressions);
-        }
-        else {
-            sentence = String.join(" er ikke det samme som en/et  ", classExpressions);
-        }
-        verbalizations.add(sentence);
+                String verbalization;
+                if(this.language.equals("ST")){
+                    verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoDisjointClassesAxiom(classExpressions);
+                }
+                else {
+                    verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianDisjointClassesAxiom(classExpressions);
+                }
+        verbalizations.add(verbalization);
         
     }
 
 
-    private static String verbalizeClassExpression(OWLClassExpression classExpression) {
+    private String verbalizeClassExpression(OWLClassExpression classExpression) {
         if (classExpression.isAnonymous()) {
             // Handle anonymous class expressions
             if (classExpression instanceof OWLObjectSomeValuesFrom) {
@@ -140,8 +159,14 @@ public class GrammarEngineImpl implements GrammarEngine {
                 if (property instanceof OWLObjectProperty && filler instanceof OWLClass) {
                     String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
                     String fillerName = getClassExpressionVerbalization(filler);
-
-                    return fillerName + " e na le " + propertyName;
+                    String verbalization;
+                    if(this.language.equals("ST")){
+                        verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoClassExpression(fillerName, propertyName);
+                    }
+                    else {
+                        verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianClassExpression(fillerName, propertyName);
+                    }
+                    return verbalization;
                 }
             }
 
@@ -163,14 +188,14 @@ public class GrammarEngineImpl implements GrammarEngine {
         return "";
     }
 
-    private static String getPropertyVerbalization(OWLObjectProperty property) {
+    private String getPropertyVerbalization(OWLObjectProperty property) {
         // Verbalize the object property based on your grammar rules
         // You can update this method to handle different verbalizations for different
         // properties
         return property.getIRI().getFragment();
     }
 
-    private static String getClassExpressionVerbalization(OWLClassExpression classExpression) {
+    private String getClassExpressionVerbalization(OWLClassExpression classExpression) {
         // Verbalize the class expression based on your grammar rules
         // You can recursively call the verbalizeClassExpression method to handle nested
         // expressions
