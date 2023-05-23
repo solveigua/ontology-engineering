@@ -944,11 +944,6 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <Literal xml:lang="nb">Planteeter</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#is-part-of</IRI>
-        <Literal xml:lang="st">ke-karolo-ya</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#is-part-of</IRI>
         <Literal xml:lang="nb">er-del-av</Literal>
@@ -957,6 +952,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#is-part-of</IRI>
         <Literal xml:lang="en">is-part-of</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#is-part-of</IRI>
+        <Literal xml:lang="st">ke-karolo-ya</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
