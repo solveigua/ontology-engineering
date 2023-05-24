@@ -128,4 +128,18 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property) + "'"
                 + " har dette området: " + WordAndSentenceCleaner.splitObjProp(range));
     }
+
+    @Override
+    public String verbalizeEquivalentClassesAxiom(List<String> classExpressions){
+        String sentence = classExpressions.stream()
+                .map(n -> String.valueOf(n))
+                .skip(1)
+                .limit(classExpressions.size() - 1)
+                .collect(Collectors.joining(", "));
+        sentence = classExpressions.get(0)+ " er definert ved: " + sentence + " og " + 
+        classExpressions.get(classExpressions.size() - 1);
+        System.out.println(WordAndSentenceCleaner.cleanUpSentence(sentence));
+        return WordAndSentenceCleaner.cleanUpSentence(sentence);
+
+    }
 }

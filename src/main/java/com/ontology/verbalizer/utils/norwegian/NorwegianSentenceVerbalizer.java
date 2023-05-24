@@ -17,4 +17,5 @@ public interface NorwegianSentenceVerbalizer {
     public String verbalizeNorwegianRefObjProp(List<String> property);
     public String verbalizeNorwegianSubPropAxiom(String subProperty, String superProperty);
     public String verbalizeObjectPropRangeAx(String property, String range);
+    public String verbalizeEquivalentClassesAxiom(List<String> classExpressions);
 }
