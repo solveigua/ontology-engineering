@@ -114,10 +114,4 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
-    @Override
-    public String verbalizeSesothoEquivalentClassesAxiom(List<String> classExpressions) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verbalizeSesothoEquivalentClassesAxiom'");
-    }
-
 }
