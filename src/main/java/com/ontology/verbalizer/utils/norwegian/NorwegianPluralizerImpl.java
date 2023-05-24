@@ -43,7 +43,7 @@ public class NorwegianPluralizerImpl implements NorwegianPluralizer {
         JSONParser parser = new JSONParser();
         try {
             Object obj = parser
-                    .parse(new FileReader("ontology-engineering/src/main/resources/public/irregular_nouns_nb.json"));
+                    .parse(new FileReader("src/main/resources/public/irregular_nouns_nb.json"));
             irrNouns = (JSONObject) obj;
 
         } catch (FileNotFoundException e) {

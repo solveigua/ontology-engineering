@@ -12,6 +12,7 @@ package com.ontology.verbalizer.utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -25,7 +26,6 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
@@ -52,8 +52,6 @@ import org.springframework.stereotype.Component;
 
 import com.ontology.verbalizer.utils.norwegian.NorwegianSentenceVerbalizer;
 import com.ontology.verbalizer.utils.sesotho.SesothoSentenceVerbalizer;
-
-import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
 
 @Component
 public class GrammarEngineImpl implements GrammarEngine {
@@ -148,7 +146,6 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else if (axiom instanceof OWLInverseObjectPropertiesAxiom) {
             OWLInverseObjectPropertiesAxiom inverseObjectPropertiesAxiom = (OWLInverseObjectPropertiesAxiom) axiom;
             verbalizeInversePropAx(inverseObjectPropertiesAxiom);
-
         } else {
             // System.out.println("ELSE: "+axiom+" ");
             // These are in african wildlife and currently not being handled:
@@ -333,7 +330,15 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeObjectPropRangeAx(OWLObjectPropertyRangeAxiom axiom) {
-
+        String property = getPropertyVerbalization(axiom.getProperty().getNamedProperty());
+        String range = verbalizeClassExpression(axiom.getRange());
+        String verbalization;
+        if (this.language.equals("st")) {
+            verbalization = _sesothoSentenceVerbalizer.verbalizeObjectPropRangeAx(property, range);
+        } else {
+            verbalization = _norwegianSentenceVerbalizer.verbalizeObjectPropRangeAx(property, range);
+        }
+        this.verbalizations.get("range").add(verbalization);
     }
 
     // verbalize subObjectProperties
@@ -419,11 +424,13 @@ public class GrammarEngineImpl implements GrammarEngine {
                         classesInUnion.add(filler);
                     }
                 }
-                /*if (!anonymousStrings.isEmpty()) {
-                    for (String text : getClassExpressionsFromList(anonymousStrings)) {
-                        classesInIntersection.add(text);
-                    }
-                }*/
+                /*
+                 * if (!anonymousStrings.isEmpty()) {
+                 * for (String text : getClassExpressionsFromList(anonymousStrings)) {
+                 * classesInIntersection.add(text);
+                 * }
+                 * }
+                 */
                 if (this.language.equals("st")) {
                     verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoUnionOf(classesInUnion);
                 } else {
@@ -444,11 +451,13 @@ public class GrammarEngineImpl implements GrammarEngine {
                         classesInIntersection.add(filler);
                     }
                 }
-                /*if (!anonymousStrings.isEmpty()) {
-                    for (String text : getClassExpressionsFromList(anonymousStrings)) {
-                        classesInIntersection.add(text);
-                    }
-                }*/
+                /*
+                 * if (!anonymousStrings.isEmpty()) {
+                 * for (String text : getClassExpressionsFromList(anonymousStrings)) {
+                 * classesInIntersection.add(text);
+                 * }
+                 * }
+                 */
                 if (this.language.equals("st")) {
                     verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoIntersectionOf(classesInIntersection);
                 } else {
@@ -535,9 +544,6 @@ public class GrammarEngineImpl implements GrammarEngine {
         return verbalizeClassExpression(classExpression);
     }
 
-    /**
-     * 
-     */
     private void initiateHashMap() {
         this.verbalizations.put("union", new ArrayList<String>());
         this.verbalizations.put("equivalent", new ArrayList<String>());
@@ -552,16 +558,20 @@ public class GrammarEngineImpl implements GrammarEngine {
         this.verbalizations.put("asymmetric", new ArrayList<String>());
         this.verbalizations.put("symmetric", new ArrayList<String>());
         this.verbalizations.put("inverse", new ArrayList<String>());
-
+        this.verbalizations.put("complementOf", new ArrayList<String>());
+        this.verbalizations.put("range", new ArrayList<String>());
         this.verbalizations.put("unknown", new ArrayList<String>());
     }
 
-    private List<String> getClassExpressionsFromList(List<OWLClassExpression> list) {
-        ArrayList<String> result = new ArrayList<>();
-        for (OWLClassExpression expr : list) {
-            //System.out.println(expr);
-            result.add(verbalizeClassExpression(expr));
-        }
-        return result;
-    }
+    /*
+     * private List<String> getClassExpressionsFromList(List<OWLClassExpression>
+     * list) {
+     * ArrayList<String> result = new ArrayList<>();
+     * for (OWLClassExpression expr : list) {
+     * //System.out.println(expr);
+     * result.add(verbalizeClassExpression(expr));
+     * }
+     * return result;
+     * }
+     */
 }

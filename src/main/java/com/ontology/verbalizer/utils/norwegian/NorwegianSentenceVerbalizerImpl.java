@@ -161,7 +161,7 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
         for (String text : classesInUnion) {
             text=WordAndSentenceCleaner.splitClass(text);
         }
-        return WordAndSentenceCleaner.cleanUpSentence(" "+WordAndSentenceCleaner.listToSentence(classesInUnion, "eller"));
+        return " "+WordAndSentenceCleaner.listToSentence(classesInUnion, "eller").toLowerCase();
     }
 
     @Override
@@ -169,11 +169,11 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
         for (String text : classesInIntersection) {
             text=WordAndSentenceCleaner.splitClass(text);
         }
-        return WordAndSentenceCleaner.cleanUpSentence(" "+WordAndSentenceCleaner.listToSentence(classesInIntersection, "og"));
+        return " "+WordAndSentenceCleaner.listToSentence(classesInIntersection, "og").toLowerCase();
     }
 
     @Override
     public String verbalizeNorwegianComplementOf(String className) {
-        return WordAndSentenceCleaner.cleanUpSentence(" ikke "+WordAndSentenceCleaner.splitClass(className));
+        return " ikke "+WordAndSentenceCleaner.splitClass(className).toLowerCase();
     }
 }
