@@ -6,4 +6,8 @@ public class Response {
     public Response(String message) {
         this.message = message;
     }
+
+    public String toString() {
+        return message;
+    }
 }
