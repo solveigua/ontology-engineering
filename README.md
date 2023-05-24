@@ -1,4 +1,4 @@
-# OWL Verbalizator for 🇳🇴Norwegian and 🇱🇸SeSotho
+# OWL Verbalizer for 🇳🇴Norwegian and 🇱🇸SeSotho
 **UCT CSC5028Z Ontology Engineering Mini Project May 2023.** <br/>
 By Phuthang Makhupane, Ingrid Hagen, Karen Hompland and Solveig Aune.
 
