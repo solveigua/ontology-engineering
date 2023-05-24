@@ -130,14 +130,19 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     }
 
     @Override
-    public String verbalizeEquivalentClassesAxiom(List<String> classExpressions){
+    public String verbalizeNorwegianInversePropAx(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
+                + " er det motsatte av " + "'" + WordAndSentenceCleaner.splitObjProp(property.get(1) + "'"));
+    }
+
+    public String verbalizeEquivalentClassesAxiom(List<String> classExpressions) {
         String sentence = classExpressions.stream()
                 .map(n -> String.valueOf(n))
                 .skip(1)
                 .limit(classExpressions.size() - 1)
                 .collect(Collectors.joining(", "));
-        sentence = classExpressions.get(0)+ " er definert ved: " + sentence + " og " + 
-        classExpressions.get(classExpressions.size() - 1);
+        sentence = classExpressions.get(0) + " er definert ved: " + sentence + " og " +
+                classExpressions.get(classExpressions.size() - 1);
         System.out.println(WordAndSentenceCleaner.cleanUpSentence("Sentence" + sentence));
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
