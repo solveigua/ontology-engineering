@@ -7,7 +7,7 @@ By Phuthang Makhupane, Ingrid Hagen, Karen Hompland and Solveig Aune.
 ### Prerequisities for the Ontology
 😄 The verbalizer works best with classnames written in PascalCase or camelCase (e.g. CarnivorousPlant) and object properties written with a "-" between words (e.g. is-part-of). <br/>
 📁 It does only accept OWL-files. <br/>
-🌐 The ontology need to contain labels with the language-tag of the desired language for the verbalization. <br/>
+🌐 The ontology need to contain labels with the language-tag of the desired language for the verbalization. Supported language tags: nb (Norwegian bokmål) and st (SeSotho). <br/>
 
 ## How to build and run [WIP]
 1. Ensure you have maven installed
