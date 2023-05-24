@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
@@ -134,13 +135,13 @@ public class GrammarEngineImpl implements GrammarEngine {
         else {
             //System.out.println("ELSE: "+axiom+" ");
             // These are in african wildlife and currently not being handled:
-            // ObjectPropertyRange:
+            // SubObjectPropertyOf:
             // <SubObjectPropertyOf>
             //     <ObjectProperty IRI="#is-proper-part-of"/>
             //     <ObjectProperty IRI="#is-part-of"/>
             // </SubObjectPropertyOf>
 
-            // SubObjectPropertyOf:
+            // ObjectPropertyRange:
             // <ObjectPropertyRange>
             //     <ObjectProperty IRI="#eats"/>
             //     <ObjectUnionOf>
@@ -164,7 +165,7 @@ public class GrammarEngineImpl implements GrammarEngine {
         String subclassVerbalization = verbalizeClassExpression(axiom.getSubClass());
         String superclassVerbalization = verbalizeClassExpression(axiom.getSuperClass());
         String sentence;
-        if (this.language.equals("ST")) {
+        if (this.language.equals("st")) {
             sentence = _sesothoSentenceVerbalizer.verbalizeSesothoSubclassAxiom(subclassVerbalization,
                     superclassVerbalization);
         } else {
@@ -182,7 +183,7 @@ public class GrammarEngineImpl implements GrammarEngine {
                 .map(classExpression -> verbalizeClassExpression(classExpression))
                 .collect(Collectors.toList());
         String verbalization;
-        if (this.language.equals("ST")) {
+        if (this.language.equals("st")) {
             verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoUnionAxiom(unionClassVerbalization,
                     disjointClassesVerbalization);
         } else {
@@ -199,7 +200,7 @@ public class GrammarEngineImpl implements GrammarEngine {
                 .map(classExpression -> verbalizeClassExpression(classExpression))
                 .collect(Collectors.toList());
         String verbalization;
-        if (this.language.equals("ST")) {
+        if (this.language.equals("st")) {
             verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoEquivalentClassesAxiom(classExpressions);
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianEquivalentClassesAxiom(classExpressions);
@@ -323,10 +324,21 @@ public class GrammarEngineImpl implements GrammarEngine {
 
     private void verbalizeObjectPropRangeAx(OWLObjectPropertyRangeAxiom axiom, List<String> verbalizations){
 
+
     }
 
     private void verbalizeSubObjectPropAx(OWLSubObjectPropertyOfAxiom axiom, List<String> verbalizations){
-        
+            String subPropVerbalization = getPropertyVerbalization(axiom.getSubProperty().getNamedProperty());
+            String superPropVerbalization = getPropertyVerbalization(axiom.getSuperProperty().getNamedProperty());
+            String sentence;
+            if (this.language.equals("st")) {
+                sentence = _sesothoSentenceVerbalizer.verbalizeSesothoSubPropAxiom(subPropVerbalization,
+                        superPropVerbalization);
+            } else {
+                sentence = _norwegianSentenceVerbalizer.verbalizeNorwegianSubPropAxiom(subPropVerbalization,
+                        superPropVerbalization);
+            }
+            verbalizations.add(sentence);
     }
 
     private String verbalizeClassExpression(OWLClassExpression classExpression) {

@@ -78,4 +78,10 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
     public String verbalizeSesothoRefObjProp(List<String> property) {
         return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" is a xx object property (in SeSotho :))");
     }
+
+    @Override
+    //TODO
+    public String verbalizeSesothoSubPropAxiom(String subProperty, String superProperty) {
+        return "";
+    }
 }
