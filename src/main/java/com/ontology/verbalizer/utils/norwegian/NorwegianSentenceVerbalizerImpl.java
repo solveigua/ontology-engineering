@@ -128,4 +128,10 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property) + "'"
                 + " har dette området: " + WordAndSentenceCleaner.splitObjProp(range));
     }
+
+    @Override
+    public String verbalizeNorwegianInversePropAx(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
+                + " er det motsatte av " + "'" + WordAndSentenceCleaner.splitObjProp(property.get(1) + "'"));
+    }
 }

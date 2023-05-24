@@ -27,6 +27,7 @@ import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
@@ -134,9 +135,13 @@ public class GrammarEngineImpl implements GrammarEngine {
             OWLObjectPropertyRangeAxiom objectPropertyRangeAxiom = (OWLObjectPropertyRangeAxiom) axiom;
             verbalizeObjectPropRangeAx(objectPropertyRangeAxiom);
         } else if (axiom instanceof OWLSubObjectPropertyOfAxiom) {
-            System.out.println("OWLSubObjectPropertyOfAxiom: " + axiom);
+
             OWLSubObjectPropertyOfAxiom subObjectPropertyOfAxiom = (OWLSubObjectPropertyOfAxiom) axiom;
             verbalizeSubObjectPropAx(subObjectPropertyOfAxiom);
+        } else if (axiom instanceof OWLInverseObjectPropertiesAxiom) {
+            OWLInverseObjectPropertiesAxiom inverseObjectPropertiesAxiom = (OWLInverseObjectPropertiesAxiom) axiom;
+            verbalizeInversePropAx(inverseObjectPropertiesAxiom);
+
         } else {
             // System.out.println("ELSE: "+axiom+" ");
             // These are in african wildlife and currently not being handled:
@@ -146,6 +151,19 @@ public class GrammarEngineImpl implements GrammarEngine {
             }
 
         }
+    }
+
+    private void verbalizeInversePropAx(OWLInverseObjectPropertiesAxiom axiom) {
+        List<String> property = axiom.getObjectPropertiesInSignature().stream()
+                .map(propExpression -> getPropertyVerbalization(propExpression))
+                .collect(Collectors.toList());
+        String sentence;
+        if (this.language.equals("st")) {
+            sentence = _sesothoSentenceVerbalizer.verbalizeSesothoInversePropAx(property);
+        } else {
+            sentence = _norwegianSentenceVerbalizer.verbalizeNorwegianInversePropAx(property);
+        }
+        this.verbalizations.get("inverse").add(sentence);
     }
 
     private void verbalizeSubclassAxiom(OWLSubClassOfAxiom axiom) {
@@ -415,6 +433,8 @@ public class GrammarEngineImpl implements GrammarEngine {
         this.verbalizations.put("reflexive", new ArrayList<String>());
         this.verbalizations.put("asymmetric", new ArrayList<String>());
         this.verbalizations.put("symmetric", new ArrayList<String>());
+        this.verbalizations.put("inverse", new ArrayList<String>());
+
         this.verbalizations.put("unknown", new ArrayList<String>());
     }
 

@@ -24,14 +24,14 @@ public class NorwegianPluralizerImpl implements NorwegianPluralizer {
     @Override
     public String getNorwegianPluralizedNoun(String noun) {
         readIrrNouns();
-        if (irrNouns.containsKey(noun)){
+        if (irrNouns.containsKey(noun)) {
             return irrNouns.get(noun).toString();
         }
         if (noun.endsWith("e")) {
             return noun + "r";
         }
         if (noun.endsWith("el")) {
-            return noun.substring(0, noun.length()-2) + "ler";
+            return noun.substring(0, noun.length() - 2) + "ler";
         } else {
             return noun + "er";
         }
@@ -40,7 +40,8 @@ public class NorwegianPluralizerImpl implements NorwegianPluralizer {
     private static void readIrrNouns() {
         JSONParser parser = new JSONParser();
         try {
-            Object obj = parser.parse(new FileReader("src/main/resources/public/irregular_nouns_nb.json"));
+            Object obj = parser
+                    .parse(new FileReader("ontology-engineering/src/main/resources/public/irregular_nouns_nb.json"));
             irrNouns = (JSONObject) obj;
 
         } catch (FileNotFoundException e) {
