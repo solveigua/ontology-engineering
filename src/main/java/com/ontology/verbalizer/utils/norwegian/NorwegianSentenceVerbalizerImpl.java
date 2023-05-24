@@ -8,6 +8,7 @@
 
 package com.ontology.verbalizer.utils.norwegian;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,8 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     NorwegianNounClassifier NorwegianNounClassifier;
     @Autowired
     WordAndSentenceCleaner WordAndSentenceCleaner;
+    @Autowired
+    NorwegianPluralizer NorwegianPluralizer;
 
     @Override
     public String verbalizeNorwegianSubclassAxiom(String subclassVerbalization, String superclassVerbalization) {
@@ -145,5 +148,32 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
                 classExpressions.get(classExpressions.size() - 1);
         System.out.println(WordAndSentenceCleaner.cleanUpSentence("Sentence" + sentence));
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
+    }
+
+    @Override
+    public String verbalizeNorwegianForAllExpression(String fillerName, String propertyName) {
+        String filler = NorwegianPluralizer.getNorwegianPluralizedNoun(fillerName);
+        return WordAndSentenceCleaner.cleanUpSentence(WordAndSentenceCleaner.splitObjProp(propertyName)+" alle "+WordAndSentenceCleaner.splitClass(filler));
+    }
+
+    @Override
+    public String verbalizeNorwegianUnionOf(ArrayList<String> classesInUnion) {
+        for (String text : classesInUnion) {
+            text=WordAndSentenceCleaner.splitClass(text);
+        }
+        return " "+WordAndSentenceCleaner.listToSentence(classesInUnion, "eller").toLowerCase();
+    }
+
+    @Override
+    public String verbalizeNorwegianIntersectionOf(ArrayList<String> classesInIntersection) {
+        for (String text : classesInIntersection) {
+            text=WordAndSentenceCleaner.splitClass(text);
+        }
+        return " "+WordAndSentenceCleaner.listToSentence(classesInIntersection, "og").toLowerCase();
+    }
+
+    @Override
+    public String verbalizeNorwegianComplementOf(String className) {
+        return " ikke "+WordAndSentenceCleaner.splitClass(className).toLowerCase();
     }
 }

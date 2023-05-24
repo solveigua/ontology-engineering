@@ -16,7 +16,9 @@ import java.io.IOException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class NorwegianPluralizerImpl implements NorwegianPluralizer {
 
     static JSONObject irrNouns;
@@ -41,7 +43,7 @@ public class NorwegianPluralizerImpl implements NorwegianPluralizer {
         JSONParser parser = new JSONParser();
         try {
             Object obj = parser
-                    .parse(new FileReader("ontology-engineering/src/main/resources/public/irregular_nouns_nb.json"));
+                    .parse(new FileReader("src/main/resources/public/irregular_nouns_nb.json"));
             irrNouns = (JSONObject) obj;
 
         } catch (FileNotFoundException e) {

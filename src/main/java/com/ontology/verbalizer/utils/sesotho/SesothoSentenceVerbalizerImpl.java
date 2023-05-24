@@ -1,5 +1,6 @@
 package com.ontology.verbalizer.utils.sesotho;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -114,4 +115,28 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
+
+    @Override
+    public String verbalizeSesothoForAllExpression(String fillerName, String propertyName) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verbalizeSesothoForAllExpression'");
+    }
+
+    @Override
+    public String verbalizeSesothoUnionOf(ArrayList<String> classesInUnion) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verbalizeSesothoUnionOf'");
+    }
+
+    @Override
+    public String verbalizeSesothoIntersectionOf(ArrayList<String> classesInIntersection) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verbalizeSesothoIntersectionOf'");
+    }
+
+    @Override
+    public String verbalizeSesothoComplementOf(String className) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'verbalizeSesothoComplementOf'");
+    }
 }
