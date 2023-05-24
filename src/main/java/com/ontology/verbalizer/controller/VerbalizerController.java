@@ -1,11 +1,13 @@
 package com.ontology.verbalizer.controller;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.ontology.verbalizer.service.VerbalizerService;
 import java.io.IOException;
-import com.ontology.verbalizer.utils.Response;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/verbalizer")
@@ -15,7 +17,7 @@ public class VerbalizerController {
     VerbalizerService verbalizationService;
 
     @PostMapping("/upload")
-    public Response uploadFile(@RequestPart("inputFile") MultipartFile inputFile,
+    public JSONObject uploadFile(@RequestPart("inputFile") MultipartFile inputFile,
             @RequestParam("language") String language) throws IOException {
         String content = "";
 
@@ -28,10 +30,12 @@ public class VerbalizerController {
         }
 
         if (content != null && !content.isEmpty()) {
-            String verbalization = verbalizationService.getVerbalization(content, language);
-            return new Response(verbalization);
+            HashMap<String, List<String>> verbalizations = verbalizationService.getVerbalization(content, language);
+            JSONObject json = new JSONObject(verbalizations);
+            return json;
         } else {
-            return new Response("Could not create verbalization");
+
+            return new JSONObject(null); // TODO fix error msg.
         }
     }
 }
