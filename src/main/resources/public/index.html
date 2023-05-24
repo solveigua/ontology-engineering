@@ -7,6 +7,7 @@
         h1 { color: black; padding-left: 10px; }
         h3 { font-weight: lighter; font-style: italic; }
         table {padding: 10px;}
+        th {text-align: left; text-decoration: underline; font-size: large;}
         a:hover {color: hotpink}
         a{color:black}
         #input {background-color: #96ddea; margin: 0px 5px; padding: 10px;}
@@ -60,7 +61,7 @@
                 properties written with a "-" between words (e.g. is-part-of). </li>
             <li>It does only accept OWL-files. </li>
             <li>The ontology need to contain labels with the language-tag of the desired language for the verbalization. 
-                Supported language tags: nb (Norwegian bokmål) and st (SeSotho). </li>
+                Supported language tags: nb (Norwegian bokmaal) and st (SeSotho). </li>
         </ul>
         <h3> Authors </h3>
         <p id="authors">
@@ -89,17 +90,32 @@
             })
             .then(response => response.json())
             .then(data => {
-                const verbalization = data.message;
+                const verbalization = data;
                 const verbalizationCell = document.getElementById('verbalizationCell');
                 verbalizationCell.textContent=""; 
-                const list = (verbalization.split(/\n/));
-                list.pop();
-                list.forEach(function(item) {
-                    var li = document.createElement("tr");
-                    var text = document.createTextNode(item);
-                    li.appendChild(text);
-                    document.getElementById("verbalizationCell").appendChild(li);
-                });
+                for (var key of Object.keys(verbalization)) {
+                    const valueOfKey = verbalization[key];
+                    let empty = false;
+                    if (valueOfKey == ""){empty = true;}
+                    if (!(key=="unknown" && empty)){ // if there are no unknown axioms we don't need to print the group.
+                        var over = document.createElement("th");
+                        over.append(document.createTextNode(key));
+                        document.getElementById("verbalizationCell").appendChild(over);
+                    }
+                    
+                    if (empty){
+                            var tr = document.createElement("tr");
+                            let text = document.createTextNode("No "+key+" axioms. ");
+                            tr.appendChild(text); 
+                            document.getElementById("verbalizationCell").appendChild(tr);
+                        }
+                    valueOfKey.forEach(function(item) {
+                        var li = document.createElement("tr");
+                        var text = document.createTextNode(item);
+                        li.appendChild(text);
+                        document.getElementById("verbalizationCell").appendChild(li);
+                    });
+                }
                 description.textContent = ""
                 title.textContent = "Verbalization:";
             })
