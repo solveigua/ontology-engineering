@@ -133,10 +133,7 @@ public class GrammarEngineImpl implements GrammarEngine {
             verbalizeSubObjectPropAx(subObjectPropertyOfAxiom, verbalizations);
         }
         else {
-            //System.out.println("ELSE: "+axiom+" ");
-            // These are in african wildlife and currently not being handled:
 
-            // ObjectPropertyRange:
         }
     }
 
@@ -303,22 +300,39 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeObjectPropRangeAx(OWLObjectPropertyRangeAxiom axiom, List<String> verbalizations){
+        // <ObjectPropertyRange>
+        // <ObjectProperty IRI="#eats"/>
+        // <ObjectUnionOf>
+        //     <Class IRI="#animal"/>
+        //     <Class IRI="#plant"/>
+        //     <ObjectSomeValuesFrom>
+        //         <ObjectProperty IRI="#is-part-of"/>
+        //         <Class IRI="#animal"/>
+        //     </ObjectSomeValuesFrom>
+        //     <ObjectSomeValuesFrom>
+        //         <ObjectProperty IRI="#is-part-of"/>
+        //         <Class IRI="#plant"/>
+        //     </ObjectSomeValuesFrom>
+        // </ObjectUnionOf>
+        // </ObjectPropertyRange>
+
 
 
     }
 
     private void verbalizeSubObjectPropAx(OWLSubObjectPropertyOfAxiom axiom, List<String> verbalizations){
-            String subPropVerbalization = getPropertyVerbalization(axiom.getSubProperty().getNamedProperty());
-            String superPropVerbalization = getPropertyVerbalization(axiom.getSuperProperty().getNamedProperty());
-            String sentence;
-            if (this.language.equals("st")) {
-                sentence = _sesothoSentenceVerbalizer.verbalizeSesothoSubPropAxiom(subPropVerbalization,
-                        superPropVerbalization);
-            } else {
-                sentence = _norwegianSentenceVerbalizer.verbalizeNorwegianSubPropAxiom(subPropVerbalization,
-                        superPropVerbalization);
-            }
-            verbalizations.add(sentence);
+        // verbalize subobjectproperties
+        String subPropVerbalization = getPropertyVerbalization(axiom.getSubProperty().getNamedProperty());
+        String superPropVerbalization = getPropertyVerbalization(axiom.getSuperProperty().getNamedProperty());
+        String sentence;
+        if (this.language.equals("st")) {
+            sentence = _sesothoSentenceVerbalizer.verbalizeSesothoSubPropAxiom(subPropVerbalization,
+                    superPropVerbalization);
+        } else {
+            sentence = _norwegianSentenceVerbalizer.verbalizeNorwegianSubPropAxiom(subPropVerbalization,
+                    superPropVerbalization);
+        }
+        verbalizations.add(sentence);
     }
 
     private String verbalizeClassExpression(OWLClassExpression classExpression) {
@@ -370,7 +384,7 @@ public class GrammarEngineImpl implements GrammarEngine {
                 System.out.println("Class name not found in " + languageTag);
             }
         }
-        return "";
+        return "(missing translation)";
     }
 
     private String getPropertyVerbalization(OWLObjectProperty property) {
@@ -385,13 +399,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         if (labelAnnotation != null) {
             OWLLiteral labelLiteral = (OWLLiteral) labelAnnotation.getValue();
             String propertyNameInLanguage = labelLiteral.getLiteral();
-            // System.out.println("Property name in " + language + ": " +
-            // propertyNameInLanguage);
             return propertyNameInLanguage;
         } else {
-            // System.out.println("Property name not found in " + language);
         }
-        return "";
+        return "(missing translation)";
     }
 
     private String getClassExpressionVerbalization(OWLClassExpression classExpression) {
