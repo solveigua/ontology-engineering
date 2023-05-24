@@ -7,9 +7,14 @@
         h1 { color: black; padding-left: 10px; }
         h3 { font-weight: lighter; font-style: italic; }
         table {padding: 10px;}
-        #input {background-color: #96ddea; margin: 0px 5px; padding: 10px; border-color: bisque;}
+        a:hover {color: hotpink}
+        a{color:black}
+        #input {background-color: #96ddea; margin: 0px 5px; padding: 10px;}
         #response {background-color: #ffeec6; margin: 5px; padding: 10px;}
+        #id {background-color: blanchedalmond;}
         #description {margin-left: 5px; margin-bottom: 0;}
+        #documentation {background-color: #fbbe89; margin: 0px 5px; padding: 10px;}
+        #authors a{text-decoration: none;}
     </style>
 </head>
 <body>
@@ -27,7 +32,7 @@
             <input type="submit" value="Submit"><br>
         </form>
     </div>
-    <br>
+    
     <div id="response">
         <table id="responseTable">
             <h3 id="title"></h3>
@@ -37,6 +42,36 @@
                 </tr>
             </thead>
             <tbody id="verbalizationCell">
+        </table>
+    </div>
+    <div id="documentation">
+        <h1> Documentation </h1>
+        <h3> OWL api </h3>
+        <p> This web application utilizes <a href="https://github.com/owlcs/owlapi">the OWL-api</a> to verbalize ontologies written in OWL syntax into two languages: Norwegian and Sesotho.
+            The verbalizer does not translate ontologies, and is dependent on the ontology input file having language tags in order to verbalize them correctly.
+        </p>
+        <h3> Test ontology and source code </h3>
+        <p> Source code can be found on the <a href="https://github.com/solveigua/ontology-engineering">GitHub repo</a>.
+            A test ontology about african wildlife can be found and downloaded <a href="https://github.com/solveigua/ontology-engineering/blob/main/src/main/resources/public/african_wildlife_for_project.owl">here</a>.
+        </p>
+        <h3> Prerequisits </h3>
+        <ul>
+            <li>The verbalizer works best with classnames written in PascalCase or camelCase (e.g. CarnivorousPlant) and object 
+                properties written with a "-" between words (e.g. is-part-of). </li>
+            <li>It does only accept OWL-files. </li>
+            <li>The ontology need to contain labels with the language-tag of the desired language for the verbalization. 
+                Supported language tags: nb (Norwegian bokmål) and st (SeSotho). </li>
+        </ul>
+        <h3> Authors </h3>
+        <p id="authors">
+                <a href="https://github.com/psycalmatic"> Phuthang Makhupane </a> <br>
+                <a href="https://github.com/hageningrid"> Ingrid Hagen </a> <br>
+                <a href="https://github.com/karenhompland"> Karen Hompland </a> <br>
+                <a href="https://github.com/solveigua"> Solveig Aune </a> <br>
+                <br>
+                This webApp is created in relation to the subject CSC5028Z Ontology Engineering at University of Cape Town.
+ 
+        </p>
     </div>
     <script>
         const verbalizerForm = document.getElementById('verbalizerForm');
