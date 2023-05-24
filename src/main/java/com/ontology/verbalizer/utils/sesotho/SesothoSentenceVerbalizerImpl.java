@@ -17,7 +17,7 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
     @Override
     public String verbalizeSesothoSubclassAxiom(String subclassVerbalization, String superclassVerbalization) {
         String sentence = subclassVerbalization + " ke " + superclassVerbalization;
-        return sentence;
+        return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
     @Override
@@ -29,8 +29,8 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
 
     @Override
     public String verbalizeSesothoDisjointClassesAxiom(List<String> classExpressions) {
-        String sentence = WordAndSentenceCleaner.listToSentence(classExpressions, "'and' (change to SeSotho)") +
-                " 'is not the same' (change to Sesotho)";
+        String sentence = WordAndSentenceCleaner.listToSentence(classExpressions, "le ") +
+                " ha di tshwane";
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
@@ -43,48 +43,48 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
     @Override
     public String verbalizeSesothoIrrefObjProp(List<String> property) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
-                + " is a xx object property (in SeSotho :))");
+                + " ke kamano e sa amoheleng kamano le boqo");
     }
 
     @Override
     public String verbalizeSesothoAsymObjProp(List<String> property) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
-                + " is a xx object property (in SeSotho :))");
+                + " e sa tshwaneng ho ya pele le moraho");
     }
 
     @Override
     public String verbalizeSesothoSymObjProp(List<String> property) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
-                + " is a xx object property (in SeSotho :))");
+                + " ke kamano e tshwanang ho ya pele le moraho");
     }
 
     @Override
     public String verbalizeSesothoTransObjProp(List<String> property) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
-                + " is a xx object property (in SeSotho :))");
+                + " ke kamano e theohelang ho ditloholo");
     }
 
     @Override
     public String verbalizeSesothoInverseObjProp(List<String> property) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
-                + " is a xx object property (in SeSotho :))");
+                + " ke kamano e fetolelang moraho");
     }
 
     @Override
     public String verbalizeSesothoFuncObjProp(List<String> property) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
-                + " is a xx object property (in SeSotho :))");
+                + " ke kamano mahareng a dintho tse pedi");
     }
 
     @Override
     public String verbalizeSesothoRefObjProp(List<String> property) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
-                + " is a xx object property (in SeSotho :))");
+                + " ke kamano e amohelang kamano le boqo");
     }
 
     @Override
     public String verbalizeSesothoSubPropAxiom(String subProperty, String superProperty) {
-        String sentence = "'" + WordAndSentenceCleaner.splitObjProp(subProperty) + "' 'is a sub relation of' (SeSotho) "
+        String sentence = "'" + WordAndSentenceCleaner.splitObjProp(subProperty) + "' 'ke kamano ya' "
                 + "'"
                 + WordAndSentenceCleaner.splitObjProp(superProperty) + "'";
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
@@ -93,13 +93,13 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
     @Override
     public String verbalizeObjectPropRangeAx(String property, String range) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property) + "'"
-                + " 'has this range (SeSotho): ' " + WordAndSentenceCleaner.splitObjProp(range));
+                + " 'e mahareng a: ' " + WordAndSentenceCleaner.splitObjProp(range));
     }
 
     @Override
     public String verbalizeSesothoInversePropAx(List<String> property) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
-                + " Is the opposite of (in SeSotho :)) " + "'"
+                + " ke lefeto la " + "'"
                 + WordAndSentenceCleaner.splitObjProp(property.get(1) + "'"));
     }
 
@@ -109,7 +109,7 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
                 .skip(1)
                 .limit(classExpressions.size() - 1)
                 .collect(Collectors.joining(", "));
-        sentence = classExpressions.get(0) + " 'is defined by:' (SeSotho) " + sentence + " 'and' (SeSotho) " +
+        sentence = classExpressions.get(0) + " e ya tshwana le: " + sentence + " le " +
                 classExpressions.get(classExpressions.size() - 1);
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
