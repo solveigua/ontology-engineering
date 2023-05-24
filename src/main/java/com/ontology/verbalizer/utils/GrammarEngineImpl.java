@@ -10,10 +10,10 @@
 package com.ontology.verbalizer.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.hamcrest.core.IsInstanceOf;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
@@ -59,88 +59,93 @@ public class GrammarEngineImpl implements GrammarEngine {
     OWLOntology ontology;
     OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
     OWLDataFactory factory = manager.getOWLDataFactory();
+    HashMap<String, List<String>> verbalizations = new HashMap<>();
 
     @Override
-    public String getVerbalization(OWLOntology ontology, String language) {
+    public HashMap<String, List<String>> getVerbalization(OWLOntology ontology, String language) {
         this.language = language;
+        initiateHashMap();
         return getAllVerbals(ontology);
+        // return this.verbalizations;
     }
 
-    private String getAllVerbals(OWLOntology ontology) {
+    private HashMap<String, List<String>> getAllVerbals(OWLOntology ontology) {
         // Verbalize all axioms
-        List<String> verbalizations = new ArrayList<>();
         this.ontology = ontology;
-
         for (OWLAxiom axiom : ontology.getAxioms()) {
-            verbalizeAxiom(axiom, verbalizations);
-
+            verbalizeAxiom(axiom);
         }
+        // System.out.println(verbalizations);
 
         // Create the concatenated verbalizations as a multi-line string
-        StringBuilder concatenatedVerbalizations = new StringBuilder();
-        for (String verbalization : verbalizations) {
-            concatenatedVerbalizations.append(verbalization);
-        }
-        return concatenatedVerbalizations.toString();
+
+        // trengs denne?
+        /*
+         * StringBuilder concatenatedVerbalizations = new StringBuilder();
+         * 
+         * for (String verbalization : verbalizations) {
+         * concatenatedVerbalizations.append(verbalization);
+         * }
+         * return concatenatedVerbalizations;
+         */
+        return this.verbalizations;
+
     }
 
     // Changed to not static to gain access of local language parameter.
-    private void verbalizeAxiom(OWLAxiom axiom, List<String> verbalizations) {
+    private void verbalizeAxiom(OWLAxiom axiom) {
 
         if (axiom instanceof OWLSubClassOfAxiom) {
             OWLSubClassOfAxiom subclassAxiom = (OWLSubClassOfAxiom) axiom;
-            verbalizeSubclassAxiom(subclassAxiom, verbalizations);
+            verbalizeSubclassAxiom(subclassAxiom);
         } else if (axiom instanceof OWLDisjointUnionAxiom) {
             // currently not used in african wildlife
             OWLDisjointUnionAxiom disjointUnionAxiom = (OWLDisjointUnionAxiom) axiom;
-            verbalizeDisjointUnionAxiom(disjointUnionAxiom, verbalizations);
+            verbalizeDisjointUnionAxiom(disjointUnionAxiom);
         } else if (axiom instanceof OWLEquivalentClassesAxiom) {
             OWLEquivalentClassesAxiom equivalentClassesAxiom = (OWLEquivalentClassesAxiom) axiom;
-            verbalizeEquivalentClassesAxiom(equivalentClassesAxiom, verbalizations);
+            verbalizeEquivalentClassesAxiom(equivalentClassesAxiom);
         } else if (axiom instanceof OWLDisjointClassesAxiom) {
             OWLDisjointClassesAxiom disjointClassesAxiom = (OWLDisjointClassesAxiom) axiom;
-            verbalizeDisjointClassesAxiom(disjointClassesAxiom, verbalizations);
+            verbalizeDisjointClassesAxiom(disjointClassesAxiom);
         } else if (axiom instanceof OWLReflexiveObjectPropertyAxiom) {
             OWLReflexiveObjectPropertyAxiom reflexiveObjectPropertyAxiom = (OWLReflexiveObjectPropertyAxiom) axiom;
-            verbalizeReflexiveObjPropAx(reflexiveObjectPropertyAxiom, verbalizations);
+            verbalizeReflexiveObjPropAx(reflexiveObjectPropertyAxiom);
         } else if (axiom instanceof OWLFunctionalObjectPropertyAxiom) {
             OWLFunctionalObjectPropertyAxiom functionalObjectPropertyAxiom = (OWLFunctionalObjectPropertyAxiom) axiom;
-            verbalizeFunctionalObjPropAx(functionalObjectPropertyAxiom, verbalizations);
+            verbalizeFunctionalObjPropAx(functionalObjectPropertyAxiom);
         } else if (axiom instanceof OWLInverseFunctionalObjectPropertyAxiom) {
             OWLInverseFunctionalObjectPropertyAxiom inverseFunctionalObjectPropertyAxiom = (OWLInverseFunctionalObjectPropertyAxiom) axiom;
-            verbalizeInverseFuncObjPropAx(inverseFunctionalObjectPropertyAxiom, verbalizations);
+            verbalizeInverseFuncObjPropAx(inverseFunctionalObjectPropertyAxiom);
         } else if (axiom instanceof OWLTransitiveObjectPropertyAxiom) {
             OWLTransitiveObjectPropertyAxiom transitiveObjectPropertyAxiom = (OWLTransitiveObjectPropertyAxiom) axiom;
-            verbalizeTransitiveObjPropAx(transitiveObjectPropertyAxiom, verbalizations);
+            verbalizeTransitiveObjPropAx(transitiveObjectPropertyAxiom);
         } else if (axiom instanceof OWLSymmetricObjectPropertyAxiom) {
             OWLSymmetricObjectPropertyAxiom symmetricObjectPropertyAxiom = (OWLSymmetricObjectPropertyAxiom) axiom;
-            verbalizeSymmetricObjPropAx(symmetricObjectPropertyAxiom, verbalizations);
+            verbalizeSymmetricObjPropAx(symmetricObjectPropertyAxiom);
         } else if (axiom instanceof OWLAsymmetricObjectPropertyAxiom) {
             OWLAsymmetricObjectPropertyAxiom asymmetricObjectPropertyAxiom = (OWLAsymmetricObjectPropertyAxiom) axiom;
-            verbalizeAsymmetricObjPropAx(asymmetricObjectPropertyAxiom, verbalizations);
+            verbalizeAsymmetricObjPropAx(asymmetricObjectPropertyAxiom);
         } else if (axiom instanceof OWLIrreflexiveObjectPropertyAxiom) {
             OWLIrreflexiveObjectPropertyAxiom irreflexiveObjectPropertyAxiom = (OWLIrreflexiveObjectPropertyAxiom) axiom;
-            verbalizeIrreflexiveObjPropAx(irreflexiveObjectPropertyAxiom, verbalizations);
-        } 
-        else if(axiom instanceof OWLObjectPropertyRangeAxiom) {
-            //System.out.println("OWLObjectPropertyRangeAxiom: " + axiom);
+            verbalizeIrreflexiveObjPropAx(irreflexiveObjectPropertyAxiom);
+        } else if (axiom instanceof OWLObjectPropertyRangeAxiom) {
+            // System.out.println("OWLObjectPropertyRangeAxiom: " + axiom);
             OWLObjectPropertyRangeAxiom objectPropertyRangeAxiom = (OWLObjectPropertyRangeAxiom) axiom;
-            verbalizeObjectPropRangeAx(objectPropertyRangeAxiom, verbalizations);
-        }
-        else if(axiom instanceof OWLSubObjectPropertyOfAxiom) {
+            verbalizeObjectPropRangeAx(objectPropertyRangeAxiom);
+        } else if (axiom instanceof OWLSubObjectPropertyOfAxiom) {
             System.out.println("OWLSubObjectPropertyOfAxiom: " + axiom);
             OWLSubObjectPropertyOfAxiom subObjectPropertyOfAxiom = (OWLSubObjectPropertyOfAxiom) axiom;
-            verbalizeSubObjectPropAx(subObjectPropertyOfAxiom, verbalizations);
-        }
-        else {
-            //System.out.println("ELSE: "+axiom+" ");
+            verbalizeSubObjectPropAx(subObjectPropertyOfAxiom);
+        } else {
+            // System.out.println("ELSE: "+axiom+" ");
             // These are in african wildlife and currently not being handled:
 
             // ObjectPropertyRange:
         }
     }
 
-    private void verbalizeSubclassAxiom(OWLSubClassOfAxiom axiom, List<String> verbalizations) {
+    private void verbalizeSubclassAxiom(OWLSubClassOfAxiom axiom) {
         // Verbalize subclass axiom
         String subclassVerbalization = verbalizeClassExpression(axiom.getSubClass());
         String superclassVerbalization = verbalizeClassExpression(axiom.getSuperClass());
@@ -152,10 +157,10 @@ public class GrammarEngineImpl implements GrammarEngine {
             sentence = _norwegianSentenceVerbalizer.verbalizeNorwegianSubclassAxiom(subclassVerbalization,
                     superclassVerbalization);
         }
-        verbalizations.add(sentence);
+        this.verbalizations.get("subclass").add(sentence);
     }
 
-    private void verbalizeDisjointUnionAxiom(OWLDisjointUnionAxiom axiom, List<String> verbalizations) {
+    private void verbalizeDisjointUnionAxiom(OWLDisjointUnionAxiom axiom) {
         // Verbalize union axiom
         String unionClassVerbalization = verbalizeClassExpression(axiom.getOWLClass());
         List<String> disjointClassesVerbalization = axiom.getClassExpressions()
@@ -170,10 +175,10 @@ public class GrammarEngineImpl implements GrammarEngine {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianUnionAxiom(unionClassVerbalization,
                     disjointClassesVerbalization);
         }
-        verbalizations.add(verbalization);
+        this.verbalizations.get("union").add(verbalization);
     }
 
-    private void verbalizeEquivalentClassesAxiom(OWLEquivalentClassesAxiom axiom, List<String> verbalizations) {
+    private void verbalizeEquivalentClassesAxiom(OWLEquivalentClassesAxiom axiom) {
         // Verbalize equivalent classes axiom
         List<String> classExpressions = axiom.getClassExpressions()
                 .stream()
@@ -185,10 +190,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianEquivalentClassesAxiom(classExpressions);
         }
-        verbalizations.add(verbalization);
+        this.verbalizations.get("equivalent").add(verbalization);
     }
 
-    private void verbalizeDisjointClassesAxiom(OWLDisjointClassesAxiom axiom, List<String> verbalizations) {
+    private void verbalizeDisjointClassesAxiom(OWLDisjointClassesAxiom axiom) {
         // Verbalize disjoint classes axiom
         List<String> classExpressions = axiom.getClassExpressions()
                 .stream()
@@ -201,12 +206,11 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianDisjointClassesAxiom(classExpressions);
         }
-        verbalizations.add(verbalization);
+        this.verbalizations.get("disjoint").add(verbalization);
 
     }
 
-    private void verbalizeIrreflexiveObjPropAx(OWLIrreflexiveObjectPropertyAxiom axiom,
-            List<String> verbalizations) {
+    private void verbalizeIrreflexiveObjPropAx(OWLIrreflexiveObjectPropertyAxiom axiom) {
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -216,11 +220,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianIrrefObjProp(property);
         }
-        verbalizations.add(verbalization);
+        this.verbalizations.get("irreflexive").add(verbalization);
     }
 
-    private void verbalizeAsymmetricObjPropAx(OWLAsymmetricObjectPropertyAxiom axiom,
-            List<String> verbalizations) {
+    private void verbalizeAsymmetricObjPropAx(OWLAsymmetricObjectPropertyAxiom axiom) {
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -230,11 +233,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegiaAsymObjProp(property);
         }
-        verbalizations.add(verbalization);
+        this.verbalizations.get("asymmetric").add(verbalization);
     }
 
-    private void verbalizeSymmetricObjPropAx(OWLSymmetricObjectPropertyAxiom axiom,
-            List<String> verbalizations) {
+    private void verbalizeSymmetricObjPropAx(OWLSymmetricObjectPropertyAxiom axiom) {
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -244,11 +246,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianSymObjProp(property);
         }
-        verbalizations.add(verbalization);
+        this.verbalizations.get("symmetric").add(verbalization);
     }
 
-    private void verbalizeTransitiveObjPropAx(OWLTransitiveObjectPropertyAxiom axiom,
-            List<String> verbalizations) {
+    private void verbalizeTransitiveObjPropAx(OWLTransitiveObjectPropertyAxiom axiom) {
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -258,10 +259,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianTransObjProp(property);
         }
-        verbalizations.add(verbalization);
+        this.verbalizations.get("transitive").add(verbalization);
     }
 
-    private void verbalizeInverseFuncObjPropAx(OWLInverseFunctionalObjectPropertyAxiom axiom, List<String> verbalizations) {
+    private void verbalizeInverseFuncObjPropAx(OWLInverseFunctionalObjectPropertyAxiom axiom) {
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -271,11 +272,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianInverseObjProp(property);
         }
-        verbalizations.add(verbalization);
+        this.verbalizations.get("inverseFunctional").add(verbalization);
     }
 
-    private void verbalizeFunctionalObjPropAx(OWLFunctionalObjectPropertyAxiom axiom,
-            List<String> verbalizations) {
+    private void verbalizeFunctionalObjPropAx(OWLFunctionalObjectPropertyAxiom axiom) {
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -285,11 +285,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianFunObjProp(property);
         }
-        verbalizations.add(verbalization);
+        this.verbalizations.get("functional").add(verbalization);
     }
 
-    private void verbalizeReflexiveObjPropAx(OWLReflexiveObjectPropertyAxiom axiom,
-            List<String> verbalizations) {
+    private void verbalizeReflexiveObjPropAx(OWLReflexiveObjectPropertyAxiom axiom) {
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -299,26 +298,25 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianRefObjProp(property);
         }
-        verbalizations.add(verbalization);
+        this.verbalizations.get("reflexive").add(verbalization);
     }
 
-    private void verbalizeObjectPropRangeAx(OWLObjectPropertyRangeAxiom axiom, List<String> verbalizations){
-
+    private void verbalizeObjectPropRangeAx(OWLObjectPropertyRangeAxiom axiom) {
 
     }
 
-    private void verbalizeSubObjectPropAx(OWLSubObjectPropertyOfAxiom axiom, List<String> verbalizations){
-            String subPropVerbalization = getPropertyVerbalization(axiom.getSubProperty().getNamedProperty());
-            String superPropVerbalization = getPropertyVerbalization(axiom.getSuperProperty().getNamedProperty());
-            String sentence;
-            if (this.language.equals("st")) {
-                sentence = _sesothoSentenceVerbalizer.verbalizeSesothoSubPropAxiom(subPropVerbalization,
-                        superPropVerbalization);
-            } else {
-                sentence = _norwegianSentenceVerbalizer.verbalizeNorwegianSubPropAxiom(subPropVerbalization,
-                        superPropVerbalization);
-            }
-            verbalizations.add(sentence);
+    private void verbalizeSubObjectPropAx(OWLSubObjectPropertyOfAxiom axiom) {
+        String subPropVerbalization = getPropertyVerbalization(axiom.getSubProperty().getNamedProperty());
+        String superPropVerbalization = getPropertyVerbalization(axiom.getSuperProperty().getNamedProperty());
+        String sentence;
+        if (this.language.equals("st")) {
+            sentence = _sesothoSentenceVerbalizer.verbalizeSesothoSubPropAxiom(subPropVerbalization,
+                    superPropVerbalization);
+        } else {
+            sentence = _norwegianSentenceVerbalizer.verbalizeNorwegianSubPropAxiom(subPropVerbalization,
+                    superPropVerbalization);
+        }
+        this.verbalizations.get("subObject").add(sentence);
     }
 
     private String verbalizeClassExpression(OWLClassExpression classExpression) {
@@ -399,6 +397,25 @@ public class GrammarEngineImpl implements GrammarEngine {
         // You can recursively call the verbalizeClassExpression method to handle nested
         // expressions
         return verbalizeClassExpression(classExpression);
+    }
+
+    /**
+     * 
+     */
+    private void initiateHashMap() {
+        this.verbalizations.put("union", new ArrayList<String>());
+        this.verbalizations.put("equivalent", new ArrayList<String>());
+        this.verbalizations.put("irreflexive", new ArrayList<String>());
+        this.verbalizations.put("subclass", new ArrayList<String>());
+        this.verbalizations.put("disjoint", new ArrayList<String>());
+        this.verbalizations.put("transitive", new ArrayList<String>());
+        this.verbalizations.put("subObject", new ArrayList<String>());
+        this.verbalizations.put("functional", new ArrayList<String>());
+        this.verbalizations.put("inverseFunctional", new ArrayList<String>());
+        this.verbalizations.put("reflexive", new ArrayList<String>());
+        this.verbalizations.put("asymmetric", new ArrayList<String>());
+        this.verbalizations.put("symmetric", new ArrayList<String>());
+        this.verbalizations.put("unknown", new ArrayList<String>());
     }
 
 }
