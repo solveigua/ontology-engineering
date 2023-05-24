@@ -135,28 +135,8 @@ public class GrammarEngineImpl implements GrammarEngine {
         else {
             //System.out.println("ELSE: "+axiom+" ");
             // These are in african wildlife and currently not being handled:
-            // SubObjectPropertyOf:
-            // <SubObjectPropertyOf>
-            //     <ObjectProperty IRI="#is-proper-part-of"/>
-            //     <ObjectProperty IRI="#is-part-of"/>
-            // </SubObjectPropertyOf>
 
             // ObjectPropertyRange:
-            // <ObjectPropertyRange>
-            //     <ObjectProperty IRI="#eats"/>
-            //     <ObjectUnionOf>
-            //         <Class IRI="#animal"/>
-            //         <Class IRI="#plant"/>
-            //         <ObjectSomeValuesFrom>
-            //             <ObjectProperty IRI="#is-part-of"/>
-            //             <Class IRI="#animal"/>
-            //         </ObjectSomeValuesFrom>
-            //         <ObjectSomeValuesFrom>
-            //             <ObjectProperty IRI="#is-part-of"/>
-            //             <Class IRI="#plant"/>
-            //         </ObjectSomeValuesFrom>
-            //     </ObjectUnionOf>
-            // </ObjectPropertyRange>
         }
     }
 
