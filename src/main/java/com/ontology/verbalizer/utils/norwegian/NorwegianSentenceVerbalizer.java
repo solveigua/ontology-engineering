@@ -1,5 +1,6 @@
 package com.ontology.verbalizer.utils.norwegian;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface NorwegianSentenceVerbalizer {
@@ -17,4 +18,8 @@ public interface NorwegianSentenceVerbalizer {
     public String verbalizeNorwegianRefObjProp(List<String> property);
     public String verbalizeNorwegianSubPropAxiom(String subProperty, String superProperty);
     public String verbalizeObjectPropRangeAx(String property, String range);
+    public String verbalizeNorwegianForAllExpression(String fillerName, String propertyName);
+    public String verbalizeNorwegianUnionOf(ArrayList<String> classesInUnion);
+    public String verbalizeNorwegianIntersectionOf(ArrayList<String> classesInIntersection);
+    public String verbalizeNorwegianComplementOf(String className);
 }

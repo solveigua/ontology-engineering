@@ -1,5 +1,6 @@
 package com.ontology.verbalizer.utils.sesotho;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface SesothoSentenceVerbalizer {
@@ -17,4 +18,8 @@ public interface SesothoSentenceVerbalizer {
     public String verbalizeSesothoRefObjProp(List<String> property);
     public String verbalizeSesothoSubPropAxiom(String subProperty, String superProperty);
     public String verbalizeObjectPropRangeAx(String property, String range);
+    public String verbalizeSesothoForAllExpression(String fillerName, String propertyName);
+    public String verbalizeSesothoUnionOf(ArrayList<String> classesInUnion);
+    public String verbalizeSesothoIntersectionOf(ArrayList<String> classesInIntersection);
+    public String verbalizeSesothoComplementOf(String className);
 }

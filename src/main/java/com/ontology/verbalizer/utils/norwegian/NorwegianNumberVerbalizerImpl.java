@@ -9,6 +9,9 @@
 
 package com.ontology.verbalizer.utils.norwegian;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class NorwegianNumberVerbalizerImpl implements NorwegianNumberVerbalizer {
 
     @Override

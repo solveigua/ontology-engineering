@@ -8,8 +8,8 @@
 
 package com.ontology.verbalizer.utils.norwegian;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +23,8 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     NorwegianNounClassifier NorwegianNounClassifier;
     @Autowired
     WordAndSentenceCleaner WordAndSentenceCleaner;
+    @Autowired
+    NorwegianPluralizer NorwegianPluralizer;
 
     @Override
     public String verbalizeNorwegianSubclassAxiom(String subclassVerbalization, String superclassVerbalization) {
@@ -127,5 +129,32 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     public String verbalizeObjectPropRangeAx(String property, String range) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property) + "'"
                 + " har dette området: " + WordAndSentenceCleaner.splitObjProp(range));
+    }
+
+    @Override
+    public String verbalizeNorwegianForAllExpression(String fillerName, String propertyName) {
+        String filler = NorwegianPluralizer.getNorwegianPluralizedNoun(fillerName);
+        return WordAndSentenceCleaner.cleanUpSentence(WordAndSentenceCleaner.splitObjProp(propertyName)+" alle "+WordAndSentenceCleaner.splitClass(filler));
+    }
+
+    @Override
+    public String verbalizeNorwegianUnionOf(ArrayList<String> classesInUnion) {
+        for (String text : classesInUnion) {
+            text=WordAndSentenceCleaner.splitClass(text);
+        }
+        return WordAndSentenceCleaner.cleanUpSentence(" "+WordAndSentenceCleaner.listToSentence(classesInUnion, "eller"));
+    }
+
+    @Override
+    public String verbalizeNorwegianIntersectionOf(ArrayList<String> classesInIntersection) {
+        for (String text : classesInIntersection) {
+            text=WordAndSentenceCleaner.splitClass(text);
+        }
+        return WordAndSentenceCleaner.cleanUpSentence(" "+WordAndSentenceCleaner.listToSentence(classesInIntersection, "og"));
+    }
+
+    @Override
+    public String verbalizeNorwegianComplementOf(String className) {
+        return WordAndSentenceCleaner.cleanUpSentence(" ikke "+WordAndSentenceCleaner.splitClass(className));
     }
 }
