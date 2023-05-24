@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
@@ -30,11 +31,13 @@ import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.search.EntitySearcher;
@@ -118,11 +121,22 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else if (axiom instanceof OWLIrreflexiveObjectPropertyAxiom) {
             OWLIrreflexiveObjectPropertyAxiom irreflexiveObjectPropertyAxiom = (OWLIrreflexiveObjectPropertyAxiom) axiom;
             verbalizeIrreflexiveObjPropAx(irreflexiveObjectPropertyAxiom, verbalizations);
-        } else {
-            // System.out.println("ELSE: "+axiom+" ");
+        } 
+        else if(axiom instanceof OWLObjectPropertyRangeAxiom) {
+            //System.out.println("OWLObjectPropertyRangeAxiom: " + axiom);
+            OWLObjectPropertyRangeAxiom objectPropertyRangeAxiom = (OWLObjectPropertyRangeAxiom) axiom;
+            verbalizeObjectPropRangeAx(objectPropertyRangeAxiom, verbalizations);
+        }
+        else if(axiom instanceof OWLSubObjectPropertyOfAxiom) {
+            System.out.println("OWLSubObjectPropertyOfAxiom: " + axiom);
+            OWLSubObjectPropertyOfAxiom subObjectPropertyOfAxiom = (OWLSubObjectPropertyOfAxiom) axiom;
+            verbalizeSubObjectPropAx(subObjectPropertyOfAxiom, verbalizations);
+        }
+        else {
+            //System.out.println("ELSE: "+axiom+" ");
             // These are in african wildlife and currently not being handled:
-            // ObjectPropertyRange
-            // SubObjectPropertyOf
+
+            // ObjectPropertyRange:
         }
     }
 
@@ -131,7 +145,7 @@ public class GrammarEngineImpl implements GrammarEngine {
         String subclassVerbalization = verbalizeClassExpression(axiom.getSubClass());
         String superclassVerbalization = verbalizeClassExpression(axiom.getSuperClass());
         String sentence;
-        if (this.language.equals("ST")) {
+        if (this.language.equals("st")) {
             sentence = _sesothoSentenceVerbalizer.verbalizeSesothoSubclassAxiom(subclassVerbalization,
                     superclassVerbalization);
         } else {
@@ -149,7 +163,7 @@ public class GrammarEngineImpl implements GrammarEngine {
                 .map(classExpression -> verbalizeClassExpression(classExpression))
                 .collect(Collectors.toList());
         String verbalization;
-        if (this.language.equals("ST")) {
+        if (this.language.equals("st")) {
             verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoUnionAxiom(unionClassVerbalization,
                     disjointClassesVerbalization);
         } else {
@@ -166,7 +180,7 @@ public class GrammarEngineImpl implements GrammarEngine {
                 .map(classExpression -> verbalizeClassExpression(classExpression))
                 .collect(Collectors.toList());
         String verbalization;
-        if (this.language.equals("ST")) {
+        if (this.language.equals("st")) {
             verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoEquivalentClassesAxiom(classExpressions);
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianEquivalentClassesAxiom(classExpressions);
@@ -247,8 +261,7 @@ public class GrammarEngineImpl implements GrammarEngine {
         verbalizations.add(verbalization);
     }
 
-    private void verbalizeInverseFuncObjPropAx(
-            OWLInverseFunctionalObjectPropertyAxiom axiom, List<String> verbalizations) {
+    private void verbalizeInverseFuncObjPropAx(OWLInverseFunctionalObjectPropertyAxiom axiom, List<String> verbalizations) {
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -287,6 +300,25 @@ public class GrammarEngineImpl implements GrammarEngine {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianRefObjProp(property);
         }
         verbalizations.add(verbalization);
+    }
+
+    private void verbalizeObjectPropRangeAx(OWLObjectPropertyRangeAxiom axiom, List<String> verbalizations){
+
+
+    }
+
+    private void verbalizeSubObjectPropAx(OWLSubObjectPropertyOfAxiom axiom, List<String> verbalizations){
+            String subPropVerbalization = getPropertyVerbalization(axiom.getSubProperty().getNamedProperty());
+            String superPropVerbalization = getPropertyVerbalization(axiom.getSuperProperty().getNamedProperty());
+            String sentence;
+            if (this.language.equals("st")) {
+                sentence = _sesothoSentenceVerbalizer.verbalizeSesothoSubPropAxiom(subPropVerbalization,
+                        superPropVerbalization);
+            } else {
+                sentence = _norwegianSentenceVerbalizer.verbalizeNorwegianSubPropAxiom(subPropVerbalization,
+                        superPropVerbalization);
+            }
+            verbalizations.add(sentence);
     }
 
     private String verbalizeClassExpression(OWLClassExpression classExpression) {

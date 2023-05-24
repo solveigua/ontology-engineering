@@ -112,4 +112,10 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     public String verbalizeNorwegianRefObjProp(List<String> property) {
         return WordAndSentenceCleaner.cleanUpSentence("'"+WordAndSentenceCleaner.splitObjProp(property.get(0))+"'"+" er en refleksiv objektrelasjon");
     }
+
+    @Override
+    public String verbalizeNorwegianSubPropAxiom(String subProperty, String superProperty) {
+        String sentence = "'" + WordAndSentenceCleaner.splitObjProp(subProperty) + "' er en underrelasjon av " + "'" + WordAndSentenceCleaner.splitObjProp(superProperty) + "'" ;
+        return WordAndSentenceCleaner.cleanUpSentence(sentence);
+    }
 }
