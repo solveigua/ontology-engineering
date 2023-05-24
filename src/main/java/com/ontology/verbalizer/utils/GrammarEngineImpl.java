@@ -79,7 +79,7 @@ public class GrammarEngineImpl implements GrammarEngine {
         // Create the concatenated verbalizations as a multi-line string
         StringBuilder concatenatedVerbalizations = new StringBuilder();
         for (String verbalization : verbalizations) {
-            concatenatedVerbalizations.append(verbalization).append("\n");
+            concatenatedVerbalizations.append(verbalization);
         }
         return concatenatedVerbalizations.toString();
     }

@@ -4,38 +4,40 @@
     <title>Verbalization</title>
     <style>
         body { background-color: aliceblue; margin: 20px; }
-        h1 { color: black; }
-        h3 { font-weight: lighter; }
-        #OWLinput { height: 200px; width: 600px; font-size: 12pt; }
+        h1 { color: black; padding-left: 10px; }
+        h3 { font-weight: lighter; font-style: italic; }
+        table {padding: 10px;}
+        #input {background-color: #96ddea; margin: 0px 5px; padding: 10px; border-color: bisque;}
+        #response {background-color: #ffeec6; margin: 5px; padding: 10px;}
+        #description {margin-left: 5px; margin-bottom: 0;}
     </style>
 </head>
 <body>
-    <h1>Welcome to our verbalizer</h1>
-    <h3>Input:</h3>
-    <form id="verbalizerForm" enctype="multipart/form-data">
-        <input type="file" id="inputFile" name="inputFile" onchange="showType(this)">
-        <p>Please select your language:</p>
-        <input type="radio" id="ST" name="language" value="ST">
-        <label for="ST">SeSotho</label><br>
-        <input type="radio" id="NB" name="language" value="NB">
-        <label for="NB">Norwegian</label><br><br>
-        <input type="submit" value="Submit"><br>
-    </form>
-    <p>Click the "Submit" button to translate the OWL syntax to real language.</p>
-
-    <table id="responseTable">
-        <thead>
-            <tr>
-                <th>Verbalization</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td id="verbalizationCell"></td>
-            </tr>
-        </tbody>
-    </table>
-
+    <h1>Welcome to the verbalizer</h1>
+    <div id="input">
+        <h3>Input:</h3>
+        <p>Please upload your .owl file</p>
+        <form id="verbalizerForm" enctype="multipart/form-data">
+            <input type="file" id="inputFile" name="inputFile" onchange="showType(this)">
+            <p>Please select your language:</p>
+            <input type="radio" id="ST" name="language" value="ST">
+            <label for="ST">SeSotho</label><br>
+            <input type="radio" id="NB" name="language" value="NB">
+            <label for="NB">Norwegian</label><br><br>
+            <input type="submit" value="Submit"><br>
+        </form>
+    </div>
+    <br>
+    <div id="response">
+        <table id="responseTable">
+            <h3 id="title"></h3>
+            <p id="description">Click the "Submit" button to translate the OWL syntax to real language.</p>
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+            <tbody id="verbalizationCell">
+    </div>
     <script>
         const verbalizerForm = document.getElementById('verbalizerForm');
 
@@ -54,7 +56,17 @@
             .then(data => {
                 const verbalization = data.message;
                 const verbalizationCell = document.getElementById('verbalizationCell');
-                verbalizationCell.textContent = verbalization;
+                verbalizationCell.textContent=""; 
+                const list = (verbalization.split(/\n/));
+                list.pop();
+                list.forEach(function(item) {
+                    var li = document.createElement("tr");
+                    var text = document.createTextNode(item);
+                    li.appendChild(text);
+                    document.getElementById("verbalizationCell").appendChild(li);
+                });
+                description.textContent = ""
+                title.textContent = "Verbalization:";
             })
             .catch(error => {
                 console.error('Error:', error);
