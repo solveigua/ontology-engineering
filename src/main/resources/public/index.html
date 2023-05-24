@@ -1,26 +1,65 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title> Verbalization </title>
-        <style>
-            body {background-color: aliceblue; margin: 20px;}
-            h1 {color:black;}
-            h3 {font-weight: lighter;}
-            #OWLinput { height:200px; width: 600px; font-size:12pt;}
-        </style>
-    </head>
-    <body>
-        <h1>Welcome to our verbalizer</h1>
-        <h3> Input: </h3>
-        <form action="upload" enctype="multipart/form-data" method="post">
-            <input type="file" id="inputFile" name="inputFile" onchange="showType(this)">
-            <p> Please select your language: </p>
-            <input type="radio" id="st" name="language" value="st">
-            <label for="st">SeSotho</label><br>
-            <input type="radio" id="nb" name="language" value="nb">
-            <label for="nb">Norwegian</label><br> <br>
-            <input type="submit" value="Submit"> <br>
-        </form> 
-        <p>Click the "Submit" button and translate the OWL syntax to real language.</p>
-    </body>
+<head>
+    <title>Verbalization</title>
+    <style>
+        body { background-color: aliceblue; margin: 20px; }
+        h1 { color: black; }
+        h3 { font-weight: lighter; }
+        #OWLinput { height: 200px; width: 600px; font-size: 12pt; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to our verbalizer</h1>
+    <h3>Input:</h3>
+    <form id="verbalizerForm" enctype="multipart/form-data">
+        <input type="file" id="inputFile" name="inputFile" onchange="showType(this)">
+        <p>Please select your language:</p>
+        <input type="radio" id="ST" name="language" value="ST">
+        <label for="ST">SeSotho</label><br>
+        <input type="radio" id="NB" name="language" value="NB">
+        <label for="NB">Norwegian</label><br><br>
+        <input type="submit" value="Submit"><br>
+    </form>
+    <p>Click the "Submit" button to translate the OWL syntax to real language.</p>
 
+    <table id="responseTable">
+        <thead>
+            <tr>
+                <th>Verbalization</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="verbalizationCell"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        const verbalizerForm = document.getElementById('verbalizerForm');
+
+        verbalizerForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(verbalizerForm);
+
+            fetch('/verbalizer/upload', {
+                method: 'POST',
+                body: formData,
+                timeout: 60000 // 60 seconds
+
+            })
+            .then(response => response.json())
+            .then(data => {
+                const verbalization = data.message;
+                const verbalizationCell = document.getElementById('verbalizationCell');
+                verbalizationCell.textContent = verbalization;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
 </html>
