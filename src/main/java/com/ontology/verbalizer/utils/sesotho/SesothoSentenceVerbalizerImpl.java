@@ -28,12 +28,6 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
     }
 
     @Override
-    public String verbalizeSesothoEquivalentClassesAxiom(List<String> classExpressions) {
-        String sentence = String.join(" e tshwana le ", classExpressions);
-        return sentence;
-    }
-
-    @Override
     public String verbalizeSesothoDisjointClassesAxiom(List<String> classExpressions) {
             String sentence = WordAndSentenceCleaner.listToSentence(classExpressions, "'and' (change to SeSotho)") + 
             " 'is not the same' (change to Sesotho)";
@@ -92,5 +86,16 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
     public String verbalizeObjectPropRangeAx(String property, String range) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property) + "'"
                 + " 'has this range (SeSotho): ' " + WordAndSentenceCleaner.splitObjProp(range));
+    }
+
+    public String verbalizeEquivalentClassesAxiom(List<String> classExpressions){
+        String sentence = classExpressions.stream()
+                .map(n -> String.valueOf(n))
+                .skip(1)
+                .limit(classExpressions.size() - 1)
+                .collect(Collectors.joining(", "));
+        sentence = classExpressions.get(0)+ " 'is defined by:' (SeSotho) " + sentence + " 'and' (SeSotho) " + 
+        classExpressions.get(classExpressions.size() - 1);
+        return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 }
