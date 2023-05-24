@@ -621,7 +621,7 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#Omnivore</IRI>
-        <Literal xml:lang="nb">Altetende</Literal>
+        <Literal xml:lang="nb">Alteter</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -1077,6 +1077,11 @@ This is still an ontology just for tutorial purposes, so take it with a grain of
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <AbbreviatedIRI>owl:Thing</AbbreviatedIRI>
         <Literal xml:lang="st">Ntho</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AbbreviatedIRI>owl:Thing</AbbreviatedIRI>
+        <Literal xml:lang="nb">Ting</Literal>
     </AnnotationAssertion>
 </Ontology>
 
