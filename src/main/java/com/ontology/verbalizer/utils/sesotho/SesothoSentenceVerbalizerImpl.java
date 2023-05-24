@@ -82,13 +82,15 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
     }
 
     @Override
-    //TODO
     public String verbalizeSesothoSubPropAxiom(String subProperty, String superProperty) {
-        return "";
+        String sentence = "'" + WordAndSentenceCleaner.splitObjProp(subProperty) + "' 'is a sub relation of' (SeSotho) " + "'"
+                + WordAndSentenceCleaner.splitObjProp(superProperty) + "'";
+        return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
     @Override
     public String verbalizeObjectPropRangeAx(String property, String range) {
-        return "";
+        return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property) + "'"
+                + " 'has this range (SeSotho): ' " + WordAndSentenceCleaner.splitObjProp(range));
     }
 }
