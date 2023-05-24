@@ -101,14 +101,14 @@
                         var over = document.createElement("th");
                         over.append(document.createTextNode(key));
                         document.getElementById("verbalizationCell").appendChild(over);
-                    }
-                    
-                    if (empty){
+                        if (empty){
                             var tr = document.createElement("tr");
                             let text = document.createTextNode("No "+key+" axioms. ");
                             tr.appendChild(text); 
                             document.getElementById("verbalizationCell").appendChild(tr);
                         }
+                    }
+                    
                     valueOfKey.forEach(function(item) {
                         var li = document.createElement("tr");
                         var text = document.createTextNode(item);

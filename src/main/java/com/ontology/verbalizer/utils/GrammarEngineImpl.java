@@ -143,6 +143,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             // System.out.println("ELSE: "+axiom+" ");
             // These are in african wildlife and currently not being handled:
+            if (!((axiom.getAxiomType().toString() == "AnnotationAssertion")
+                    || (axiom.getAxiomType().toString() == "Declaration"))) {
+                this.verbalizations.get("unknown").add(axiom.getAxiomType().toString());
+            }
 
         }
     }
