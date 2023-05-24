@@ -16,4 +16,5 @@ public interface SesothoSentenceVerbalizer {
     public String verbalizeSesothoFuncObjProp(List<String> property);
     public String verbalizeSesothoRefObjProp(List<String> property);
     public String verbalizeSesothoSubPropAxiom(String subProperty, String superProperty);
+    public String verbalizeObjectPropRangeAx(String property, String range);
 }
