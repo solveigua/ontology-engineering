@@ -30,11 +30,13 @@ import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.search.EntitySearcher;
@@ -118,11 +120,42 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else if (axiom instanceof OWLIrreflexiveObjectPropertyAxiom) {
             OWLIrreflexiveObjectPropertyAxiom irreflexiveObjectPropertyAxiom = (OWLIrreflexiveObjectPropertyAxiom) axiom;
             verbalizeIrreflexiveObjPropAx(irreflexiveObjectPropertyAxiom, verbalizations);
-        } else {
-            // System.out.println("ELSE: "+axiom+" ");
+        } 
+        else if(axiom instanceof OWLObjectPropertyRangeAxiom) {
+            //System.out.println("OWLObjectPropertyRangeAxiom: " + axiom);
+            OWLObjectPropertyRangeAxiom objectPropertyRangeAxiom = (OWLObjectPropertyRangeAxiom) axiom;
+            verbalizeObjectPropRangeAx(objectPropertyRangeAxiom, verbalizations);
+        }
+        else if(axiom instanceof OWLSubObjectPropertyOfAxiom) {
+            System.out.println("OWLSubObjectPropertyOfAxiom: " + axiom);
+            OWLSubObjectPropertyOfAxiom subObjectPropertyOfAxiom = (OWLSubObjectPropertyOfAxiom) axiom;
+            verbalizeSubObjectPropAx(subObjectPropertyOfAxiom, verbalizations);
+        }
+        else {
+            //System.out.println("ELSE: "+axiom+" ");
             // These are in african wildlife and currently not being handled:
-            // ObjectPropertyRange
-            // SubObjectPropertyOf
+            // ObjectPropertyRange:
+            // <SubObjectPropertyOf>
+            //     <ObjectProperty IRI="#is-proper-part-of"/>
+            //     <ObjectProperty IRI="#is-part-of"/>
+            // </SubObjectPropertyOf>
+
+            // SubObjectPropertyOf:
+            // <ObjectPropertyRange>
+            //     <ObjectProperty IRI="#eats"/>
+            //     <ObjectUnionOf>
+            //         <Class IRI="#animal"/>
+            //         <Class IRI="#plant"/>
+            //         <ObjectSomeValuesFrom>
+            //             <ObjectProperty IRI="#is-part-of"/>
+            //             <Class IRI="#animal"/>
+            //         </ObjectSomeValuesFrom>
+            //         <ObjectSomeValuesFrom>
+            //             <ObjectProperty IRI="#is-part-of"/>
+            //             <Class IRI="#plant"/>
+            //         </ObjectSomeValuesFrom>
+            //     </ObjectUnionOf>
+            // </ObjectPropertyRange>
         }
     }
 
@@ -247,8 +280,7 @@ public class GrammarEngineImpl implements GrammarEngine {
         verbalizations.add(verbalization);
     }
 
-    private void verbalizeInverseFuncObjPropAx(
-            OWLInverseFunctionalObjectPropertyAxiom axiom, List<String> verbalizations) {
+    private void verbalizeInverseFuncObjPropAx(OWLInverseFunctionalObjectPropertyAxiom axiom, List<String> verbalizations) {
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -287,6 +319,14 @@ public class GrammarEngineImpl implements GrammarEngine {
             verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianRefObjProp(property);
         }
         verbalizations.add(verbalization);
+    }
+
+    private void verbalizeObjectPropRangeAx(OWLObjectPropertyRangeAxiom axiom, List<String> verbalizations){
+
+    }
+
+    private void verbalizeSubObjectPropAx(OWLSubObjectPropertyOfAxiom axiom, List<String> verbalizations){
+        
     }
 
     private String verbalizeClassExpression(OWLClassExpression classExpression) {
