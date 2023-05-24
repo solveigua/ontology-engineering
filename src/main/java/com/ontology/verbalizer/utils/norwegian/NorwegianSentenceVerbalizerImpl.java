@@ -63,11 +63,7 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
 
     @Override
     public String verbalizeNorwegianDisjointClassesAxiom(List<String> classExpressions) {
-        String sentence = classExpressions.stream()
-                .map(n -> String.valueOf(n))
-                .limit(classExpressions.size() - 1)
-                .collect(Collectors.joining(", "));
-        sentence = sentence + " og " + classExpressions.get(classExpressions.size() - 1) + " er ikke det samme";
+        String sentence = WordAndSentenceCleaner.listToSentence(classExpressions, "og") + " er ikke det samme";
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
@@ -117,5 +113,12 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     public String verbalizeNorwegianSubPropAxiom(String subProperty, String superProperty) {
         String sentence = "'" + WordAndSentenceCleaner.splitObjProp(subProperty) + "' er en underrelasjon av " + "'" + WordAndSentenceCleaner.splitObjProp(superProperty) + "'" ;
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
+    }
+
+    @Override
+    public String verbalizeObjectPropRangeAx(String property, String range) {
+
+
+        return "";
     }
 }
