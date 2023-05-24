@@ -58,7 +58,7 @@ public class NorwegianNounClassifierImpl implements NorwegianNounClassifier {
 
     private static boolean checkWordList(String noun) {
         try (FileReader fileReader = new FileReader(
-                "src/main/resources/public/neutral_nouns_nb.txt");
+                "ontology-engineering/src/main/resources/public/neutral_nouns_nb.txt");
                 BufferedReader buffReader = new BufferedReader(fileReader)) {
             String readLine = buffReader.readLine();
             while (readLine != null) {

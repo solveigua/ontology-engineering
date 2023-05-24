@@ -10,6 +10,7 @@ package com.ontology.verbalizer.utils.norwegian;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -129,6 +130,24 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     public String verbalizeObjectPropRangeAx(String property, String range) {
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property) + "'"
                 + " har dette området: " + WordAndSentenceCleaner.splitObjProp(range));
+    }
+
+    @Override
+    public String verbalizeNorwegianInversePropAx(List<String> property) {
+        return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
+                + " er det motsatte av " + "'" + WordAndSentenceCleaner.splitObjProp(property.get(1) + "'"));
+    }
+
+    public String verbalizeEquivalentClassesAxiom(List<String> classExpressions) {
+        String sentence = classExpressions.stream()
+                .map(n -> String.valueOf(n))
+                .skip(1)
+                .limit(classExpressions.size() - 1)
+                .collect(Collectors.joining(", "));
+        sentence = classExpressions.get(0) + " er definert ved: " + sentence + " og " +
+                classExpressions.get(classExpressions.size() - 1);
+        System.out.println(WordAndSentenceCleaner.cleanUpSentence("Sentence" + sentence));
+        return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
     @Override
