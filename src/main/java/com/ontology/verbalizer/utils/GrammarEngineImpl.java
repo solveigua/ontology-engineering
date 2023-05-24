@@ -12,7 +12,6 @@ package com.ontology.verbalizer.utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -36,8 +35,6 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLProperty;
-import org.semanticweb.owlapi.model.OWLPropertyRange;
 import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
@@ -322,7 +319,7 @@ public class GrammarEngineImpl implements GrammarEngine {
             sentence = _norwegianSentenceVerbalizer.verbalizeNorwegianSubPropAxiom(subPropVerbalization,
                     superPropVerbalization);
         }
-        this.verbalizations.get("subObject").add(sentence);
+        this.verbalizations.get("subObjectProperty").add(sentence);
     }
 
     private String verbalizeClassExpression(OWLClassExpression classExpression) {
@@ -412,7 +409,7 @@ public class GrammarEngineImpl implements GrammarEngine {
         this.verbalizations.put("subclass", new ArrayList<String>());
         this.verbalizations.put("disjoint", new ArrayList<String>());
         this.verbalizations.put("transitive", new ArrayList<String>());
-        this.verbalizations.put("subObject", new ArrayList<String>());
+        this.verbalizations.put("subObjectProperty", new ArrayList<String>());
         this.verbalizations.put("functional", new ArrayList<String>());
         this.verbalizations.put("inverseFunctional", new ArrayList<String>());
         this.verbalizations.put("reflexive", new ArrayList<String>());
