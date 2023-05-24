@@ -9,6 +9,8 @@ public interface SesothoSentenceVerbalizer {
 
     public String verbalizeSesothoEquivalentClassesAxiom(List<String> classExpressions);
 
+    public String verbalizeEquivalentClassesAxiom(List<String> classExpressions);
+
     public String verbalizeSesothoDisjointClassesAxiom(List<String> classExpressions);
 
     public String verbalizeSesothoClassExpression(String fillerName, String propertyName);

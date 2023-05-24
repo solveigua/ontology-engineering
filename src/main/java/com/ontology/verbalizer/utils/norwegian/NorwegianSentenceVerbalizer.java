@@ -33,4 +33,6 @@ public interface NorwegianSentenceVerbalizer {
     public String verbalizeObjectPropRangeAx(String property, String range);
 
     public String verbalizeNorwegianInversePropAx(List<String> property);
+
+    public String verbalizeEquivalentClassesAxiom(List<String> classExpressions);
 }
