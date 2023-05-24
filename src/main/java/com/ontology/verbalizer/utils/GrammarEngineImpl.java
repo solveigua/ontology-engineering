@@ -12,6 +12,7 @@ package com.ontology.verbalizer.utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -35,6 +36,8 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLProperty;
+import org.semanticweb.owlapi.model.OWLPropertyRange;
 import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
@@ -141,7 +144,6 @@ public class GrammarEngineImpl implements GrammarEngine {
             // System.out.println("ELSE: "+axiom+" ");
             // These are in african wildlife and currently not being handled:
 
-            // ObjectPropertyRange:
         }
     }
 
@@ -368,7 +370,7 @@ public class GrammarEngineImpl implements GrammarEngine {
                 System.out.println("Class name not found in " + languageTag);
             }
         }
-        return "";
+        return "(missing translation)";
     }
 
     private String getPropertyVerbalization(OWLObjectProperty property) {
@@ -383,13 +385,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         if (labelAnnotation != null) {
             OWLLiteral labelLiteral = (OWLLiteral) labelAnnotation.getValue();
             String propertyNameInLanguage = labelLiteral.getLiteral();
-            // System.out.println("Property name in " + language + ": " +
-            // propertyNameInLanguage);
             return propertyNameInLanguage;
         } else {
-            // System.out.println("Property name not found in " + language);
         }
-        return "";
+        return "(missing translation)";
     }
 
     private String getClassExpressionVerbalization(OWLClassExpression classExpression) {

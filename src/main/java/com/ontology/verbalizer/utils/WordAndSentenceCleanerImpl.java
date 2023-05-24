@@ -11,6 +11,9 @@
 
 package com.ontology.verbalizer.utils;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -31,5 +34,16 @@ public class WordAndSentenceCleanerImpl implements WordAndSentenceCleaner {
     public String cleanUpSentence(String sentence) {
         return sentence.substring(0, 1).toUpperCase() + sentence.substring(1).toLowerCase() + ". \n";
     }
+
+    @Override
+    public String listToSentence(List<String> list, String finishWord){
+        String sentence = list.stream()
+                .map(n -> String.valueOf(n))
+                .limit(list.size() - 1)
+                .collect(Collectors.joining(", "));
+        return sentence + " " + finishWord + " " + list.get(list.size() - 1);
+    }
+
+
 
 }

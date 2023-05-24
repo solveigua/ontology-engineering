@@ -1,6 +1,7 @@
 package com.ontology.verbalizer.utils.sesotho;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,8 +35,9 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
 
     @Override
     public String verbalizeSesothoDisjointClassesAxiom(List<String> classExpressions) {
-        String sentence = String.join(" ha he tswhane tu le ", classExpressions);
-        return sentence;
+            String sentence = WordAndSentenceCleaner.listToSentence(classExpressions, "'and' (change to SeSotho)") + 
+            " 'is not the same' (change to Sesotho)";
+            return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
     @Override
@@ -80,8 +82,15 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
     }
 
     @Override
-    //TODO
     public String verbalizeSesothoSubPropAxiom(String subProperty, String superProperty) {
-        return "";
+        String sentence = "'" + WordAndSentenceCleaner.splitObjProp(subProperty) + "' 'is a sub relation of' (SeSotho) " + "'"
+                + WordAndSentenceCleaner.splitObjProp(superProperty) + "'";
+        return WordAndSentenceCleaner.cleanUpSentence(sentence);
+    }
+
+    @Override
+    public String verbalizeObjectPropRangeAx(String property, String range) {
+        return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property) + "'"
+                + " 'has this range (SeSotho): ' " + WordAndSentenceCleaner.splitObjProp(range));
     }
 }
