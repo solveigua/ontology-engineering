@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.ontology.verbalizer.service.VerbalizerService;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,14 +29,15 @@ public class VerbalizerController {
                 System.out.println(e);
             }
         }
-
         if (content != null && !content.isEmpty()) {
             HashMap<String, List<String>> verbalizations = verbalizationService.getVerbalization(content, language);
             JSONObject json = new JSONObject(verbalizations);
             return json;
         } else {
-
-            return new JSONObject(null); 
+            HashMap<String, List<String>> map = new HashMap<>();
+            map.put("error", new ArrayList<String>());
+            map.get("error").add("Unable to erbalize");
+            return new JSONObject(map);
         }
     }
 }
