@@ -146,7 +146,6 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
                 .collect(Collectors.joining(", "));
         sentence = classExpressions.get(0) + " er definert ved: " + sentence + " og " +
                 classExpressions.get(classExpressions.size() - 1);
-        System.out.println(WordAndSentenceCleaner.cleanUpSentence("Sentence" + sentence));
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
