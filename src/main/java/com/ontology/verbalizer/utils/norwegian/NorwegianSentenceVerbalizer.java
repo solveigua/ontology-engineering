@@ -9,7 +9,6 @@ public interface NorwegianSentenceVerbalizer {
     public String verbalizeNorwegianUnionAxiom(String unionClassVerbalization,
             List<String> disjointClassesVerbalization);
 
-    public String verbalizeNorwegianEquivalentClassesAxiom(List<String> classExpressions);
 
     public String verbalizeNorwegianDisjointClassesAxiom(List<String> classExpressions);
 

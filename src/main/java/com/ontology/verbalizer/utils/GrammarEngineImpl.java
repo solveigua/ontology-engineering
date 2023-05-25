@@ -1,9 +1,9 @@
 /**
  * The purpose of this class is to process an ontology represented in owl
  * and verbalize all the axioms specified in the owl. These will be 
- * returned as a concatenated string back to the client for display.
+ * returned as a hashmap back to the client for display.
  * 
- * @Author: pmakhupane, hageningrid and karenhompland
+ * @Author: pmakhupane, hageningrid, solveigua and karenhompland
  * @Date: 21 May, 2023
  */
 
@@ -71,10 +71,10 @@ public class GrammarEngineImpl implements GrammarEngine {
 
     @Override
     public HashMap<String, List<String>> getVerbalization(OWLOntology ontology, String language) {
+        // Initialize
         this.language = language;
         initiateHashMap();
         return getAllVerbals(ontology);
-        // return this.verbalizations;
     }
 
     private HashMap<String, List<String>> getAllVerbals(OWLOntology ontology) {
@@ -87,8 +87,9 @@ public class GrammarEngineImpl implements GrammarEngine {
 
     }
 
-    // Changed to not static to gain access of local language parameter.
+
     private void verbalizeAxiom(OWLAxiom axiom) {
+        // Checks type of all axioms and runs wanted method
         if (axiom instanceof OWLSubClassOfAxiom) {
             OWLSubClassOfAxiom subclassAxiom = (OWLSubClassOfAxiom) axiom;
             verbalizeSubclassAxiom(subclassAxiom);
@@ -141,6 +142,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeInversePropAx(OWLInverseObjectPropertiesAxiom axiom) {
+        // Verbalize inverse axioms
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -188,7 +190,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeEquivalentClassesAxiom(OWLEquivalentClassesAxiom axiom) {
-        // Alltid 2 elementer
+        // Verbalize equivalent axioms
         List<String> classExpressions = axiom.getClassExpressions()
                 .stream()
                 .map(classExpression -> verbalizeClassExpression(classExpression))
@@ -220,6 +222,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeIrreflexiveObjPropAx(OWLIrreflexiveObjectPropertyAxiom axiom) {
+        // Verbalize irreflexive property
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -233,6 +236,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeAsymmetricObjPropAx(OWLAsymmetricObjectPropertyAxiom axiom) {
+        // Verbalize asymmetric property
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -246,6 +250,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeSymmetricObjPropAx(OWLSymmetricObjectPropertyAxiom axiom) {
+        // Verbalize symmetric property
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -259,6 +264,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeTransitiveObjPropAx(OWLTransitiveObjectPropertyAxiom axiom) {
+        // Verbalize transitive property
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -272,6 +278,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeInverseFuncObjPropAx(OWLInverseFunctionalObjectPropertyAxiom axiom) {
+        //Verbalize inverse property
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -285,6 +292,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeFunctionalObjPropAx(OWLFunctionalObjectPropertyAxiom axiom) {
+        // Verbalize functional Object properties
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -298,6 +306,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private void verbalizeReflexiveObjPropAx(OWLReflexiveObjectPropertyAxiom axiom) {
+        // Verbalize reflexive properties
         List<String> property = axiom.getObjectPropertiesInSignature().stream()
                 .map(propExpression -> getPropertyVerbalization(propExpression))
                 .collect(Collectors.toList());
@@ -322,8 +331,9 @@ public class GrammarEngineImpl implements GrammarEngine {
         this.verbalizations.get("range").add(verbalization);
     }
 
-    // verbalize subObjectProperties
+
     private void verbalizeSubObjectPropAx(OWLSubObjectPropertyOfAxiom axiom) {
+        // verbalize subObjectProperties
         String subPropVerbalization = getPropertyVerbalization(axiom.getSubProperty().getNamedProperty());
         String superPropVerbalization = getPropertyVerbalization(axiom.getSuperProperty().getNamedProperty());
         String sentence;
@@ -346,7 +356,7 @@ public class GrammarEngineImpl implements GrammarEngine {
             }
             if (classExpression instanceof OWLObjectAllValuesFrom) {
                 OWLObjectAllValuesFrom allValuesFrom = (OWLObjectAllValuesFrom) classExpression;
-                return verbalizeAllSomeValues(allValuesFrom);
+                return verbalizeObjectAll(allValuesFrom);
 
             }
             if (classExpression instanceof OWLObjectUnionOf) {
@@ -374,27 +384,9 @@ public class GrammarEngineImpl implements GrammarEngine {
 
     }
 
-    private String verbalizeOWLClass(OWLClass owlClass) {
-        String languageTag = this.language;
-
-        OWLAnnotationProperty labelAnnotationProperty = factory.getRDFSLabel();
-        OWLAnnotation labelAnnotation = EntitySearcher
-                .getAnnotations(owlClass, this.ontology, labelAnnotationProperty)
-                .filter(annotation -> annotation.getValue() instanceof OWLLiteral)
-                .filter(annotation -> ((OWLLiteral) annotation.getValue()).hasLang(languageTag))
-                .findFirst()
-                .orElse(null);
-
-        if (labelAnnotation != null) {
-            OWLLiteral labelLiteral = (OWLLiteral) labelAnnotation.getValue();
-            String classNameInLanguage = labelLiteral.getLiteral();
-            return classNameInLanguage;
-        } else {
-            return "(missing translation)";
-        }
-    }
 
     private String verbalizeObjectSomeValues(OWLObjectSomeValuesFrom someValuesFrom) {
+        //Verbalize "some"
         OWLObjectPropertyExpression property = someValuesFrom.getProperty();
         OWLClassExpression filler = someValuesFrom.getFiller();
 
@@ -421,7 +413,8 @@ public class GrammarEngineImpl implements GrammarEngine {
         return "(missing functionality)";
     }
 
-    private String verbalizeAllSomeValues(OWLObjectAllValuesFrom allValuesFrom) {
+    private String verbalizeObjectAll(OWLObjectAllValuesFrom allValuesFrom) {
+        // Verbalize "all"
         OWLObjectPropertyExpression property = allValuesFrom.getProperty();
         OWLClassExpression filler = allValuesFrom.getFiller();
 
@@ -448,6 +441,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private String verbalizeUnion(OWLObjectUnionOf classExpression) {
+        // Verbalize union
         ArrayList<String> classesInUnion = new ArrayList<>();
         String verbalization = "(missing functionality)";
         Set<OWLClassExpression> inTheUnion = classExpression.getNestedClassExpressions();
@@ -460,13 +454,6 @@ public class GrammarEngineImpl implements GrammarEngine {
                 classesInUnion.add(filler);
             }
         }
-        /*
-         * if (!anonymousStrings.isEmpty()) {
-         * for (String text : getClassExpressionsFromList(anonymousStrings)) {
-         * classesInIntersection.add(text);
-         * }
-         * }
-         */
         if (this.language.equals("st")) {
             verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoUnionOf(classesInUnion);
         } else {
@@ -488,13 +475,6 @@ public class GrammarEngineImpl implements GrammarEngine {
                 classesInIntersection.add(filler);
             }
         }
-        /*
-         * if (!anonymousStrings.isEmpty()) {
-         * for (String text : getClassExpressionsFromList(anonymousStrings)) {
-         * classesInIntersection.add(text);
-         * }
-         * }
-         */
         if (this.language.equals("st")) {
             verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoIntersectionOf(classesInIntersection);
         } else {
@@ -506,6 +486,7 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private String verbalizeComplementOf(OWLClassExpression complementOf) {
+        // Verbalizes negotion
         if (complementOf instanceof OWLClass) {
             String verbalization;
             String className = verbalizeClassExpression(complementOf);
@@ -549,10 +530,28 @@ public class GrammarEngineImpl implements GrammarEngine {
         return "(missing translation)";
     }
 
+    private String verbalizeOWLClass(OWLClass owlClass) {
+        String languageTag = this.language;
+
+        OWLAnnotationProperty labelAnnotationProperty = factory.getRDFSLabel();
+        OWLAnnotation labelAnnotation = EntitySearcher
+                .getAnnotations(owlClass, this.ontology, labelAnnotationProperty)
+                .filter(annotation -> annotation.getValue() instanceof OWLLiteral)
+                .filter(annotation -> ((OWLLiteral) annotation.getValue()).hasLang(languageTag))
+                .findFirst()
+                .orElse(null);
+
+        if (labelAnnotation != null) {
+            OWLLiteral labelLiteral = (OWLLiteral) labelAnnotation.getValue();
+            String classNameInLanguage = labelLiteral.getLiteral();
+            return classNameInLanguage;
+        } else {
+            return "(missing translation)";
+        }
+    }
+
     private String getClassExpressionVerbalization(OWLClassExpression classExpression) {
         // Verbalize the class expression based on your grammar rules
-        // You can recursively call the verbalizeClassExpression method to handle nested
-        // expressions
         return verbalizeClassExpression(classExpression);
     }
 
@@ -574,16 +573,4 @@ public class GrammarEngineImpl implements GrammarEngine {
         this.verbalizations.put("range", new ArrayList<String>());
         this.verbalizations.put("unknown", new ArrayList<String>());
     }
-
-    /*
-     * private List<String> getClassExpressionsFromList(List<OWLClassExpression>
-     * list) {
-     * ArrayList<String> result = new ArrayList<>();
-     * for (OWLClassExpression expr : list) {
-     * //System.out.println(expr);
-     * result.add(verbalizeClassExpression(expr));
-     * }
-     * return result;
-     * }
-     */
 }

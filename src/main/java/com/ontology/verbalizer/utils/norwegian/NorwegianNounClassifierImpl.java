@@ -32,12 +32,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class NorwegianNounClassifierImpl implements NorwegianNounClassifier {
 
+    // Some exceptions 
     private static ArrayList<String> neuEndings = new ArrayList<>(
             Arrays.asList("bud", "bær", "eri", "fall", "hold", "grep",
                     "legg", "løp", "ment", "mål", "slag", "tak", "tek", "um"));
 
     @Override
     public boolean getIsNounNeutral(String nounn) {
+        // Returns true if noun is neutral
         String noun = nounn.toLowerCase();
         ArrayList<String> nounEndings = new ArrayList<>();
         int length = noun.length();
@@ -57,6 +59,7 @@ public class NorwegianNounClassifierImpl implements NorwegianNounClassifier {
     }
 
     private static boolean checkWordList(String noun) {
+        // Checks word for neutral nouns
         try (FileReader fileReader = new FileReader(
                 "src/main/resources/public/neutral_nouns_nb.txt");
                 BufferedReader buffReader = new BufferedReader(fileReader)) {

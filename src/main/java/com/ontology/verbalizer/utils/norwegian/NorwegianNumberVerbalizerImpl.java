@@ -16,6 +16,7 @@ public class NorwegianNumberVerbalizerImpl implements NorwegianNumberVerbalizer 
 
     @Override
     public String getNumber(Integer i) {
+        // Get word for number
         if (i==1) {
             return "en";
         }
