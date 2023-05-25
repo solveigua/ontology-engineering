@@ -1,3 +1,10 @@
+/**
+ * The purpose of this class is to verbalize axioms that have
+ * been detected by the grammar engine into sesotho
+ * sentences.
+ * @Author: pmakhupane
+ * @Date: May,2023
+ */
 package com.ontology.verbalizer.utils.sesotho;
 
 import java.util.ArrayList;
@@ -15,10 +22,13 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
     @Autowired
     WordAndSentenceCleaner WordAndSentenceCleaner;
 
+    @Autowired
+    SesothoPluralizer _sesothoPluralizer;
+
     @Override
     public String verbalizeSesothoSubclassAxiom(String subclassVerbalization, String superclassVerbalization) {
         String sentence = subclassVerbalization + " ke " + superclassVerbalization;
-        return WordAndSentenceCleaner.cleanUpSentence(sentence);
+        return WordAndSentenceCleaner.deleteDuplicateAdjacentWords(WordAndSentenceCleaner.cleanUpSentence(sentence));
     }
 
     @Override
@@ -37,7 +47,16 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
 
     @Override
     public String verbalizeSesothoClassExpression(String fillerName, String propertyName) {
-        String sentence = fillerName + " e na le " + propertyName;
+        String sentence = "";
+        
+        if(propertyName.equals("ke-karolo-ya"))
+        {
+            sentence = WordAndSentenceCleaner.splitObjProp(propertyName) + " " + fillerName;
+        }
+        else if(propertyName.equals("e-ja"))
+        {
+            sentence = WordAndSentenceCleaner.splitObjProp(propertyName) + "ng " + fillerName;
+        }
         return sentence;
     }
 
@@ -118,25 +137,28 @@ public class SesothoSentenceVerbalizerImpl implements SesothoSentenceVerbalizer 
 
     @Override
     public String verbalizeSesothoForAllExpression(String fillerName, String propertyName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verbalizeSesothoForAllExpression'");
+        String filler = _sesothoPluralizer.getPlural(fillerName);
+        return WordAndSentenceCleaner.cleanUpSentence(WordAndSentenceCleaner.splitObjProp(propertyName)+" kaofela "+WordAndSentenceCleaner.splitClass(filler));
     }
 
     @Override
     public String verbalizeSesothoUnionOf(ArrayList<String> classesInUnion) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verbalizeSesothoUnionOf'");
+        for (String text : classesInUnion) {
+            text=WordAndSentenceCleaner.splitClass(text);
+        }
+        return " "+WordAndSentenceCleaner.listToSentence(classesInUnion, "kapa").toLowerCase();
     }
 
     @Override
     public String verbalizeSesothoIntersectionOf(ArrayList<String> classesInIntersection) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verbalizeSesothoIntersectionOf'");
+        for (String text : classesInIntersection) {
+            text=WordAndSentenceCleaner.splitClass(text);
+        }
+        return " "+WordAndSentenceCleaner.listToSentence(classesInIntersection, "le").toLowerCase();
     }
 
     @Override
     public String verbalizeSesothoComplementOf(String className) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verbalizeSesothoComplementOf'");
+        return " eseng "+WordAndSentenceCleaner.splitClass(className).toLowerCase();
     }
 }
