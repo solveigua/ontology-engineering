@@ -43,7 +43,21 @@ public class WordAndSentenceCleanerImpl implements WordAndSentenceCleaner {
                 .collect(Collectors.joining(", "));
         return sentence + " " + finishWord + " " + list.get(list.size() - 1);
     }
+    @Override
+    public String deleteDuplicateAdjacentWords(String name) {
+        StringBuilder sb = new StringBuilder();
+        String[] words = name.split("\\s+");
 
+        for (int i = 0; i < words.length - 1; i++) {
+            if (!words[i].equals(words[i + 1])) {
+                sb.append(words[i]).append(" ");
+            }
+        }
+        
+        sb.append(words[words.length - 1]);  // Append the last word
+
+        return sb.toString();
+    }
 
 
 }
