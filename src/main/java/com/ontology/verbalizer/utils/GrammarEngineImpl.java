@@ -83,26 +83,12 @@ public class GrammarEngineImpl implements GrammarEngine {
         for (OWLAxiom axiom : ontology.getAxioms()) {
             verbalizeAxiom(axiom);
         }
-        // System.out.println(verbalizations);
-
-        // Create the concatenated verbalizations as a multi-line string
-
-        // trengs denne?
-        /*
-         * StringBuilder concatenatedVerbalizations = new StringBuilder();
-         * 
-         * for (String verbalization : verbalizations) {
-         * concatenatedVerbalizations.append(verbalization);
-         * }
-         * return concatenatedVerbalizations;
-         */
         return this.verbalizations;
 
     }
 
     // Changed to not static to gain access of local language parameter.
     private void verbalizeAxiom(OWLAxiom axiom) {
-
         if (axiom instanceof OWLSubClassOfAxiom) {
             OWLSubClassOfAxiom subclassAxiom = (OWLSubClassOfAxiom) axiom;
             verbalizeSubclassAxiom(subclassAxiom);
@@ -147,13 +133,10 @@ public class GrammarEngineImpl implements GrammarEngine {
             OWLInverseObjectPropertiesAxiom inverseObjectPropertiesAxiom = (OWLInverseObjectPropertiesAxiom) axiom;
             verbalizeInversePropAx(inverseObjectPropertiesAxiom);
         } else {
-            // System.out.println("ELSE: "+axiom+" ");
-            // These are in african wildlife and currently not being handled:
             if (!((axiom.getAxiomType().toString() == "AnnotationAssertion")
                     || (axiom.getAxiomType().toString() == "Declaration"))) {
                 this.verbalizations.get("unknown").add(axiom.getAxiomType().toString());
             }
-
         }
     }
 
@@ -216,8 +199,6 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else {
             verbalization = _norwegianSentenceVerbalizer.verbalizeEquivalentClassesAxiom(classExpressions);
         }
-        // System.out.println("EKVIVALENT: " + axiom);
-        // System.out.println("INNI DENNE JÆVELEN");
         this.verbalizations.get("equivalent").add(verbalization);
     }
 
@@ -361,135 +342,25 @@ public class GrammarEngineImpl implements GrammarEngine {
             // Handle anonymous class expressions
             if (classExpression instanceof OWLObjectSomeValuesFrom) {
                 OWLObjectSomeValuesFrom someValuesFrom = (OWLObjectSomeValuesFrom) classExpression;
-                OWLObjectPropertyExpression property = someValuesFrom.getProperty();
-                OWLClassExpression filler = someValuesFrom.getFiller();
-
-                if (property instanceof OWLObjectProperty && filler instanceof OWLClass) {
-                    String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
-                    String fillerName = getClassExpressionVerbalization(filler);
-                    String verbalization;
-                    if (this.language.equals("st")) {
-                        verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoClassExpression(fillerName,
-                                propertyName);
-                    } else {
-                        verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianClassExpression(fillerName,
-                                propertyName);
-                    }
-                    return verbalization;
-                }
-                if (property instanceof OWLObjectProperty && filler.isAnonymous()) {
-                    String propertyName = WordAndSentenceCleaner
-                            .splitObjProp(getPropertyVerbalization((OWLObjectProperty) property));
-                    String fillerName = verbalizeClassExpression(filler);
-                    String verbalization = propertyName + fillerName;
-                    return verbalization;
-                }
+                return verbalizeObjectSomeValues(someValuesFrom);
             }
             if (classExpression instanceof OWLObjectAllValuesFrom) {
                 OWLObjectAllValuesFrom allValuesFrom = (OWLObjectAllValuesFrom) classExpression;
-                OWLObjectPropertyExpression property = allValuesFrom.getProperty();
-                OWLClassExpression filler = allValuesFrom.getFiller();
-
-                if (property instanceof OWLObjectProperty && filler instanceof OWLClass) {
-                    String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
-                    String fillerName = getClassExpressionVerbalization(filler);
-                    String verbalization;
-                    if (this.language.equals("st")) {
-                        verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoForAllExpression(fillerName,
-                                propertyName);
-                    } else {
-                        verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianForAllExpression(fillerName,
-                                propertyName);
-                    }
-                    return verbalization;
-                }
-                if (property instanceof OWLObjectProperty && filler.isAnonymous()) {
-                    String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
-                    String fillerName = verbalizeClassExpression(filler);
-                    String verbalization = propertyName + fillerName;
-                    return verbalization;
-                }
+                return verbalizeAllSomeValues(allValuesFrom);
 
             }
             if (classExpression instanceof OWLObjectUnionOf) {
-                ArrayList<String> classesInUnion = new ArrayList<>();
-                String verbalization;
-                Set<OWLClassExpression> inTheUnion = classExpression.getNestedClassExpressions();
-                ArrayList<OWLClassExpression> anonymousStrings = new ArrayList<>();
-                for (OWLClassExpression expr : inTheUnion) {
-                    if (expr.isAnonymous()) {
-                        anonymousStrings.add(expr);
-                    } else {
-                        String filler = verbalizeClassExpression(expr);
-                        classesInUnion.add(filler);
-                    }
-                }
-                /*
-                 * if (!anonymousStrings.isEmpty()) {
-                 * for (String text : getClassExpressionsFromList(anonymousStrings)) {
-                 * classesInIntersection.add(text);
-                 * }
-                 * }
-                 */
-                if (this.language.equals("st")) {
-                    verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoUnionOf(classesInUnion);
-                } else {
-                    verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianUnionOf(classesInUnion);
-                }
-                return verbalization;
+                OWLObjectUnionOf unionOf = (OWLObjectUnionOf) classExpression;
+                return verbalizeUnion(unionOf);
             }
             if (classExpression instanceof OWLObjectIntersectionOf) {
-                ArrayList<String> classesInIntersection = new ArrayList<>();
-                String verbalization;
-                Set<OWLClassExpression> inTheIntersection = classExpression.getNestedClassExpressions();
-                ArrayList<OWLClassExpression> anonymousStrings = new ArrayList<>();
-                for (OWLClassExpression expr : inTheIntersection) {
-                    if (expr.isAnonymous()) {
-                        anonymousStrings.add(expr);
-                    } else {
-                        String filler = verbalizeClassExpression(expr);
-                        classesInIntersection.add(filler);
-                    }
-                }
-                /*
-                 * if (!anonymousStrings.isEmpty()) {
-                 * for (String text : getClassExpressionsFromList(anonymousStrings)) {
-                 * classesInIntersection.add(text);
-                 * }
-                 * }
-                 */
-                if (this.language.equals("st")) {
-                    verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoIntersectionOf(classesInIntersection);
-                } else {
-                    verbalization = _norwegianSentenceVerbalizer
-                            .verbalizeNorwegianIntersectionOf(classesInIntersection);
-                }
-                return verbalization;
+                OWLObjectIntersectionOf intersectionOf = (OWLObjectIntersectionOf) classExpression;
+                return verbalizeIntersection(intersectionOf);
 
             }
             if (classExpression instanceof OWLObjectComplementOf) {
                 OWLClassExpression complementOf = ((OWLObjectComplementOf) classExpression).getOperand();
-                if (complementOf instanceof OWLClass) {
-                    String verbalization;
-                    String className = verbalizeClassExpression(complementOf);
-                    if (this.language.equals("st")) {
-                        verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoComplementOf(className);
-                    } else {
-                        verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianComplementOf(className);
-                    }
-                    return verbalization;
-                }
-                if (complementOf.isAnonymous()) {
-                    String verbalization;
-                    String unNestedClass = getClassExpressionVerbalization(complementOf);
-                    if (this.language.equals("st")) {
-                        verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoComplementOf(unNestedClass);
-                    } else {
-                        verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianComplementOf(unNestedClass);
-                    }
-                    return verbalization;
-
-                }
+                return verbalizeComplementOf(complementOf);
             }
             // System.out.println(classExpression.toString());
             // Handle other types of anonymous class expressions if necessary
@@ -497,26 +368,167 @@ public class GrammarEngineImpl implements GrammarEngine {
         } else if (classExpression instanceof OWLClass) {
             // Get the class in correct language
             OWLClass owlClass = (OWLClass) classExpression;
-            String languageTag = this.language;
+            return verbalizeOWLClass(owlClass);
+        }
+        return "(missing functionality)";
 
-            OWLAnnotationProperty labelAnnotationProperty = factory.getRDFSLabel();
-            OWLAnnotation labelAnnotation = EntitySearcher
-                    .getAnnotations(owlClass, this.ontology, labelAnnotationProperty)
-                    .filter(annotation -> annotation.getValue() instanceof OWLLiteral)
-                    .filter(annotation -> ((OWLLiteral) annotation.getValue()).hasLang(languageTag))
-                    .findFirst()
-                    .orElse(null);
+    }
 
-            if (labelAnnotation != null) {
-                OWLLiteral labelLiteral = (OWLLiteral) labelAnnotation.getValue();
-                String classNameInLanguage = labelLiteral.getLiteral();
-                return classNameInLanguage;
+    private String verbalizeOWLClass(OWLClass owlClass) {
+        String languageTag = this.language;
+
+        OWLAnnotationProperty labelAnnotationProperty = factory.getRDFSLabel();
+        OWLAnnotation labelAnnotation = EntitySearcher
+                .getAnnotations(owlClass, this.ontology, labelAnnotationProperty)
+                .filter(annotation -> annotation.getValue() instanceof OWLLiteral)
+                .filter(annotation -> ((OWLLiteral) annotation.getValue()).hasLang(languageTag))
+                .findFirst()
+                .orElse(null);
+
+        if (labelAnnotation != null) {
+            OWLLiteral labelLiteral = (OWLLiteral) labelAnnotation.getValue();
+            String classNameInLanguage = labelLiteral.getLiteral();
+            return classNameInLanguage;
+        } else {
+            return "(missing translation)";
+        }
+    }
+
+    private String verbalizeObjectSomeValues(OWLObjectSomeValuesFrom someValuesFrom) {
+        OWLObjectPropertyExpression property = someValuesFrom.getProperty();
+        OWLClassExpression filler = someValuesFrom.getFiller();
+
+        if (property instanceof OWLObjectProperty && filler instanceof OWLClass) {
+            String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
+            String fillerName = getClassExpressionVerbalization(filler);
+            String verbalization;
+            if (this.language.equals("st")) {
+                verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoClassExpression(fillerName,
+                        propertyName);
             } else {
-                System.out.println("Class name not found in " + languageTag);
-                System.out.println();
+                verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianClassExpression(fillerName,
+                        propertyName);
+            }
+            return verbalization;
+        }
+        if (property instanceof OWLObjectProperty && filler.isAnonymous()) {
+            String propertyName = WordAndSentenceCleaner
+                    .splitObjProp(getPropertyVerbalization((OWLObjectProperty) property));
+            String fillerName = verbalizeClassExpression(filler);
+            String verbalization = propertyName + fillerName;
+            return verbalization;
+        }
+        return "(missing functionality)";
+    }
+
+    private String verbalizeAllSomeValues(OWLObjectAllValuesFrom allValuesFrom) {
+        OWLObjectPropertyExpression property = allValuesFrom.getProperty();
+        OWLClassExpression filler = allValuesFrom.getFiller();
+
+        if (property instanceof OWLObjectProperty && filler instanceof OWLClass) {
+            String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
+            String fillerName = getClassExpressionVerbalization(filler);
+            String verbalization;
+            if (this.language.equals("st")) {
+                verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoForAllExpression(fillerName,
+                        propertyName);
+            } else {
+                verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianForAllExpression(fillerName,
+                        propertyName);
+            }
+            return verbalization;
+        }
+        if (property instanceof OWLObjectProperty && filler.isAnonymous()) {
+            String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
+            String fillerName = verbalizeClassExpression(filler);
+            String verbalization = propertyName + fillerName;
+            return verbalization;
+        }
+        return "(missing functionality)";
+    }
+
+    private String verbalizeUnion(OWLObjectUnionOf classExpression) {
+        ArrayList<String> classesInUnion = new ArrayList<>();
+        String verbalization = "(missing functionality)";
+        Set<OWLClassExpression> inTheUnion = classExpression.getNestedClassExpressions();
+        ArrayList<OWLClassExpression> anonymousStrings = new ArrayList<>();
+        for (OWLClassExpression expr : inTheUnion) {
+            if (expr.isAnonymous()) {
+                anonymousStrings.add(expr);
+            } else {
+                String filler = verbalizeClassExpression(expr);
+                classesInUnion.add(filler);
             }
         }
-        return "(missing translation)";
+        /*
+         * if (!anonymousStrings.isEmpty()) {
+         * for (String text : getClassExpressionsFromList(anonymousStrings)) {
+         * classesInIntersection.add(text);
+         * }
+         * }
+         */
+        if (this.language.equals("st")) {
+            verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoUnionOf(classesInUnion);
+        } else {
+            verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianUnionOf(classesInUnion);
+        }
+        return verbalization;
+    }
+
+    private String verbalizeIntersection(OWLObjectIntersectionOf classExpression) {
+        ArrayList<String> classesInIntersection = new ArrayList<>();
+        String verbalization = "(missing functionality)";
+        Set<OWLClassExpression> inTheIntersection = classExpression.getNestedClassExpressions();
+        ArrayList<OWLClassExpression> anonymousStrings = new ArrayList<>();
+        for (OWLClassExpression expr : inTheIntersection) {
+            if (expr.isAnonymous()) {
+                anonymousStrings.add(expr);
+            } else {
+                String filler = verbalizeClassExpression(expr);
+                classesInIntersection.add(filler);
+            }
+        }
+        /*
+         * if (!anonymousStrings.isEmpty()) {
+         * for (String text : getClassExpressionsFromList(anonymousStrings)) {
+         * classesInIntersection.add(text);
+         * }
+         * }
+         */
+        if (this.language.equals("st")) {
+            verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoIntersectionOf(classesInIntersection);
+        } else {
+            verbalization = _norwegianSentenceVerbalizer
+                    .verbalizeNorwegianIntersectionOf(classesInIntersection);
+        }
+        return verbalization;
+
+    }
+
+    private String verbalizeComplementOf(OWLClassExpression complementOf) {
+        if (complementOf instanceof OWLClass) {
+            String verbalization;
+            String className = verbalizeClassExpression(complementOf);
+            if (this.language.equals("st")) {
+                verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoComplementOf(className);
+            } else {
+                verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianComplementOf(className);
+            }
+            return verbalization;
+        }
+        if (complementOf.isAnonymous()) {
+            String verbalization;
+            String unNestedClass = getClassExpressionVerbalization(complementOf);
+            if (this.language.equals("st")) {
+                verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoComplementOf(unNestedClass);
+            } else {
+                verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianComplementOf(unNestedClass);
+            }
+            return verbalization;
+
+        }
+        return "(missing functionality)";
+
     }
 
     private String getPropertyVerbalization(OWLObjectProperty property) {
