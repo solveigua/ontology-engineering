@@ -7,4 +7,5 @@ public interface WordAndSentenceCleaner {
     public String splitObjProp(String name);
     public String cleanUpSentence(String sentence);
     public String listToSentence(List<String> list, String finishWord);
+    public String deleteDuplicateAdjacentWords(String name);
 }
