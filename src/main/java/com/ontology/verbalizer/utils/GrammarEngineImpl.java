@@ -3,7 +3,7 @@
  * and verbalize all the axioms specified in the owl. These will be 
  * returned as a hashmap back to the client for display.
  * 
- * @Author: pmakhupane, hageningrid and karenhompland
+ * @Author: pmakhupane, hageningrid, solveigua and karenhompland
  * @Date: 21 May, 2023
  */
 

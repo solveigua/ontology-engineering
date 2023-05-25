@@ -2,7 +2,7 @@
  * The purpose of this class is to verbalize axioms that have
  * been detected by the grammar engine into sesotho
  * sentences.
- * @Author: pmakhupane
+ * @Author: pmakhupane, hageningrid, karenhompland
  * @Date: May,2023
  */
 package com.ontology.verbalizer.utils.sesotho;

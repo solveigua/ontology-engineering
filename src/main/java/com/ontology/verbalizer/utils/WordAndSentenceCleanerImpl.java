@@ -5,7 +5,7 @@
  * To clean up a sentence in the end we will remove all capital 
  * letters but the first one and add a dot in the end. 
  * 
- * @Author: karenhompland
+ * @Author: karenhompland and hageningrid
  * @Date: 23 May, 2023
  */
 
