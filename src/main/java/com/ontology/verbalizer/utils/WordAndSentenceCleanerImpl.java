@@ -11,6 +11,7 @@
 
 package com.ontology.verbalizer.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,21 +23,31 @@ public class WordAndSentenceCleanerImpl implements WordAndSentenceCleaner {
 
     @Override
     public String splitClass(String name) {
-        return StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(name), ' ');
+        // Split word in CamelCase
+        return StringUtils.join(name.split("(?=\\p{Upper})"), ' ');
     }
 
     @Override
     public String splitObjProp(String name) {
+        // Split word divided by "-"
         return name.replace('-', ' ');
     }
 
     @Override
     public String cleanUpSentence(String sentence) {
-        return sentence.substring(0, 1).toUpperCase() + sentence.substring(1).toLowerCase() + ". \n";
+        // Clean up sentence
+        List<String> finishSentence = new ArrayList();
+        for(String subString: sentence.split(" ")){
+            finishSentence.add(splitObjProp(splitClass(subString)));
+        }
+        String complete = String.join(" ", finishSentence).replace(".", "");
+        return complete.substring(0, 1).toUpperCase() + complete.substring(1).toLowerCase() + ". \n";
     }
 
     @Override
     public String listToSentence(List<String> list, String finishWord){
+        // Makes a string out of the list provided. 
+        // Seperates elements with ',' and a chosen finishWord (eg. and)
         String sentence = list.stream()
                 .map(n -> String.valueOf(n))
                 .limit(list.size() - 1)
@@ -45,6 +56,7 @@ public class WordAndSentenceCleanerImpl implements WordAndSentenceCleaner {
     }
     @Override
     public String deleteDuplicateAdjacentWords(String name) {
+        // Deletes duplicate adjacent words
         StringBuilder sb = new StringBuilder();
         String[] words = name.split("\\s+");
 

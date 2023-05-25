@@ -35,7 +35,7 @@ public class VerbalizerController {
             return json;
         } else {
 
-            return new JSONObject(null); // TODO fix error msg.
+            return new JSONObject(null); 
         }
     }
 }

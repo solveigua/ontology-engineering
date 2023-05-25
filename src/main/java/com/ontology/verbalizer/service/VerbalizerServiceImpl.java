@@ -29,6 +29,7 @@ public class VerbalizerServiceImpl implements VerbalizerService {
 
     @Override
     public HashMap<String, List<String>> getVerbalization(String owlFile, String language) {
+        // Extract ontology and send to grammarEngine
         OWLOntology ontology = _ontologyExtractor.extractOntologyFromOwl(owlFile);
 
         return GrammarEngine.getVerbalization(ontology, language);
