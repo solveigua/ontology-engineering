@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -68,6 +69,8 @@ public class GrammarEngineImpl implements GrammarEngine {
     OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
     OWLDataFactory factory = manager.getOWLDataFactory();
     HashMap<String, List<String>> verbalizations = new HashMap<>();
+    int levelCounter = 0;
+    int maxNestingLevel = 200;
 
     @Override
     public HashMap<String, List<String>> getVerbalization(OWLOntology ontology, String language) {
@@ -338,29 +341,31 @@ public class GrammarEngineImpl implements GrammarEngine {
     }
 
     private String verbalizeClassExpression(OWLClassExpression classExpression) {
+        // System.out.println(levelCounter);
         if (classExpression.isAnonymous()) {
+            levelCounter++;
             // Handle anonymous class expressions
             if (classExpression instanceof OWLObjectSomeValuesFrom) {
                 OWLObjectSomeValuesFrom someValuesFrom = (OWLObjectSomeValuesFrom) classExpression;
-                return verbalizeObjectSomeValues(someValuesFrom);
+                return verbalizeObjectSomeValues(someValuesFrom, levelCounter);
             }
             if (classExpression instanceof OWLObjectAllValuesFrom) {
                 OWLObjectAllValuesFrom allValuesFrom = (OWLObjectAllValuesFrom) classExpression;
-                return verbalizeAllSomeValues(allValuesFrom);
+                return verbalizeAllValues(allValuesFrom, levelCounter);
 
             }
             if (classExpression instanceof OWLObjectUnionOf) {
                 OWLObjectUnionOf unionOf = (OWLObjectUnionOf) classExpression;
-                return verbalizeUnion(unionOf);
+                return verbalizeUnion(unionOf, levelCounter);
             }
             if (classExpression instanceof OWLObjectIntersectionOf) {
                 OWLObjectIntersectionOf intersectionOf = (OWLObjectIntersectionOf) classExpression;
-                return verbalizeIntersection(intersectionOf);
+                return verbalizeIntersection(intersectionOf, levelCounter);
 
             }
             if (classExpression instanceof OWLObjectComplementOf) {
                 OWLClassExpression complementOf = ((OWLObjectComplementOf) classExpression).getOperand();
-                return verbalizeComplementOf(complementOf);
+                return verbalizeComplementOf(complementOf, levelCounter);
             }
             // System.out.println(classExpression.toString());
             // Handle other types of anonymous class expressions if necessary
@@ -394,7 +399,7 @@ public class GrammarEngineImpl implements GrammarEngine {
         }
     }
 
-    private String verbalizeObjectSomeValues(OWLObjectSomeValuesFrom someValuesFrom) {
+    private String verbalizeObjectSomeValues(OWLObjectSomeValuesFrom someValuesFrom, int levelCounter) {
         OWLObjectPropertyExpression property = someValuesFrom.getProperty();
         OWLClassExpression filler = someValuesFrom.getFiller();
 
@@ -411,17 +416,24 @@ public class GrammarEngineImpl implements GrammarEngine {
             }
             return verbalization;
         }
-        if (property instanceof OWLObjectProperty && filler.isAnonymous()) {
+        if (property instanceof OWLObjectProperty && filler.isAnonymous() && levelCounter < maxNestingLevel) {
+            ArrayList<String> nestedFillersList = new ArrayList<>();
+
+            List<OWLClassExpression> nestedFiller = filler.getNestedClassExpressions().stream()
+                    .collect(Collectors.toList());
+
+            nestedFillersList.add(getClassExpressionVerbalization(nestedFiller.get(0)));
+            
             String propertyName = WordAndSentenceCleaner
                     .splitObjProp(getPropertyVerbalization((OWLObjectProperty) property));
-            String fillerName = verbalizeClassExpression(filler);
-            String verbalization = propertyName + fillerName;
+            // String fillerName = verbalizeClassExpression(filler);
+            String verbalization = propertyName + nestedFillersList.toString();
             return verbalization;
         }
         return "(missing functionality)";
     }
 
-    private String verbalizeAllSomeValues(OWLObjectAllValuesFrom allValuesFrom) {
+    private String verbalizeAllValues(OWLObjectAllValuesFrom allValuesFrom, int levelCounter) {
         OWLObjectPropertyExpression property = allValuesFrom.getProperty();
         OWLClassExpression filler = allValuesFrom.getFiller();
 
@@ -438,35 +450,52 @@ public class GrammarEngineImpl implements GrammarEngine {
             }
             return verbalization;
         }
-        if (property instanceof OWLObjectProperty && filler.isAnonymous()) {
-            String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
-            String fillerName = verbalizeClassExpression(filler);
-            String verbalization = propertyName + fillerName;
+        if (property instanceof OWLObjectProperty && filler.isAnonymous() && levelCounter < maxNestingLevel) {
+            /*
+             * String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
+             * String fillerName = verbalizeClassExpression(filler);
+             * String verbalization = propertyName + fillerName;
+             */
+            List<OWLClassExpression> nestedFiller = filler.getNestedClassExpressions().stream()
+                    .collect(Collectors.toList());
+            ArrayList<String> nestedFillersList = new ArrayList<>();
+            if (nestedFiller.get(0) instanceof OWLClass) {
+                nestedFillersList.add(getClassExpressionVerbalization(nestedFiller.get(0)));
+            }
+
+            nestedFillersList.add(getClassExpressionVerbalization(nestedFiller.get(0)));
+            
+            String propertyName = WordAndSentenceCleaner
+                    .splitObjProp(getPropertyVerbalization((OWLObjectProperty) property));
+            // String fillerName = verbalizeClassExpression(filler);
+            String verbalization = propertyName + nestedFiller.toString();
             return verbalization;
         }
         return "(missing functionality)";
     }
 
-    private String verbalizeUnion(OWLObjectUnionOf classExpression) {
+    private String verbalizeUnion(OWLObjectUnionOf classExpression, int levelCounter) {
         ArrayList<String> classesInUnion = new ArrayList<>();
         String verbalization = "(missing functionality)";
-        Set<OWLClassExpression> inTheUnion = classExpression.getNestedClassExpressions();
-        ArrayList<OWLClassExpression> anonymousStrings = new ArrayList<>();
-        for (OWLClassExpression expr : inTheUnion) {
-            if (expr.isAnonymous()) {
-                anonymousStrings.add(expr);
-            } else {
-                String filler = verbalizeClassExpression(expr);
-                classesInUnion.add(filler);
-            }
+        List<OWLClassExpression> inTheUnion = classExpression.getNestedClassExpressions().stream()
+                .collect(Collectors.toList());
+        if (inTheUnion.get(0) instanceof OWLClass) {
+            classesInUnion.add(getClassExpressionVerbalization(inTheUnion.get(0)));
+        } else if (inTheUnion.get(0) instanceof OWLObjectAllValuesFrom
+                || inTheUnion.get(0) instanceof OWLObjectSomeValuesFrom) {
+            classesInUnion.add(getClassExpressionVerbalization(inTheUnion.get(0)));
+        } else if (inTheUnion.get(1) instanceof OWLClass && inTheUnion.get(2) instanceof OWLClass) {
+            classesInUnion.add(getClassExpressionVerbalization(inTheUnion.get(1)));
+            classesInUnion.add(getClassExpressionVerbalization(inTheUnion.get(2)));
+
+        } else {
+            classesInUnion.add("JAJA");
+            System.out.println("IN THE UNION: " + inTheUnion.get(0) + "\n");
+
         }
-        /*
-         * if (!anonymousStrings.isEmpty()) {
-         * for (String text : getClassExpressionsFromList(anonymousStrings)) {
-         * classesInIntersection.add(text);
-         * }
-         * }
-         */
+        // classesInUnion.add(getClassExpressionVerbalization(inTheUnion.get(0)));
+        
+
         if (this.language.equals("st")) {
             verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoUnionOf(classesInUnion);
         } else {
@@ -475,26 +504,54 @@ public class GrammarEngineImpl implements GrammarEngine {
         return verbalization;
     }
 
-    private String verbalizeIntersection(OWLObjectIntersectionOf classExpression) {
+    private String verbalizeIntersection(OWLObjectIntersectionOf classExpression, int levelCounter) {
         ArrayList<String> classesInIntersection = new ArrayList<>();
         String verbalization = "(missing functionality)";
-        Set<OWLClassExpression> inTheIntersection = classExpression.getNestedClassExpressions();
-        ArrayList<OWLClassExpression> anonymousStrings = new ArrayList<>();
-        for (OWLClassExpression expr : inTheIntersection) {
-            if (expr.isAnonymous()) {
-                anonymousStrings.add(expr);
+        List<OWLClassExpression> inTheIntersection = classExpression.getNestedClassExpressions().stream()
+                .collect(Collectors.toList());
+        if (inTheIntersection.get(0) instanceof OWLClass) {
+            classesInIntersection.add(getClassExpressionVerbalization(inTheIntersection.get(0)));
+        } else if (inTheIntersection.get(0) instanceof OWLObjectAllValuesFrom
+                || inTheIntersection.get(0) instanceof OWLObjectSomeValuesFrom) {
+            classesInIntersection.add(getClassExpressionVerbalization(inTheIntersection.get(0)));
+        } else if (inTheIntersection.get(0) instanceof OWLObjectIntersectionOf) {
+            ArrayList<String> classesInInnerIntersection = new ArrayList<>();
+            String innerVerbalization = "(missing functionality)";
+            List<OWLClassExpression> inTheInnerIntersection = inTheIntersection.get(0).getNestedClassExpressions()
+                    .stream()
+                    .collect(Collectors.toList());
+                    System.out.println("\nIN THE INNER INTERSECTION: "+inTheInnerIntersection);
+                    System.out.println("\nIN THE NESTED INNER INTERSECTION: "+inTheInnerIntersection.get(0).nestedClassExpressions().collect(Collectors.toList()));
+            if (inTheInnerIntersection.get(0) instanceof OWLClass) {
+                System.out.println("IN OWLCLASS\n");
+                classesInInnerIntersection.add(getClassExpressionVerbalization(inTheInnerIntersection.get(0)));
+            } else if (inTheInnerIntersection.get(0) instanceof OWLObjectAllValuesFrom
+                    || inTheInnerIntersection.get(0) instanceof OWLObjectSomeValuesFrom) {
+                        System.out.println("IN SOME OR ALL\n");
+                classesInInnerIntersection.add(getClassExpressionVerbalization(inTheInnerIntersection.get(0)));
             } else {
-                String filler = verbalizeClassExpression(expr);
-                classesInIntersection.add(filler);
+                System.out.println("ELSE\n");
             }
+        
+            System.out.println(classesInInnerIntersection);
+            classesInIntersection.add(innerVerbalization);
+
+        } else if (inTheIntersection.get(1) instanceof OWLObjectSomeValuesFrom
+                && inTheIntersection.get(2) instanceof OWLObjectSomeValuesFrom) {
+            classesInIntersection.add(verbalizeObjectSomeValues((OWLObjectSomeValuesFrom) inTheIntersection.get(1), 1));
+            classesInIntersection.add(verbalizeObjectSomeValues((OWLObjectSomeValuesFrom) inTheIntersection.get(2), 1));
+        } else if (inTheIntersection.get(1) instanceof OWLObjectAllValuesFrom
+                && inTheIntersection.get(2) instanceof OWLObjectAllValuesFrom) {
+            classesInIntersection.add(verbalizeAllValues((OWLObjectAllValuesFrom) inTheIntersection.get(1), 1));
+            classesInIntersection.add(verbalizeAllValues((OWLObjectAllValuesFrom) inTheIntersection.get(2), 1));
+        } else {
+            classesInIntersection.add("heihei");
+            System.out.println("NESTED: " + inTheIntersection);
+            System.out.println("INNE I INTERSECTION" + inTheIntersection.get(0) + "\n");
+
         }
-        /*
-         * if (!anonymousStrings.isEmpty()) {
-         * for (String text : getClassExpressionsFromList(anonymousStrings)) {
-         * classesInIntersection.add(text);
-         * }
-         * }
-         */
+        // classesInIntersection.add(getClassExpressionVerbalization(inTheIntersection.get(0)));
+        
         if (this.language.equals("st")) {
             verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoIntersectionOf(classesInIntersection);
         } else {
@@ -505,7 +562,7 @@ public class GrammarEngineImpl implements GrammarEngine {
 
     }
 
-    private String verbalizeComplementOf(OWLClassExpression complementOf) {
+    private String verbalizeComplementOf(OWLClassExpression complementOf, int levelCounter) {
         if (complementOf instanceof OWLClass) {
             String verbalization;
             String className = verbalizeClassExpression(complementOf);
@@ -516,9 +573,12 @@ public class GrammarEngineImpl implements GrammarEngine {
             }
             return verbalization;
         }
-        if (complementOf.isAnonymous()) {
-            String verbalization;
-            String unNestedClass = getClassExpressionVerbalization(complementOf);
+        if (complementOf.isAnonymous() && levelCounter < maxNestingLevel) {
+            String verbalization = "";
+            List<OWLClassExpression> inTheComplement = complementOf.getNestedClassExpressions().stream()
+                    .collect(Collectors.toList());
+
+            String unNestedClass = getClassExpressionVerbalization(inTheComplement.get(0));
             if (this.language.equals("st")) {
                 verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoComplementOf(unNestedClass);
             } else {
@@ -556,6 +616,34 @@ public class GrammarEngineImpl implements GrammarEngine {
         return verbalizeClassExpression(classExpression);
     }
 
+    private String handleAnonymous(OWLClassExpression classExpression, int levelCounter) {
+        if (classExpression instanceof OWLObjectSomeValuesFrom) {
+            OWLObjectSomeValuesFrom someValuesFrom = (OWLObjectSomeValuesFrom) classExpression;
+            return verbalizeObjectSomeValues(someValuesFrom, levelCounter);
+        }
+        if (classExpression instanceof OWLObjectAllValuesFrom) {
+            OWLObjectAllValuesFrom allValuesFrom = (OWLObjectAllValuesFrom) classExpression;
+            return verbalizeAllValues(allValuesFrom, levelCounter);
+
+        }
+        if (classExpression instanceof OWLObjectUnionOf) {
+            OWLObjectUnionOf unionOf = (OWLObjectUnionOf) classExpression;
+            return verbalizeUnion(unionOf, levelCounter);
+        }
+        if (classExpression instanceof OWLObjectIntersectionOf) {
+            OWLObjectIntersectionOf intersectionOf = (OWLObjectIntersectionOf) classExpression;
+            return verbalizeIntersection(intersectionOf, levelCounter);
+
+        }
+        if (classExpression instanceof OWLObjectComplementOf) {
+            OWLClassExpression complementOf = ((OWLObjectComplementOf) classExpression).getOperand();
+            return verbalizeComplementOf(complementOf, levelCounter);
+        } else {
+            return "(missing functionality)";
+        }
+
+    }
+
     private void initiateHashMap() {
         this.verbalizations.put("union", new ArrayList<String>());
         this.verbalizations.put("equivalent", new ArrayList<String>());
@@ -574,16 +662,4 @@ public class GrammarEngineImpl implements GrammarEngine {
         this.verbalizations.put("range", new ArrayList<String>());
         this.verbalizations.put("unknown", new ArrayList<String>());
     }
-
-    /*
-     * private List<String> getClassExpressionsFromList(List<OWLClassExpression>
-     * list) {
-     * ArrayList<String> result = new ArrayList<>();
-     * for (OWLClassExpression expr : list) {
-     * //System.out.println(expr);
-     * result.add(verbalizeClassExpression(expr));
-     * }
-     * return result;
-     * }
-     */
 }
