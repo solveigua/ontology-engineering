@@ -36,7 +36,7 @@ public class WordAndSentenceCleanerImpl implements WordAndSentenceCleaner {
     @Override
     public String cleanUpSentence(String sentence) {
         // Clean up sentence
-        List<String> finishSentence = new ArrayList();
+        ArrayList<String> finishSentence = new ArrayList<>();
         for(String subString: sentence.split(" ")){
             finishSentence.add(splitObjProp(splitClass(subString)));
         }
