@@ -25,6 +25,7 @@ public class NorwegianPluralizerImpl implements NorwegianPluralizer {
 
     @Override
     public String getNorwegianPluralizedNoun(String noun) {
+        // Get word pluraized
         readIrrNouns();
         if (irrNouns.containsKey(noun)) {
             return irrNouns.get(noun).toString();
@@ -40,6 +41,7 @@ public class NorwegianPluralizerImpl implements NorwegianPluralizer {
     }
 
     private static void readIrrNouns() {
+        // checks for irregular nouns
         JSONParser parser = new JSONParser();
         try {
             Object obj = parser

@@ -29,7 +29,8 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
 
     @Override
     public String verbalizeNorwegianSubclassAxiom(String subclassVerbalization, String superclassVerbalization) {
-        String subclass = WordAndSentenceCleaner.splitClass(subclassVerbalization);
+        // Verbalize subclass
+        String subclass = (subclassVerbalization);
         if (NorwegianNounClassifier.getIsNounNeutral(subclassVerbalization)) {
             subclass = "et " + subclass;
         } else {
@@ -38,7 +39,7 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
         if (superclassVerbalization.contains(" ")) {
             return WordAndSentenceCleaner.cleanUpSentence(subclass + " " + superclassVerbalization);
         } else {
-            String superclass = WordAndSentenceCleaner.splitClass(superclassVerbalization);
+            String superclass = (superclassVerbalization);
             if (NorwegianNounClassifier.getIsNounNeutral(superclassVerbalization)) {
                 superclass = "et " + superclass;
             } else {
@@ -51,6 +52,7 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     @Override
     public String verbalizeNorwegianUnionAxiom(String unionClassVerbalization,
             List<String> disjointClassesVerbalization) {
+        // Verbalize union
         String sentence = String.join(
                 "unionClassVerbalization: " + unionClassVerbalization + " disjointClassesVerbalization: ",
                 disjointClassesVerbalization);
@@ -59,86 +61,93 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     }
 
     @Override
-    public String verbalizeNorwegianEquivalentClassesAxiom(List<String> classExpressions) {
-        String sentence = String.join("classexpressions: " + classExpressions);
-        return sentence;
-    }
-
-    @Override
     public String verbalizeNorwegianDisjointClassesAxiom(List<String> classExpressions) {
+        // Verbalize disjoint axioms
         String sentence = WordAndSentenceCleaner.listToSentence(classExpressions, "og") + " er ikke det samme";
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
     @Override
     public String verbalizeNorwegianClassExpression(String fillerName, String propertyName) {
-        String property = WordAndSentenceCleaner.splitObjProp(propertyName).toLowerCase();
-        String className = WordAndSentenceCleaner.splitClass(fillerName);
+        // Verbalize property and class
+        String property = (propertyName).toLowerCase();
+        String className = (fillerName);
         return property + " " + className;
     }
 
     @Override
     public String verbalizeNorwegianIrrefObjProp(List<String> property) {
+        // Verbalize irreflexive property
         return WordAndSentenceCleaner.cleanUpSentence(
-                "'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'" + " er en irrefleksiv objektrelasjon");
+                "'" + (property.get(0)) + "'" + " er en irrefleksiv objektrelasjon");
     }
 
     @Override
     public String verbalizeNorwegiaAsymObjProp(List<String> property) {
+        // Verbalize asymmetric property
         return WordAndSentenceCleaner.cleanUpSentence(
-                "'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'" + " er en asymmterisk objektrelasjon");
+                "'" + (property.get(0)) + "'" + " er en asymmterisk objektrelasjon");
     }
 
     @Override
     public String verbalizeNorwegianSymObjProp(List<String> property) {
+        // Verbalize symmetric property
         return WordAndSentenceCleaner.cleanUpSentence(
-                "'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'" + " er en symmetrisk objektrelasjon");
+                "'" + (property.get(0)) + "'" + " er en symmetrisk objektrelasjon");
     }
 
     @Override
     public String verbalizeNorwegianTransObjProp(List<String> property) {
+        // Verbalize transitive relation
         return WordAndSentenceCleaner.cleanUpSentence(
-                "'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'" + " er en transitiv objektrelasjon");
+                "'" + (property.get(0)) + "'" + " er en transitiv objektrelasjon");
     }
 
     @Override
     public String verbalizeNorwegianInverseObjProp(List<String> property) {
-        return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0))
+        // Verbalize inverse property
+        return WordAndSentenceCleaner.cleanUpSentence("'" + (property.get(0))
                 + " er en invers funksjonell objektrelasjon");
     }
 
     @Override
     public String verbalizeNorwegianFunObjProp(List<String> property) {
+        // Verbalize functional property
         return WordAndSentenceCleaner.cleanUpSentence(
-                "'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'" + " er en funksjonell objektrelasjon");
+                "'" + (property.get(0)) + "'" + " er en funksjonell objektrelasjon");
     }
 
     @Override
     public String verbalizeNorwegianRefObjProp(List<String> property) {
+        // Verbalize reflexise property
         return WordAndSentenceCleaner.cleanUpSentence(
-                "'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'" + " er en refleksiv objektrelasjon");
+                "'" + property.get(0) + "'" + " er en refleksiv objektrelasjon");
     }
 
     @Override
     public String verbalizeNorwegianSubPropAxiom(String subProperty, String superProperty) {
-        String sentence = "'" + WordAndSentenceCleaner.splitObjProp(subProperty) + "' er en underrelasjon av " + "'"
-                + WordAndSentenceCleaner.splitObjProp(superProperty) + "'";
+        // Verbalize subproperty
+        String sentence = "'" + subProperty + "' er en underrelasjon av " + "'"
+                + superProperty + "'";
         return WordAndSentenceCleaner.cleanUpSentence(sentence);
     }
 
     @Override
     public String verbalizeObjectPropRangeAx(String property, String range) {
-        return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property) + "'"
-                + " har dette området: " + WordAndSentenceCleaner.splitObjProp(range));
+        // Verbalize range
+        return WordAndSentenceCleaner.cleanUpSentence("'" + property + "'"
+                + " har dette området: " + range);
     }
 
     @Override
     public String verbalizeNorwegianInversePropAx(List<String> property) {
+        // Verbalize inverse
         return WordAndSentenceCleaner.cleanUpSentence("'" + WordAndSentenceCleaner.splitObjProp(property.get(0)) + "'"
                 + " er det motsatte av " + "'" + WordAndSentenceCleaner.splitObjProp(property.get(1) + "'"));
     }
 
     public String verbalizeEquivalentClassesAxiom(List<String> classExpressions) {
+        // Verbalize equivalent
         String sentence = classExpressions.stream()
                 .map(n -> String.valueOf(n))
                 .skip(1)
@@ -151,12 +160,14 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
 
     @Override
     public String verbalizeNorwegianForAllExpression(String fillerName, String propertyName) {
+        // Verbalize for all
         String filler = NorwegianPluralizer.getNorwegianPluralizedNoun(fillerName);
-        return WordAndSentenceCleaner.cleanUpSentence(WordAndSentenceCleaner.splitObjProp(propertyName)+" alle "+WordAndSentenceCleaner.splitClass(filler));
+        return WordAndSentenceCleaner.cleanUpSentence(propertyName+" alle " + filler);
     }
 
     @Override
     public String verbalizeNorwegianUnionOf(ArrayList<String> classesInUnion) {
+        // Verbalize union
         for (String text : classesInUnion) {
             text=WordAndSentenceCleaner.splitClass(text);
         }
@@ -165,6 +176,7 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
 
     @Override
     public String verbalizeNorwegianIntersectionOf(ArrayList<String> classesInIntersection) {
+        // Verbalize intersect
         for (String text : classesInIntersection) {
             text=WordAndSentenceCleaner.splitClass(text);
         }
@@ -173,6 +185,7 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
 
     @Override
     public String verbalizeNorwegianComplementOf(String className) {
-        return " ikke "+WordAndSentenceCleaner.splitClass(className).toLowerCase();
+        // Verbalize complement of
+        return " ikke "+ className.toLowerCase(); 
     }
 }
