@@ -404,9 +404,7 @@
              return verbalization;
          }
          if (property instanceof OWLObjectProperty && filler.isAnonymous()) {
-             //Commented out as it may make code fail because of Stack Overflow Error
- 
-             /*String fillerName = verbalizeClassExpression(filler);
+             String fillerName = verbalizeClassExpression(filler);
              if (this.language.equals("st")) {
                  verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoClassExpression(fillerName,
                          propertyName);
@@ -414,8 +412,7 @@
                  verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianClassExpression(fillerName,
                          propertyName);
              }
-             return verbalization;*/
-             return "(nested class expression)";
+             return verbalization;
          }
          return "(missing functionality)";
      }
@@ -439,9 +436,7 @@
              return verbalization;
          }
          if (property instanceof OWLObjectProperty && filler.isAnonymous()) {
-             //Commented out as it may make code fail because of Stack Overflow Error
- 
-             /*String fillerName = getClassExpressionVerbalization(filler);
+             String fillerName = getClassExpressionVerbalization(filler);
              if (this.language.equals("st")) {
                  verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoForAllExpression(fillerName,
                          propertyName);
@@ -449,8 +444,7 @@
                  verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianForAllExpression(fillerName,
                          propertyName);
              }
-             return verbalization;*/
-             return "(nested class expression)";
+             return verbalization;
          }
          return "(missing functionality)";
      }
@@ -463,7 +457,6 @@
          for (OWLClassExpression expr : inTheUnion) {
              if (expr.isAnonymous()) {
                  //Do something with the nested anonymous strings.
-                 classesInUnion.add("(nested class expression)");
              } else {
                  String filler = verbalizeClassExpression(expr);
                  classesInUnion.add(filler);
@@ -484,7 +477,6 @@
          for (OWLClassExpression expr : inTheIntersection) {
              if (expr.isAnonymous()) {
                  //Do something with the nested anonymous strings.
-                 classesInIntersection.add("(nested class expression)");
              } else {
                  String filler = verbalizeClassExpression(expr);
                  classesInIntersection.add(filler);
