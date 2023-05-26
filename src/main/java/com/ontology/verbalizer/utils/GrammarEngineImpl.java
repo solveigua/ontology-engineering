@@ -521,7 +521,7 @@ public class GrammarEngineImpl implements GrammarEngine {
                     .stream()
                     .collect(Collectors.toList());
                     System.out.println("\nIN THE INNER INTERSECTION: "+inTheInnerIntersection);
-                    System.out.println("\nIN THE NESTED INNER INTERSECTION: "+inTheInnerIntersection.get(0).nestedClassExpressions().collect(Collectors.toList()));
+                    System.out.println("\nIN THE NESTED INNER INTERSECTION: "+inTheInnerIntersection.get(0).getAnnotationPropertiesInSignature());
             if (inTheInnerIntersection.get(0) instanceof OWLClass) {
                 System.out.println("IN OWLCLASS\n");
                 classesInInnerIntersection.add(getClassExpressionVerbalization(inTheInnerIntersection.get(0)));
