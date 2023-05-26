@@ -18,20 +18,19 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ontology.verbalizer.utils.OntologyExtractorUtil;
-import com.ontology.verbalizer.utils.GrammarEngine;
+import com.ontology.verbalizer.utils.AxiomExtractor;
 
 @Service
 public class VerbalizerServiceImpl implements VerbalizerService {
     @Autowired
     OntologyExtractorUtil _ontologyExtractor;
     @Autowired
-    GrammarEngine GrammarEngine;
+    AxiomExtractor AxiomExtractor;
 
     @Override
     public HashMap<String, List<String>> getVerbalization(String owlFile, String language) {
-        // Extract ontology and send to grammarEngine
         OWLOntology ontology = _ontologyExtractor.extractOntologyFromOwl(owlFile);
 
-        return GrammarEngine.getVerbalization(ontology, language);
+        return AxiomExtractor.getVerbalization(ontology, language);
     }
 }
