@@ -32,9 +32,9 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
         // Verbalize subclass
         String subclass = (subclassVerbalization);
         if (NorwegianNounClassifier.getIsNounNeutral(subclassVerbalization)) {
-            subclass = "et " + subclass;
+            subclass = "ethvert " + subclass;
         } else {
-            subclass = "en " + subclass;
+            subclass = "enhver " + subclass;
         }
         if (superclassVerbalization.contains(" ")) {
             return WordAndSentenceCleaner.cleanUpSentence(subclass + " " + superclassVerbalization);
@@ -70,6 +70,11 @@ public class NorwegianSentenceVerbalizerImpl implements NorwegianSentenceVerbali
     @Override
     public String verbalizeNorwegianClassExpression(String fillerName, String propertyName) {
         // Verbalize property and class
+        if (NorwegianNounClassifier.getIsNounNeutral(fillerName)) {
+            fillerName = "minst ett " + fillerName;
+        } else {
+            fillerName = "minst én " + fillerName;
+        }
         String property = (propertyName).toLowerCase();
         String className = (fillerName);
         return property + " " + className;

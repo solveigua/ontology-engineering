@@ -389,11 +389,11 @@ public class GrammarEngineImpl implements GrammarEngine {
         //Verbalize "some"
         OWLObjectPropertyExpression property = someValuesFrom.getProperty();
         OWLClassExpression filler = someValuesFrom.getFiller();
+        String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
+        String verbalization;
 
         if (property instanceof OWLObjectProperty && filler instanceof OWLClass) {
-            String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
             String fillerName = getClassExpressionVerbalization(filler);
-            String verbalization;
             if (this.language.equals("st")) {
                 verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoClassExpression(fillerName,
                         propertyName);
@@ -404,11 +404,18 @@ public class GrammarEngineImpl implements GrammarEngine {
             return verbalization;
         }
         if (property instanceof OWLObjectProperty && filler.isAnonymous()) {
-            String propertyName = WordAndSentenceCleaner
-                    .splitObjProp(getPropertyVerbalization((OWLObjectProperty) property));
-            String fillerName = verbalizeClassExpression(filler);
-            String verbalization = propertyName + fillerName;
-            return verbalization;
+            //Commented out as it may make code fail because of Stack Overflow Error
+
+            /*String fillerName = verbalizeClassExpression(filler);
+            if (this.language.equals("st")) {
+                verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoClassExpression(fillerName,
+                        propertyName);
+            } else {
+                verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianClassExpression(fillerName,
+                        propertyName);
+            }
+            return verbalization;*/
+            return "(nested class expression)";
         }
         return "(missing functionality)";
     }
@@ -417,11 +424,11 @@ public class GrammarEngineImpl implements GrammarEngine {
         // Verbalize "all"
         OWLObjectPropertyExpression property = allValuesFrom.getProperty();
         OWLClassExpression filler = allValuesFrom.getFiller();
+        String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
+        String verbalization;
 
         if (property instanceof OWLObjectProperty && filler instanceof OWLClass) {
-            String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
             String fillerName = getClassExpressionVerbalization(filler);
-            String verbalization;
             if (this.language.equals("st")) {
                 verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoForAllExpression(fillerName,
                         propertyName);
@@ -432,10 +439,18 @@ public class GrammarEngineImpl implements GrammarEngine {
             return verbalization;
         }
         if (property instanceof OWLObjectProperty && filler.isAnonymous()) {
-            String propertyName = getPropertyVerbalization((OWLObjectProperty) property);
-            String fillerName = verbalizeClassExpression(filler);
-            String verbalization = propertyName + fillerName;
-            return verbalization;
+            //Commented out as it may make code fail because of Stack Overflow Error
+
+            /*String fillerName = getClassExpressionVerbalization(filler);
+            if (this.language.equals("st")) {
+                verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoForAllExpression(fillerName,
+                        propertyName);
+            } else {
+                verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianForAllExpression(fillerName,
+                        propertyName);
+            }
+            return verbalization;*/
+            return "(nested class expression)";
         }
         return "(missing functionality)";
     }
@@ -445,10 +460,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         ArrayList<String> classesInUnion = new ArrayList<>();
         String verbalization = "(missing functionality)";
         Set<OWLClassExpression> inTheUnion = classExpression.getNestedClassExpressions();
-        ArrayList<OWLClassExpression> anonymousStrings = new ArrayList<>();
         for (OWLClassExpression expr : inTheUnion) {
             if (expr.isAnonymous()) {
-                anonymousStrings.add(expr);
+                //Do something with the nested anonymous strings.
+                classesInUnion.add("(nested class expression)");
             } else {
                 String filler = verbalizeClassExpression(expr);
                 classesInUnion.add(filler);
@@ -466,10 +481,10 @@ public class GrammarEngineImpl implements GrammarEngine {
         ArrayList<String> classesInIntersection = new ArrayList<>();
         String verbalization = "(missing functionality)";
         Set<OWLClassExpression> inTheIntersection = classExpression.getNestedClassExpressions();
-        ArrayList<OWLClassExpression> anonymousStrings = new ArrayList<>();
         for (OWLClassExpression expr : inTheIntersection) {
             if (expr.isAnonymous()) {
-                anonymousStrings.add(expr);
+                //Do something with the nested anonymous strings.
+                classesInIntersection.add("(nested class expression)");
             } else {
                 String filler = verbalizeClassExpression(expr);
                 classesInIntersection.add(filler);
@@ -487,8 +502,8 @@ public class GrammarEngineImpl implements GrammarEngine {
 
     private String verbalizeComplementOf(OWLClassExpression complementOf) {
         // Verbalizes negotion
+        String verbalization;
         if (complementOf instanceof OWLClass) {
-            String verbalization;
             String className = verbalizeClassExpression(complementOf);
             if (this.language.equals("st")) {
                 verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoComplementOf(className);
@@ -498,14 +513,16 @@ public class GrammarEngineImpl implements GrammarEngine {
             return verbalization;
         }
         if (complementOf.isAnonymous()) {
-            String verbalization;
-            String unNestedClass = getClassExpressionVerbalization(complementOf);
+            //Commented out as it may make code fail because of Stack Overflow Error
+
+            /*String unNestedClass = getClassExpressionVerbalization(complementOf);
             if (this.language.equals("st")) {
                 verbalization = _sesothoSentenceVerbalizer.verbalizeSesothoComplementOf(unNestedClass);
             } else {
                 verbalization = _norwegianSentenceVerbalizer.verbalizeNorwegianComplementOf(unNestedClass);
             }
-            return verbalization;
+            return verbalization;*/
+            return "(nested class expression)";
 
         }
         return "(missing functionality)";
