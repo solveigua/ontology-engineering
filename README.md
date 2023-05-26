@@ -16,5 +16,5 @@ Would you like to test the verbalizer but do not have an OWL-file with Norwegian
 1. Ensure you have maven installed
 2. Ensure you run (Only the first developer needs to do this): mvn -Nio.takari:maven:wrapper
 3. Run 'mvn clean install'
-4. Run the web application from the [/src/main/java/com/ontology/verbalizer/**VerbalizerApplication.java**](/src/main/java/com/ontology/verbalizer/VerbalizerApplication.java)
-5. Open your broweser and go to [localhost port 8080](http://localhost:8080/index.html)
+4. Run the web application from the main method in [/src/main/java/com/ontology/verbalizer/**VerbalizerApplication.java**](/src/main/java/com/ontology/verbalizer/VerbalizerApplication.java)
+5. Open your browser and go to [localhost port 8080](http://localhost:8080/index.html)
