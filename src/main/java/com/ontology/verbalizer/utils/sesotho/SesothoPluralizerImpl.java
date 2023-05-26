@@ -25,7 +25,7 @@ public class SesothoPluralizerImpl implements SesothoPluralizer {
                 pluralForm = "ba" + stem;
                 break;
             case "le":
-                pluralForm = "di" + stem;
+                pluralForm = "ma" + stem;
                 break;
             case "se":
                 pluralForm = "di" + stem;
@@ -39,7 +39,7 @@ public class SesothoPluralizerImpl implements SesothoPluralizer {
                 pluralForm = "dit" + stem;
                 break;
             default:
-                pluralForm = singular; // No plural form found, return the original singular
+                pluralForm = "di"+singular; // No plural form found, return dioriginal singular
         }
 
         return pluralForm;
